@@ -70,7 +70,7 @@ const HomePage = () => {
   const navigateToProjectTasks = (projectName: string) => {
     //encodeURIComponent maneja correctamente espacios y caracteres especiales en la URL
     const encodedName = encodeURIComponent(projectName);
-    navigate(`/project/${encodedName}`);
+    navigate(`/project/${encodedName}/sections`);
   };
 
   return (
