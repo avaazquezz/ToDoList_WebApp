@@ -81,7 +81,7 @@ const ProjectTasksPage = () => {
         <div className="tasks-list">
           {tasks.length > 0 ? (
             <ul>
-              {tasks.map(task => (
+              {tasks.map((task) => (
                 <li key={task.id} className={task.completed ? 'completed' : ''}>
                   <div className="task-content">
                     <input
@@ -89,7 +89,10 @@ const ProjectTasksPage = () => {
                       checked={task.completed}
                       onChange={() => toggleTaskCompletion(task.id)}
                     />
-                    <span>{task.text}</span>
+                    <div>
+                      <strong>{task.title}</strong> 
+                      <p>{task.text}</p>
+                    </div>
                   </div>
                   <button onClick={() => deleteTask(task.id)}>Eliminar</button>
                 </li>
