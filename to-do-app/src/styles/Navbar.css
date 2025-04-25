@@ -1,35 +1,65 @@
 nav {
   background-color: #131212;
   padding: 1rem;
-  width: 100vw; 
-  max-width: 100%; 
-  margin: 0;
+  width: 100vw;
+  max-width: 100%;
   display: flex;
-  justify-content: space-between;
+  justify-content: center; /* Centra el título */
+  align-items: center;
   box-sizing: border-box;
-  position: relative; 
+  position: relative;
 }
 
 .nav-brand {
   color: white;
   font-weight: bold;
-  font-size: 1.2rem;
+  font-size: 1.5rem;
+  text-align: center;
 }
 
-nav ul {
-  list-style: none;
-  display: flex;
-  gap: 1rem;
-  margin: 0;
-  padding: 0;
+.nav-menu {
+  position: absolute;
+  right: 1rem; /* Coloca el botón de configuración a la derecha */
 }
 
-nav ul li a {
+.settings-button {
+  background-color: #333;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  position: relative;
+}
+
+.settings-button:hover {
+  background-color: #444;
+}
+
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: #222;
+  border-radius: 5px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 0.5rem 0;
+  z-index: 10;
+}
+
+.settings-button:hover .dropdown-menu {
+  display: block;
+}
+
+.dropdown-menu a {
+  display: block;
+  padding: 0.5rem 1rem;
   color: white;
   text-decoration: none;
-  padding: 0.5rem 1rem;
 }
 
-nav ul li a:hover {
-  text-decoration: underline;
+.dropdown-menu a:hover {
+  background-color: #333;
 }

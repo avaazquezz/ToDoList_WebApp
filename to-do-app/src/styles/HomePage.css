@@ -1,0 +1,11 @@
+.home-page{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 3rem;
+}
+
+
+.home-page h2{
+    color: #067cf3;
+}
