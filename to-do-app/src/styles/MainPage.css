@@ -1,0 +1,140 @@
+.main-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  font-family: 'Inter', system-ui, sans-serif;
+  color: #0f0f0f;
+  line-height: 1.6;
+}
+
+h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1.5rem;
+  color: #067cf3;
+  text-align: center;
+  font-weight: 700;
+  margin-top: 4rem;
+}
+
+h2 {
+  font-size: 1.8rem;
+  margin: 2rem 0 1rem;
+  color: #2C3E50;
+  font-weight: 600;
+}
+
+.app-intro {
+  background-color: #d9dde0;
+  border-radius: 8px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  text-align: center;
+  margin-top: 4rem;
+}
+
+.app-intro p {
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  color: #555;
+}
+
+.app-intro strong {
+  color: #3498db;
+  font-size: 1.4rem;
+}
+
+.features {
+  background-color:  #d9dde0;
+  border-radius: 8px;
+  padding: 2rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  margin-bottom: 2rem;
+  margin-top: 5rem;
+}
+
+.features ul {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  padding-left: 1rem;
+}
+
+.features li {
+  padding: 1rem;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  list-style: none;
+  position: relative;
+  padding-left: 2rem;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.features li:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+.features li::before {
+  content: "✓";
+  color: #27ae60;
+  position: absolute;
+  left: 0.75rem;
+  font-weight: bold;
+}
+
+.cta-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 6rem;
+}
+
+.start-button {
+  background-color: #098ae0;
+  color: white;
+  border: none;
+  padding: 1rem 2rem;
+  font-size: 1.2rem;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+  box-shadow: 0 4px 6px rgba(120, 188, 233, 0.3);
+}
+
+.start-button:hover {
+  background-color: #93cdf3;
+  color: #0f0f0f;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(52, 152, 219, 0.4);
+}
+
+.start-button:active {
+  transform: translateY(0);
+}
+
+/* Añadir una animación sutil para mayor interactividad */
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+.app-intro:hover strong {
+  display: inline-block;
+  animation: pulse 1.5s infinite ease-in-out;
+}
+
+/* Diseño responsive */
+@media (max-width: 768px) {
+  .main-container {
+    padding: 1rem;
+  }
+  
+  h1 {
+    font-size: 2rem;
+  }
+  
+  .features ul {
+    grid-template-columns: 1fr;
+  }
+}
