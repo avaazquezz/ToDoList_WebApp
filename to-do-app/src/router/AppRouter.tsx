@@ -1,14 +1,17 @@
 import { Routes, Route } from 'react-router-dom';
-import Home from '../pages/HomePage';
-import About from '../pages/About';
-import Main from '../pages/MainPage';
+import MainPage from '../pages/MainPage';
+import HomePage from '../pages/HomePage';
+import AboutPage from '../pages/About';
+import ProjectTasksPage from '../pages/ProjectTasksPage';
 
 const AppRouter = () => {
   return (
     <Routes>
-      <Route path="/" element={<Main />} />
-      <Route path="/home" element={<Home />} />
-      <Route path="/about" element={<About />} />
+      <Route path="/" element={<MainPage />} />
+      <Route path="/home" element={<HomePage />} />
+      <Route path="/about" element={<AboutPage />} />
+      {/* Cambiamos projectId por projectName */}
+      <Route path="/project/:projectName" element={<ProjectTasksPage />} />
     </Routes>
   );
 };

@@ -1,6 +1,7 @@
 import '../styles/HomePage.css';
 import NavBar from '../components/NavBar';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom'; // Importamos useNavigate
 
 // Definir un tipo para los proyectos que incluya color
 type Project = {
@@ -24,6 +25,8 @@ const colorOptions = [
 ];
 
 const HomePage = () => {
+  const navigate = useNavigate(); // Hook para navegación
+  
   // Estado para manejar la lista de proyectos
   const [projects, setProjects] = useState<Project[]>([]);
 
@@ -63,13 +66,20 @@ const HomePage = () => {
     }
   };
 
+  // Función para navegar a la página de tareas del proyecto
+  const navigateToProjectTasks = (projectName: string) => {
+    //encodeURIComponent maneja correctamente espacios y caracteres especiales en la URL
+    const encodedName = encodeURIComponent(projectName);
+    navigate(`/project/${encodedName}`);
+  };
+
   return (
     <div>
       <NavBar />
 
       <div className="home-page">
-        <h2>Bienvenido a los mandos de control</h2>
-        <p>Desde aquí vas a poder crear diferentes proyectos y así manejar todos tus frentes abiertos efectivamente.</p>
+        <h2>Bienvenido al mando de control</h2>
+        <p>Desde aquí vas a poder crear diferentes proyectos y así manejar todos tus frentes abiertos de la forma más efectiva.</p>
       </div>
 
       <div className="projects">
@@ -112,15 +122,22 @@ const HomePage = () => {
         </div>
 
         <ul className="project-list">
-          {projects.map((project) => (
-            <li 
-              key={project.id} 
-              className="project-item"
-              style={{ backgroundColor: project.color }}
-            >
-              <span>{project.name}</span>
-            </li>
-          ))}
+          {projects.length > 0 ? (
+            projects.map((project) => (
+              <li 
+                key={project.id} 
+                className="project-item"
+                style={{ backgroundColor: project.color }}
+                onClick={() => navigateToProjectTasks(project.name)}
+              >
+                <span>{project.name}</span>
+              </li>
+            ))
+          ) : (
+            <div className="empty-projects">
+              No hay proyectos creados todavía. ¡Crea tu primer proyecto!
+            </div>
+          )}
         </ul>
       </div>
     </div>

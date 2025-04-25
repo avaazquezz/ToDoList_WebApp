@@ -1,0 +1,30 @@
+.task-input-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.task-input-container input,
+.task-input-container textarea {
+  width: 100%;
+  padding: 0.75rem;
+  font-size: 1rem;
+  border: 1px solid var(--border-color, #dee2e6);
+  border-radius: 8px;
+  resize: none; /* Evita que el textarea sea redimensionable */
+}
+
+.task-input-container button {
+  padding: 0.75rem 1.5rem;
+  background-color: var(--primary-color, #1467e4);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.task-input-container button:hover {
+  background-color: var(--primary-dark, #0a4da9);
+}
