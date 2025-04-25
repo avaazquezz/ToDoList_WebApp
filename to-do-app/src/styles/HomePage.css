@@ -1,11 +1,76 @@
-.home-page{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 3rem;
+.home-page {
+  text-align: center;
+  margin: 2rem 0;
 }
 
-
-.home-page h2{
+.home-page h2 {
     color: #067cf3;
+  }
+
+  .home-page p {
+    color: #06427e;
+    font-size: 1rem;
+  }
+
+
+.projects {
+  margin: 2rem auto;
+  max-width: 600px;
+  text-align: left;
+}
+
+.add-project {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.add-project input {
+  flex: 1;
+  padding: 0.5rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.add-project button {
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  background-color: #1467e4;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.add-project button:hover {
+  background-color: #599ae4;
+}
+
+.project-list {
+  list-style: none;
+  padding: 0;
+}
+
+.project-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-bottom: 0.5rem;
+}
+
+.project-item button {
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 0.3rem 0.6rem;
+  cursor: pointer;
+}
+
+.project-item button:hover {
+  background-color: #c0392b;
 }
