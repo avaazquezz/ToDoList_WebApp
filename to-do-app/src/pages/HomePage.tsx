@@ -17,12 +17,12 @@ const HomePage = () => {
     }
 
     const newProject = {
-      id: Date.now(), // Genera un ID único basado en la fecha actual
+      id: Date.now(),
       name: newProjectName,
     };
 
-    setProjects([...projects, newProject]); // Añade el nuevo proyecto a la lista
-    setNewProjectName(''); // Limpia el campo de entrada
+    setProjects([...projects, newProject]); 
+    setNewProjectName(''); 
   };
 
   // Función para eliminar un proyecto
