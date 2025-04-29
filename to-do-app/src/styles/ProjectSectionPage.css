@@ -22,25 +22,171 @@
   --transition-speed: 0.3s;
 }
 
-/* Estructura principal - aislada con .project-page */
-.project-page {
+/* Nueva estructura sin sidebar */
+.project-page-container {
+  padding-top: 60px; /* Espacio para la NavBar */
+  min-height: 100vh;
+  background-color: #f8f9fa;
+}
+
+.project-main-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  position: relative;
+  min-height: calc(100vh - 80px);
   display: flex;
-  margin-top: 4rem;
+  flex-direction: column;
 }
 
-/* Estilos del encabezado del proyecto */
-.project-page .project-header h1 {
-  font-size: 2.6rem; 
-  margin-top: -10px; 
-  margin-bottom: 15px; 
+.section-cards{
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+.section-card{
+  background-color: var(--background-card);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-md);
+  padding: 1rem 3rem;
+  margin-bottom: 3rem;
+  transition: all var(--transition-speed) ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
-.project-page .project-header p {
-  font-size: 1.1rem; 
-  margin-bottom: 4rem; 
+.delete-btn{
+  background-color: rgb(253, 210, 210);
+  color: red;
+  border-radius: var(--border-radius);
+  padding: 0.3rem 1rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all var(--transition-speed) ease;
 }
 
-/* Sección vacía - nombre de clase diferente para evitar conflictos */
+.delete-btn:hover{
+  background-color: #f3b1b7;
+  color: #721c24;
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Botón añadir sección después del header */
+.project-top-btn {
+  display: flex;
+  justify-content: flex-start;
+  margin-top: 20px;
+  margin-left: 20px;
+}
+
+.add-section-button {
+  background-color: #1e88e5;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.add-section-button:hover {
+  background-color: #1565c0;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Encabezado del proyecto - ahora va arriba del todo */
+.project-header {
+  text-align: center;
+  margin-bottom: 30px;
+  margin-top: -1rem;
+}
+
+.project-header h1 {
+  font-size: 2.5rem;
+  color: #1e88e5;
+  margin-bottom: 10px;
+}
+
+.project-header p {
+  color: #777;
+  font-size: 1.1rem;
+}
+
+/* Botón eliminar proyecto - ahora va a la izquierda abajo */
+.project-bottom-actions {
+  margin-top: auto;
+  padding: 20px;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.delete-project-button {
+  background-color: #e53935;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.delete-project-button:hover {
+  background-color: #c62828;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+
+.section-cards {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  margin-top: 20px;
+  flex-wrap: wrap;
+}
+
+.section-card {
+  flex: 1 1 calc(33.333% - 20px); /* 3 cards per row with gap adjustment */
+  max-width: calc(33.333% - 20px);
+  box-sizing: border-box;
+}
+
+/* Ajustes responsive */
+@media (max-width: 768px) {
+  .project-header h1 {
+    font-size: 2rem;
+  }
+  
+  .project-bottom-actions {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .project-header h1 {
+    font-size: 1.8rem;
+  }
+  
+  .project-top-actions,
+  .project-bottom-actions {
+    justify-content: center;
+  }
+  
+  .add-section-button,
+  .delete-project-button {
+    width: 100%;
+  }
+}
 .project-page .empty-sections {
   text-align: center;
   padding: 2rem 1rem;
@@ -56,138 +202,6 @@
   flex-wrap: wrap;
   gap: 2rem;
   justify-content: center;
-}
-
-
-/* Barra lateral izquierda - fija */
-.project-page .sidebar {
-  width: 220px;
-  min-width: 220px;
-  background-color: #e9ecef;
-  border-right: 1px solid var(--border-color);
-  padding: 1.5rem 1rem;
-  height: calc(100vh - 60px);
-  position: fixed;
-  top: 60px;
-  display: flex;
-  flex-direction: column;
-}
-
-.project-page .sidebar h2 {
-  color: var(--primary-color);
-  font-size: 1.3rem;
-  margin-bottom: 2rem;
-  text-align: center;
-  font-weight: 700;
-  position: relative;
-  padding-bottom: 0.75rem;
-}
-
-/* Línea decorativa bajo el título */
-.project-page .sidebar h2::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 60%;
-  height: 3px;
-  background-color: var(--primary-color);
-  border-radius: 1.5px;
-}
-
-/* Contenedor de botones de acción */
-.project-page .section-actions {
-  display: flex;
-  flex-direction: column;
-  gap: 1.25rem;
-  width: 100%;
-}
-
-/* Botones en la barra lateral */
-.project-page .sidebar .add-section-btn,
-.project-page .sidebar .delete-section-btn {
-  width: 100%;
-  padding: 0.75rem 1rem;
-  border: none;
-  border-radius: 8px;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  box-shadow: var(--shadow-sm);
-  font-weight: 500;
-}
-
-.project-page .sidebar .add-section-btn {
-  background-color: var(--primary-color);
-  color: white;
-}
-
-.project-page .sidebar .add-section-btn:hover {
-  background-color: var(--primary-dark);
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-md);
-}
-
-.project-page .sidebar .delete-section-btn {
-  background-color: var(--danger-color);
-  color: white;
-}
-
-.project-page .sidebar .delete-section-btn:hover {
-  background-color: #e6776a;
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-md);
-}
-
-.project-page .sidebar .add-section-btn:active,
-.project-page .sidebar .delete-section-btn:active {
-  transform: translateY(0);
-  box-shadow: var(--shadow-sm);
-}
-
-/* Ajustar contenido principal para dejar espacio a la barra lateral fija */
-.project-page .project-sections-container {
-  flex: 1;
-  margin-left: 220px;
-  padding: 2rem;
-}
-
-/* Ajustes responsive para la barra lateral */
-@media (max-width: 768px) {
-  .project-page {
-    flex-direction: column;
-  }
-  
-  .project-page .sidebar {
-    width: 100%;
-    height: auto;
-    min-height: auto;
-    position: static;
-    padding: 1.25rem;
-  }
-  
-  .project-page .section-actions {
-    flex-direction: row;
-    justify-content: space-between;
-  }
-  
-  .project-page .sidebar .add-section-btn,
-  .project-page .sidebar .delete-section-btn {
-    width: 48%;
-  }
-  
-  .project-page .project-sections-container {
-    padding: 1.5rem;
-    margin-left: 0;
-  }
-}
-
-/* MODO OSCURO - Ajustes para la barra lateral */
-@media (prefers-color-scheme: dark) {
-  .project-page .sidebar {
-    background-color: #2a2a2a;
-  }
 }
 
 /* Contenedor del botón eliminar proyecto */
@@ -235,5 +249,152 @@
   .project-page .delete-project-container {
     padding-top: 1.5rem;
   }
+}
+
+/* Mejora del diálogo - solo esta sección */
+.dialog-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  backdrop-filter: blur(3px);
+}
+
+.dialog {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+  width: 90%;
+  max-width: 380px;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.dialog h2 {
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+  color: #1e88e5;
+  text-align: center;
+  font-weight: 600;
+  border-bottom: 2px solid #f0f0f0;
+  padding-bottom: 0.75rem;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: #444;
+  font-size: 0.95rem;
+}
+
+.form-group input,
+.form-group textarea {
+  width: 90%;
+  padding: 0.65rem 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  background-color: #f9f9f9;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  border-color: #1e88e5;
+  box-shadow: 0 0 0 3px rgba(30, 136, 229, 0.15);
+  outline: none;
+  background-color: #fff;
+}
+
+.form-group textarea {
+  min-height: 80px;
+  max-height: 120px;
+  resize: vertical;
+}
+
+/* Selector de colores mejorado */
+.color-selector {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.color-option {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  border: 2px solid transparent;
+}
+
+.color-option:hover {
+  transform: scale(1.1);
+}
+
+.color-option.selected {
+  transform: scale(1.15);
+  border: 2px solid #333;
+  box-shadow: 0 0 0 2px white;
+}
+
+/* Definición de los colores */
+.color-blue { background-color: #63abeb; }
+.color-green { background-color: #6eeb73; }
+.color-red { background-color: #ec4b48; }
+.color-purple { background-color: #c94feb; }
+.color-orange { background-color: #f0950c; }
+.color-teal { background-color: #03b3a1; }
+.color-pink { background-color: #fa3f7d; }
+.color-brown { background-color: #a07465; }
+
+/* Botones del diálogo */
+.dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 1rem;
+  gap: 0.75rem;
+}
+
+.dialog-add-btn,
+.dialog-cancel-btn {
+  padding: 0.65rem 1rem;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  min-width: 100px;
+}
+
+.dialog-add-btn {
+  background-color: #1e88e5;
+  color: white;
+}
+
+.dialog-add-btn:hover {
+  background-color: #1976d2;
+}
+
+.dialog-cancel-btn {
+  background-color: #f0f0f0;
+  color: #444;
+}
+
+.dialog-cancel-btn:hover {
+  background-color: #e0e0e0;
 }
 
