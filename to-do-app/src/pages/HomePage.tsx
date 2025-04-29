@@ -1,9 +1,9 @@
 import '../styles/HomePage.css';
 import NavBar from '../components/NavBar';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom'; // Importamos useNavigate
 
-// Definir un tipo para los proyectos que incluya color
+
 type Project = {
   id: number;
   name: string;
@@ -28,7 +28,11 @@ const HomePage = () => {
   const navigate = useNavigate(); // Hook para navegación
   
   // Estado para manejar la lista de proyectos
-  const [projects, setProjects] = useState<Project[]>([]);
+  const [projects, setProjects] = useState<Project[]>(() => {
+    // Cargar proyectos desde localStorage al inicializar
+    const storedProjects = localStorage.getItem('projects');
+    return storedProjects ? JSON.parse(storedProjects) : [];
+  });
 
   // Estado para manejar el nombre del nuevo proyecto
   const [newProjectName, setNewProjectName] = useState('');
@@ -38,6 +42,11 @@ const HomePage = () => {
   
   // Estado para mostrar/ocultar el selector de colores
   const [showColorPicker, setShowColorPicker] = useState(false);
+
+  // Guardar proyectos en localStorage cada vez que cambien
+  useEffect(() => {
+    localStorage.setItem('projects', JSON.stringify(projects));
+  }, [projects]);
 
   // Función para añadir un nuevo proyecto
   const addProject = () => {
