@@ -9,7 +9,7 @@ const Navbar = () => {
     <nav>
       
 
-      <div className="nav-brand">WorkToDo App</div>
+      <div className="nav-brand" onClick={() => navigate('/')}>WorkToDo App</div>
       
       <div className="nav-menu">
           <button 
