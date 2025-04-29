@@ -42,7 +42,7 @@ const ProjectSectionsPage = () => {
   return (
     <div>
       <NavBar />
-
+      
       <div className="project-sections-container">
         <button className="back-button" onClick={() => window.history.back()}>
           Volver a Gestión de Proyectos
@@ -51,21 +51,6 @@ const ProjectSectionsPage = () => {
         <div className="project-header">
           <h1>{decodedProjectName}</h1>
           <p>Aquí puedes añadir o eliminar secciones para organizar mejor tu proyecto!</p>
-        </div>
-
-        <div className="section-input-container">
-          <input
-            type="text"
-            placeholder="Título de la sección..."
-            value={newSectionTitle}
-            onChange={(e) => setNewSectionTitle(e.target.value)}
-          />
-          <textarea
-            placeholder="Descripción de la sección..."
-            value={newSectionText}
-            onChange={(e) => setNewSectionText(e.target.value)}
-          ></textarea>
-          <button onClick={addSection}>Añadir Sección</button>
         </div>
 
         <div className="sections-list">
@@ -86,9 +71,7 @@ const ProjectSectionsPage = () => {
           ) : (
             <div className="empty-sections">
               No hay secciones en este proyecto. ¡Añade tu primera sección!
-              
-              <p>Para que puedas gestionar mejor tu proyecto, considera añadir secciones relevantes.</p>
-              
+                          
               <div className="examples-container">
                 <div className="example-title">Ejemplo: Proyecto Hogar</div>
                 <div className="example-items">
@@ -102,6 +85,26 @@ const ProjectSectionsPage = () => {
             </div>
           )}
         </div>
+
+
+
+        <div className="section-input-container">
+          <h2>Añadir Nueva Sección</h2>
+          <input
+            type="text"
+            placeholder="Título de la sección..."
+            value={newSectionTitle}
+            onChange={(e) => setNewSectionTitle(e.target.value)}
+          />
+          <textarea
+            placeholder="Descripción de la sección..."
+            value={newSectionText}
+            onChange={(e) => setNewSectionText(e.target.value)}
+          ></textarea>
+          <button onClick={addSection}>Añadir Sección</button>
+        </div>
+
+        
       </div>
     </div>
   );
