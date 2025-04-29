@@ -21,7 +21,7 @@
   --transition-speed: 0.3s;
 }
 
-/* Contenedor principal */
+/* Contenedor principal - reducir el margen superior */
 .project-sections-container {
   width: 100%;
   max-width: 900px;
@@ -29,7 +29,7 @@
   padding-left: 1.5rem;
   padding-right: 1.5rem;
   overflow: hidden;
-  margin: 2.5rem auto;
+  margin: 1rem auto; 
   animation: fadeIn 0.5s ease;
 }
 
@@ -40,10 +40,10 @@
 
 /* Encabezado del proyecto */
 .project-header {
-  margin-bottom: 2.5rem;
+  margin-bottom: 1rem; 
   text-align: center;
   position: relative;
-  padding-bottom: 1.5rem;
+  padding-bottom: 0.75rem; 
 }
 
 .project-header h1 {
@@ -71,29 +71,6 @@
   border-radius: 2px;
 }
 
-/* Botón de volver */
-.back-button {
-  display: inline-flex;
-  align-items: center;
-  padding: 0.5rem 1rem;
-  background-color: #6c757d;
-  color: white;
-  border: none;
-  border-radius: var(--border-radius);
-  font-weight: 500;
-  margin-bottom: 1.5rem;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.back-button:hover {
-  background-color: #5a6268;
-  transform: translateY(-2px);
-}
-
-.back-button svg {
-  margin-right: 0.5rem;
-}
 
 /* Formulario de entrada para nuevas secciones */
 .section-input-container {
@@ -159,13 +136,13 @@
   box-shadow: var(--shadow-md);
 }
 
-/* Lista de secciones */
+/* Lista de secciones - reducir el margen superior */
 .sections-list {
   border-radius: var(--border-radius);
-  box-shadow: none; /* Quitar sombra del contenedor principal */
-  overflow: visible; /* Permitir que el contenido sea visible fuera del contenedor */
-  margin-top: 3rem;
-  padding: 0; /* Quitar padding vertical */
+  box-shadow: none;
+  overflow: visible;
+  margin-top: 1.5rem; /* Reducido de 3rem a 1.5rem */
+  padding: 0;
 }
 
 .sections-list ul {
@@ -174,19 +151,19 @@
   margin: 0;
   display: flex;
   flex-direction: column;
-  gap: 2rem; /* Espacio entre secciones */
-  background-color: var(--background-light); /* Fondo del contenedor de secciones */
+  gap: 1.5rem; /* Reducido de 2rem a 1.5rem */
+  background-color: var(--background-light);
 }
 
 /* Cada elemento de sección */
 .section-item {
   display: flex;
   transition: all 0.3s ease;
-  margin-bottom: 0; /* Quitar margen inferior */
-  border-bottom: none; /* Quitar borde inferior */
+  margin-bottom: 0;
+  border-bottom: none;
   border-radius: var(--border-radius);
-  box-shadow: var(--shadow-md); /* Añadir sombra a cada elemento */
-  overflow: hidden; /* Contener el overflow dentro de los bordes redondeados */
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
 }
 
 .section-item:last-child {
@@ -196,7 +173,7 @@
 .section-content {
   flex: 1;
   padding: 1.25rem;
-  background-color: transparent; /* Dejar transparente para usar el fondo del section-item */
+  background-color: transparent;
   transition: background-color 0.3s ease;
 }
 
@@ -250,18 +227,18 @@
   align-items: center;
   justify-content: center;
   border-left: 1px solid var(--border-color);
-  margin-bottom: 0; /* Quitar el margen inferior del botón */
+  margin-bottom: 0;
 }
 
-/* Mensaje para cuando no hay secciones */
+/* Mensaje para cuando no hay secciones - reducir el padding */
 .empty-sections {
   text-align: center;
-  padding: 3.5rem 1.5rem;
+  padding: 2rem 1.5rem; /* Reducido de 3.5rem a 2rem */
   color: var(--text-muted);
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1.5rem;
+  gap: 1rem; /* Reducido de 1.5rem a 1rem */
 }
 
 .empty-sections p {
@@ -270,8 +247,9 @@
   margin: 0.5rem 0;
 }
 
+/* Ajustar ejemplos para compensar el espacio */
 .examples-container {
-  margin-top: 1rem;
+  margin-top: 0.75rem; /* Reducido de 1rem a 0.75rem */
   background-color: var(--background-light);
   border-radius: var(--border-radius);
   padding: 1.5rem;

@@ -44,10 +44,7 @@ const ProjectSectionsPage = () => {
       <NavBar />
       
       <div className="project-sections-container">
-        <button className="back-button" onClick={() => window.history.back()}>
-          Volver a Gestión de Proyectos
-        </button>
-
+       
         <div className="project-header">
           <h1>{decodedProjectName}</h1>
           <p>Aquí puedes añadir o eliminar secciones para organizar mejor tu proyecto!</p>

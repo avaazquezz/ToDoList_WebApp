@@ -17,13 +17,40 @@ nav {
   text-align: center;
 }
 
-.nav-menu {
-  position: absolute;
-  right: 1rem; /* Coloca el botón de configuración a la derecha */
+.back-to-home-button {
+  background-color: #357abd;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 0.5rem 1rem;
+  margin-right: 0.8rem;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+.back-to-home-button:hover {
+  background-color: #6baae9;
+  transform: translateY(-1px);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+}
+
+.back-to-home-button:active {
+  background-color: #2a6194;
+  transform: translateY(1px);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* Ajustar la ubicación del botón dentro del menú */
+.nav-menu {
+  position: absolute;
+  right: 1rem;
+  display: flex;
+  align-items: center;
+}
 .settings-button {
-  background-color: #333;
+  background-color: #080808;
   color: white;
   border: none;
   padding: 0.5rem 1rem;
@@ -34,7 +61,7 @@ nav {
 }
 
 .settings-button:hover {
-  background-color: #444;
+  background-color: #666363;
 }
 
 .dropdown-menu {
@@ -42,7 +69,7 @@ nav {
   position: absolute;
   top: 100%;
   right: 0;
-  background-color: #222;
+  background-color: #020202;
   border-radius: 5px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   padding: 0.5rem 0;
@@ -61,5 +88,5 @@ nav {
 }
 
 .dropdown-menu a:hover {
-  background-color: #333;
+  background-color: #696464;
 }
