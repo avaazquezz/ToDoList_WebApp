@@ -1,13 +1,16 @@
 nav {
   background-color: #06318d;
   padding: 1rem;
-  width: 100vw;
+  width: 100%;
   max-width: 100%;
   display: flex;
-  justify-content: center; /* Centra el título */
+  justify-content: center; /* Mantener centrado */
   align-items: center;
   box-sizing: border-box;
-  position: relative;
+  position: fixed; /* Fijar la posición */
+  top: 0; /* Anclar al tope */
+  left: 0; /* Anclar a la izquierda */
+  z-index: 1000; /* Asegurar que permanezca encima */
 }
 
 .nav-brand {

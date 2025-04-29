@@ -40,11 +40,32 @@ const ProjectSectionsPage = () => {
   };
 
   return (
-    <div>
+    <div className="project-page">
       <NavBar />
-      
+
+      <div className="sidebar">
+        <h2>Gestión de Secciones</h2>
+        <div className="section-actions">
+          <button className="add-section-btn" onClick={addSection}>
+            Añadir Sección (+)
+          </button>
+          <button
+            className="delete-section-btn"
+            onClick={() => {
+              if (sections.length > 0) {
+                const lastSection = sections[sections.length - 1];
+                deleteSection(lastSection.idSection);
+              } else {
+                alert('No hay secciones para eliminar.');
+              }
+            }}
+          >
+            Eliminar Última (-)
+          </button>
+        </div>
+      </div>
+
       <div className="project-sections-container">
-       
         <div className="project-header">
           <h1>{decodedProjectName}</h1>
           <p>Aquí puedes añadir o eliminar secciones para organizar mejor tu proyecto!</p>
@@ -59,7 +80,10 @@ const ProjectSectionsPage = () => {
                     <h3 className="section-title">{section.title}</h3>
                     <p className="section-description">{section.text}</p>
                   </div>
-                  <button className="delete-section-btn" onClick={() => deleteSection(section.idSection)}>
+                  <button
+                    className="delete-section-btn"
+                    onClick={() => deleteSection(section.idSection)}
+                  >
                     Eliminar
                   </button>
                 </li>
@@ -68,40 +92,9 @@ const ProjectSectionsPage = () => {
           ) : (
             <div className="empty-sections">
               No hay secciones en este proyecto. ¡Añade tu primera sección!
-                          
-              <div className="examples-container">
-                <div className="example-title">Ejemplo: Proyecto Hogar</div>
-                <div className="example-items">
-                  <span className="example-item">Limpieza</span>
-                  <span className="example-item">Organización</span>
-                  <span className="example-item">Mantenimiento</span>
-                  <span className="example-item">Cocina</span>
-                  <span className="example-item">Jardín</span>
-                </div>
-              </div>
             </div>
           )}
         </div>
-
-
-
-        <div className="section-input-container">
-          <h2>Añadir Nueva Sección</h2>
-          <input
-            type="text"
-            placeholder="Título de la sección..."
-            value={newSectionTitle}
-            onChange={(e) => setNewSectionTitle(e.target.value)}
-          />
-          <textarea
-            placeholder="Descripción de la sección..."
-            value={newSectionText}
-            onChange={(e) => setNewSectionText(e.target.value)}
-          ></textarea>
-          <button onClick={addSection}>Añadir Sección</button>
-        </div>
-
-        
       </div>
     </div>
   );
