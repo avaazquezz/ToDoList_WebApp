@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import NavBar from '../components/NavBar';
 import '../styles/ProjectSectionPage.css';
@@ -14,6 +14,7 @@ const ProjectSectionsPage = () => {
   const [sections, setSections] = useState<Section[]>([]);
   const [newSectionTitle, setNewSectionTitle] = useState('');
   const [newSectionText, setNewSectionText] = useState('');
+  const navigate = useNavigate();
 
   // Decodificar el nombre del proyecto
   const decodedProjectName = projectName ? decodeURIComponent(projectName) : '';
@@ -39,6 +40,19 @@ const ProjectSectionsPage = () => {
     setSections(sections.filter((section) => section.idSection !== sectionId));
   };
 
+  const deleteProject = () => {
+    const confirmDelete = window.confirm(`¿Estás seguro que deseas eliminar el proyecto "${decodedProjectName}"?`);
+    if (confirmDelete) {
+      // Eliminar el proyecto del LocalStorage
+      const storedProjects = JSON.parse(localStorage.getItem('projects') || '[]');
+      const updatedProjects = storedProjects.filter((project: { name: string }) => project.name !== decodedProjectName);
+      localStorage.setItem('projects', JSON.stringify(updatedProjects));
+
+      alert(`El proyecto "${decodedProjectName}" ha sido eliminado.`);
+      navigate('/home');
+    }
+  };
+
   return (
     <div className="project-page">
       <NavBar />
@@ -60,7 +74,17 @@ const ProjectSectionsPage = () => {
               }
             }}
           >
-            Eliminar Última (-)
+            Eliminar Seccion (-)
+          </button>
+        </div>
+        
+        {/* Botón para eliminar el proyecto */}
+        <div className="delete-project-container">
+          <button 
+            className="delete-project-btn"
+            onClick={deleteProject}
+          >
+            Eliminar Proyecto
           </button>
         </div>
       </div>

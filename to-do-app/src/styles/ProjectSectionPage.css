@@ -1,3 +1,4 @@
+/* Variables que pueden permanecer globales */
 :root {
   --primary-color: #1467e4;
   --primary-light: #599ae4;
@@ -21,26 +22,26 @@
   --transition-speed: 0.3s;
 }
 
-/* Ajustar estructura para compensar navbar fijo */
+/* Estructura principal - aislada con .project-page */
 .project-page {
   display: flex;
-  min-height: calc(100vh - 60px);
-  margin-top: 60px; /* Compensar la altura del navbar */
+  margin-top: 4rem;
 }
 
-.project-header h1 {
+/* Estilos del encabezado del proyecto */
+.project-page .project-header h1 {
   font-size: 2.6rem; 
   margin-top: -10px; 
   margin-bottom: 15px; 
 }
 
-.project-header p {
+.project-page .project-header p {
   font-size: 1.1rem; 
   margin-bottom: 4rem; 
 }
 
-
-.empty-sections {
+/* Sección vacía - nombre de clase diferente para evitar conflictos */
+.project-page .empty-sections {
   text-align: center;
   padding: 2rem 1rem;
   color: var(--text-muted);
@@ -50,21 +51,29 @@
   margin: 1rem 0;
 }
 
+.project-sections-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  justify-content: center;
+}
+
+
 /* Barra lateral izquierda - fija */
-.sidebar {
-  width: 220px; /* Ancho fijo para la barra lateral */
-  min-width: 220px; /* Para asegurar que no se reduzca */
-  background-color: #e9ecef; /* Color gris claro más visible */
+.project-page .sidebar {
+  width: 220px;
+  min-width: 220px;
+  background-color: #e9ecef;
   border-right: 1px solid var(--border-color);
   padding: 1.5rem 1rem;
-  height: calc(100vh - 60px); /* Altura completa menos navbar */
-  position: fixed; /* Cambiado a fixed en lugar de sticky */
-  top: 60px; /* Alineado con el borde inferior del navbar */
+  height: calc(100vh - 60px);
+  position: fixed;
+  top: 60px;
   display: flex;
   flex-direction: column;
 }
 
-.sidebar h2 {
+.project-page .sidebar h2 {
   color: var(--primary-color);
   font-size: 1.3rem;
   margin-bottom: 2rem;
@@ -75,7 +84,7 @@
 }
 
 /* Línea decorativa bajo el título */
-.sidebar h2::after {
+.project-page .sidebar h2::after {
   content: '';
   position: absolute;
   bottom: 0;
@@ -88,7 +97,7 @@
 }
 
 /* Contenedor de botones de acción */
-.section-actions {
+.project-page .section-actions {
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
@@ -96,8 +105,8 @@
 }
 
 /* Botones en la barra lateral */
-.sidebar .add-section-btn,
-.sidebar .delete-section-btn {
+.project-page .sidebar .add-section-btn,
+.project-page .sidebar .delete-section-btn {
   width: 100%;
   padding: 0.75rem 1rem;
   border: none;
@@ -109,41 +118,40 @@
   font-weight: 500;
 }
 
-.sidebar .add-section-btn {
+.project-page .sidebar .add-section-btn {
   background-color: var(--primary-color);
   color: white;
 }
 
-.sidebar .add-section-btn:hover {
+.project-page .sidebar .add-section-btn:hover {
   background-color: var(--primary-dark);
   transform: translateY(-2px);
   box-shadow: var(--shadow-md);
 }
 
-.sidebar .delete-section-btn {
+.project-page .sidebar .delete-section-btn {
   background-color: var(--danger-color);
   color: white;
 }
 
-.sidebar .delete-section-btn:hover {
-  background-color: #c0392b;
+.project-page .sidebar .delete-section-btn:hover {
+  background-color: #e6776a;
   transform: translateY(-2px);
   box-shadow: var(--shadow-md);
 }
 
-.sidebar .add-section-btn:active,
-.sidebar .delete-section-btn:active {
+.project-page .sidebar .add-section-btn:active,
+.project-page .sidebar .delete-section-btn:active {
   transform: translateY(0);
   box-shadow: var(--shadow-sm);
 }
 
 /* Ajustar contenido principal para dejar espacio a la barra lateral fija */
-.project-sections-container {
+.project-page .project-sections-container {
   flex: 1;
-  margin-left: 220px; /* Mismo ancho que la barra lateral */
+  margin-left: 220px;
   padding: 2rem;
 }
-
 
 /* Ajustes responsive para la barra lateral */
 @media (max-width: 768px) {
@@ -151,7 +159,7 @@
     flex-direction: column;
   }
   
-  .sidebar {
+  .project-page .sidebar {
     width: 100%;
     height: auto;
     min-height: auto;
@@ -159,25 +167,73 @@
     padding: 1.25rem;
   }
   
-  .section-actions {
+  .project-page .section-actions {
     flex-direction: row;
     justify-content: space-between;
   }
   
-  .sidebar .add-section-btn,
-  .sidebar .delete-section-btn {
+  .project-page .sidebar .add-section-btn,
+  .project-page .sidebar .delete-section-btn {
     width: 48%;
   }
   
-  .project-sections-container {
+  .project-page .project-sections-container {
     padding: 1.5rem;
+    margin-left: 0;
   }
 }
 
 /* MODO OSCURO - Ajustes para la barra lateral */
 @media (prefers-color-scheme: dark) {
-  .sidebar {
+  .project-page .sidebar {
     background-color: #2a2a2a;
+  }
+}
+
+/* Contenedor del botón eliminar proyecto */
+.project-page .delete-project-container {
+  margin-top: 10rem;
+  padding-top: 2rem;
+  width: 100%;
+}
+
+/* Estilo del botón eliminar proyecto */
+.project-page .delete-project-btn {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background-color: #da0528e7; /* Rojo más intenso para distinguirlo */
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.project-page .delete-project-btn:hover {
+  background-color: #8b0411f6; /* Tono más oscuro al pasar el cursor */
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+.project-page .delete-project-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Ajustar la barra lateral para que use flexbox y coloque el botón al fondo */
+.project-page .sidebar {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 60px);
+}
+
+/* Ajustes responsive */
+@media (max-width: 768px) {
+  .project-page .delete-project-container {
+    padding-top: 1.5rem;
   }
 }
 
