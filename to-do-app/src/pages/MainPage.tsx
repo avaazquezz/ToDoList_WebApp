@@ -14,9 +14,17 @@ const MainPage = () => {
       <div className="cta-container">
         <button 
           className="start-button"
-          onClick={() => window.location.href = '/home'}
+          onClick={() => window.location.href = '/register'}
         >
-          Comienza a usar WorkToDo
+          Registrate
+        </button>
+      </div>
+      <div className="cta-container">
+        <button 
+          className="start-button"
+          onClick={() => window.location.href = '/login'}
+        >
+          Inicia Sesión
         </button>
       </div>
 

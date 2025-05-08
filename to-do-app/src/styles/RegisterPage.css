@@ -1,0 +1,179 @@
+.register-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: #f5f7fa;
+  padding: 20px;
+}
+
+.register-card {
+  width: 100%;
+  max-width: 450px;
+  padding: 2.5rem;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.register-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.register-header h1 {
+  font-size: 2rem;
+  color: #1a1a1a;
+  margin-bottom: 0.75rem;
+  font-weight: 600;
+}
+
+.register-header p {
+  color: #6e6e6e;
+  font-size: 1rem;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: #333;
+  font-size: 0.95rem;
+}
+
+.form-input {
+  width: 100%;
+  padding: 12px 16px;
+  font-size: 1rem;
+  border: 1px solid #dce1e8;
+  border-radius: 6px;
+  background-color: #f9fafc;
+  transition: all 0.2s ease;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: #4a6cf7;
+  background-color: #fff;
+  box-shadow: 0 0 0 4px rgba(74, 108, 247, 0.1);
+}
+
+.form-input::placeholder {
+  color: #a0a8b0;
+}
+
+.password-container {
+  position: relative;
+}
+
+.password-toggle {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: #6e6e6e;
+  cursor: pointer;
+}
+
+.register-button {
+  width: 100%;
+  padding: 14px;
+  background-color: #4a6cf7;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 1rem;
+  transition: background-color 0.2s ease;
+}
+
+.register-button:hover {
+  background-color: #3a5cdb;
+}
+
+.register-button:disabled {
+  background-color: #a0a8b0;
+  cursor: not-allowed;
+}
+
+.error-message {
+  color: #e53935;
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+}
+
+.alternative-actions {
+  margin-top: 1.5rem;
+  text-align: center;
+}
+
+.alternative-actions p {
+  color: #6e6e6e;
+  font-size: 0.95rem;
+}
+
+.alternative-actions a {
+  color: #4a6cf7;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.alternative-actions a:hover {
+  text-decoration: underline;
+}
+
+.social-login {
+  margin-top: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.social-login p {
+  text-align: center;
+  color: #6e6e6e;
+  font-size: 0.95rem;
+  margin-bottom: 0.5rem;
+}
+
+.social-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.social-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 15px;
+  border-radius: 6px;
+  border: 1px solid #dce1e8;
+  background-color: white;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.social-button:hover {
+  background-color: #f5f7fa;
+}
+
+.social-button img {
+  width: 24px;
+  height: 24px;
+}
+
+@media (max-width: 768px) {
+  .register-card {
+    padding: 1.5rem;
+  }
+}

@@ -19,7 +19,7 @@ type Section = {
   idSection: number;
   title: string;
   text: string;
-  color: string; // Añadimos el color a la sección
+  color: string; 
 };
 
 const ProjectSectionsPage = () => {
