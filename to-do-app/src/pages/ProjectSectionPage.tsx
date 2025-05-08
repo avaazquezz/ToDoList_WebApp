@@ -5,14 +5,14 @@ import '../styles/ProjectSectionPage.css';
 
 // Definimos los colores disponibles
 const COLORS = [
-  { id: 'blue', value: '#1e88e5', name: 'Azul' },
-  { id: 'green', value: '#4caf50', name: 'Verde' },
-  { id: 'red', value: '#e53935', name: 'Rojo' },
-  { id: 'purple', value: '#8e24aa', name: 'Morado' },
-  { id: 'orange', value: '#ff9800', name: 'Naranja' },
-  { id: 'teal', value: '#009688', name: 'Verde azulado' },
-  { id: 'pink', value: '#e91e63', name: 'Rosa' },
-  { id: 'brown', value: '#795548', name: 'Marrón' }
+  { id: 'blue', value: '#90caf9', name: 'Azul' },
+  { id: 'green', value: '#a5d6a7', name: 'Verde' },
+  { id: 'red', value: '#ef9a9a', name: 'Rojo' },
+  { id: 'purple', value: '#ce93d8', name: 'Morado' },
+  { id: 'orange', value: '#ffcc80', name: 'Naranja' },
+  { id: 'teal', value: '#80cbc4', name: 'Verde azulado' },
+  { id: 'pink', value: '#f48fb1', name: 'Rosa' },
+  { id: 'yellow', value: '#fff59d', name: 'Amarillo' }
 ];
 
 type Section = {
@@ -36,13 +36,29 @@ const ProjectSectionsPage = () => {
 
   // Cargar secciones guardadas al iniciar
   useEffect(() => {
-    const storedSections = JSON.parse(localStorage.getItem(`sections_${decodedProjectName}`) || '[]');
-    setSections(storedSections);
+    if (!decodedProjectName) {
+      return;
+    }
+
+    try {
+      const storedSections = JSON.parse(localStorage.getItem(`sections_${decodedProjectName}`) || '[]');
+      if (Array.isArray(storedSections)) {
+        setSections(storedSections);
+      } else {
+        setSections([]);
+      }
+    } catch {
+      setSections([]);
+    }
   }, [decodedProjectName]);
 
   // Guardar secciones cuando cambien
   useEffect(() => {
-    if (sections.length > 0 || localStorage.getItem(`sections_${decodedProjectName}`)) {
+    if (!decodedProjectName) {
+      return;
+    }
+
+    if (sections.length > 0) {
       localStorage.setItem(`sections_${decodedProjectName}`, JSON.stringify(sections));
     }
   }, [sections, decodedProjectName]);
@@ -57,18 +73,23 @@ const ProjectSectionsPage = () => {
       idSection: Date.now(),
       title: newSectionTitle,
       text: newSectionText,
-      color: selectedColor // Guardamos el color seleccionado
+      color: selectedColor
     };
 
-    setSections([...sections, newSection]);
+    const updatedSections = [...sections, newSection];
+    setSections(updatedSections);
+    localStorage.setItem(`sections_${decodedProjectName}`, JSON.stringify(updatedSections));
+
     setNewSectionTitle('');
     setNewSectionText('');
-    setSelectedColor(COLORS[0].value); // Reseteamos el color seleccionado
+    setSelectedColor(COLORS[0].value);
     setIsDialogOpen(false);
   };
 
   const deleteSection = (sectionId: number) => {
-    setSections(sections.filter((section) => section.idSection !== sectionId));
+    const updatedSections = sections.filter((section) => section.idSection !== sectionId);
+    setSections(updatedSections);
+    localStorage.setItem(`sections_${decodedProjectName}`, JSON.stringify(updatedSections));
   };
 
   const deleteProject = () => {
