@@ -1,6 +1,5 @@
 import { useState } from 'react';
-import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
-import { auth } from '../firebase/config';
+import { supabase } from '../supabaseClient';
 import { Link, useNavigate } from 'react-router-dom';
 import '../styles/RegisterPage.css';
 
@@ -18,8 +17,12 @@ const RegisterPage = () => {
     setLoading(true);
 
     try {
-      await createUserWithEmailAndPassword(auth, email, password);
-      navigate('/home'); // Redirige al usuario a la página principal después del registro exitoso
+      const { error } = await supabase.auth.signUp({
+        email,
+        password,
+      });
+      if (error) throw error;
+      navigate('/home');
     } catch (error) {
       if (error instanceof Error) {
         setError(error.message);
@@ -33,9 +36,11 @@ const RegisterPage = () => {
 
   const handleGoogleSignIn = async () => {
     try {
-      const provider = new GoogleAuthProvider();
-      await signInWithPopup(auth, provider);
-      navigate('/');
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+      });
+      if (error) throw error;
+      navigate('/home');
     } catch (error) {
       if (error instanceof Error) {
         setError(error.message);
@@ -114,7 +119,7 @@ const RegisterPage = () => {
               onClick={handleGoogleSignIn}
             >
               <img 
-                src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" 
+                src="../assets/logoGoogle.jpg" 
                 alt="Google" 
               />
             </button>

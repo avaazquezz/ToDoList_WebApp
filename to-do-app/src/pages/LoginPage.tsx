@@ -1,8 +1,7 @@
 import { useState } from 'react';
-import { signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import { supabase } from '../supabaseClient';
 import { Link, useNavigate } from 'react-router-dom';
-import { auth } from '../firebase/config';
-import '../styles/LoginPage.css'; 
+import '../styles/LoginPage.css';
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
@@ -18,18 +17,22 @@ const LoginPage = () => {
     setLoading(true);
     
     try {
-      await signInWithEmailAndPassword(auth, email, password);
-      navigate('/home'); // Redirige al usuario a la página principal después del inicio de sesión
-    } catch (error) {
-      if (error instanceof Error) {
-        // Personalizar mensajes de error comunes para mejor UX
-        if (error.message.includes('user-not-found')) {
-          setError('No existe una cuenta con este correo electrónico.');
-        } else if (error.message.includes('wrong-password')) {
-          setError('Contraseña incorrecta. Inténtalo de nuevo.');
+      const { error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+      if (error) {
+        if (error.message.includes('Email not confirmed')) {
+          setError('Por favor, confirma tu correo electrónico antes de iniciar sesión.');
         } else {
           setError(error.message);
         }
+      } else {
+        navigate('/home');
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        setError(error.message);
       } else {
         setError('Error al iniciar sesión. Inténtalo de nuevo.');
       }
@@ -40,9 +43,11 @@ const LoginPage = () => {
 
   const handleGoogleSignIn = async () => {
     try {
-      const provider = new GoogleAuthProvider();
-      await signInWithPopup(auth, provider);
-      navigate('/');
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+      });
+      if (error) throw error;
+      navigate('/home');
     } catch (error) {
       if (error instanceof Error) {
         setError(error.message);
@@ -128,7 +133,7 @@ const LoginPage = () => {
               aria-label="Iniciar sesión con Google"
             >
               <img 
-                src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" 
+                src="../assets/logoGoogle.jpg" 
                 alt="Google" 
               />
             </button>
