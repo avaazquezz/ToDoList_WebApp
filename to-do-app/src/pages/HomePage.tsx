@@ -48,6 +48,15 @@ const HomePage = () => {
     localStorage.setItem('projects', JSON.stringify(projects));
   }, [projects]);
 
+  useEffect(() => {
+    // Check for session in local storage
+    const session = localStorage.getItem('supabase.auth.token');
+    if (!session) {
+      // If no session, redirect to login page
+      navigate('/login');
+    }
+  }, [navigate]);
+
   // Función para añadir un nuevo proyecto
   const addProject = () => {
     if (newProjectName.trim() === '') {

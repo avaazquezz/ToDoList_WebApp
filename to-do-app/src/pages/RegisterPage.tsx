@@ -36,12 +36,19 @@ const RegisterPage = () => {
 
   const handleGoogleSignIn = async () => {
     try {
-      const { error } = await supabase.auth.signInWithOAuth({
+      const { error, data } = await supabase.auth.signInWithOAuth({
         provider: 'google',
       });
       if (error) throw error;
-      navigate('/home');
+      console.log('Google Sign-In successful:', data);
+      if (data) {
+        localStorage.setItem('supabase.auth.token', JSON.stringify(data));
+        navigate('/home');
+      } else {
+        throw new Error('No session data returned from Google Sign-In');
+      }
     } catch (error) {
+      console.error('Google Sign-In error:', error);
       if (error instanceof Error) {
         setError(error.message);
       } else {
