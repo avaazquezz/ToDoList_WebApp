@@ -1,9 +1,20 @@
-import { Link,  useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { supabase } from '../supabaseClient';
 import '../styles/Navbar.css';
 
 
 const Navbar = () => {
   const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    try {
+      await supabase.auth.signOut(); // Cierra la sesión en Supabase
+      localStorage.removeItem('supabase.auth.token'); // Limpia el token del localStorage
+      navigate('/'); // Redirige al usuario a la página principal
+    } catch (error) {
+      console.error('Error al cerrar sesión:', error);
+    }
+  };
 
   return (
     <nav>
@@ -18,13 +29,7 @@ const Navbar = () => {
           >
             Proyectos
           </button>
-        <button className="settings-button">
-          Configuración
-          <div className="dropdown-menu">
-            <Link to="/">Logout</Link>
-            <Link to="/about">Más información</Link>
-          </div>
-        </button>
+        <button className="settings-button" onClick={handleLogout}>Logout</button>
       </div>
     </nav>
   );

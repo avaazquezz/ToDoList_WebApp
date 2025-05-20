@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { supabase } from '../supabaseClient';
 import { Link, useNavigate } from 'react-router-dom';
 import '../styles/RegisterPage.css';
@@ -36,19 +36,22 @@ const RegisterPage = () => {
 
   const handleGoogleSignIn = async () => {
     try {
-      const { error, data } = await supabase.auth.signInWithOAuth({
+      const { error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
       });
       if (error) throw error;
-      console.log('Google Sign-In successful:', data);
-      if (data) {
-        localStorage.setItem('supabase.auth.token', JSON.stringify(data));
-        navigate('/home');
-      } else {
-        throw new Error('No session data returned from Google Sign-In');
-      }
+
+      // Esperar a que la sesión esté completamente sincronizada
+      setTimeout(async () => {
+        const { data: sessionData } = await supabase.auth.getSession();
+        if (sessionData?.session) {
+          localStorage.setItem('supabase.auth.token', JSON.stringify(sessionData.session)); // Guarda la sesión
+          navigate('/home');
+        } else {
+          throw new Error('No se pudo sincronizar la sesión de Google');
+        }
+      }, 1000); // Espera 1 segundo para sincronizar la sesión
     } catch (error) {
-      console.error('Google Sign-In error:', error);
       if (error instanceof Error) {
         setError(error.message);
       } else {
@@ -56,6 +59,14 @@ const RegisterPage = () => {
       }
     }
   };
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (session) {
+        navigate('/home'); // Redirige si ya hay una sesión activa
+      }
+    });
+  }, [navigate]);
 
   return (
     <div className="register-container">
