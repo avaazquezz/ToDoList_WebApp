@@ -7,7 +7,7 @@
   --button-primary: #3b82f6;
   --button-hover: #2563eb;
   --text-primary: #1e293b;
-  --text-secondary: #64748b;
+  --text-secondary: #777e88;
 }
 
 nav {
@@ -48,6 +48,12 @@ nav.scrolled {
   text-decoration: none;
   position: relative;
   padding: 0.5rem 0;
+}
+
+.nav-brand img {
+  height: 40px;
+  width: auto;
+  object-fit: contain;
 }
 
 .nav-brand:hover {
@@ -129,7 +135,7 @@ nav.scrolled {
   border-radius: 12px;
   font-size: 0.95rem;
   font-weight: 500;
-  border: 1px solid rgba(203, 213, 225, 0.4);
+  border: 1px solid rgba(139, 141, 145, 0.911);
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   display: flex;
@@ -139,7 +145,7 @@ nav.scrolled {
 }
 
 .settings-button:hover {
-  background: rgba(241, 245, 249, 0.9);
+  background: rgba(123, 152, 180, 0.349);
   border-color: rgba(203, 213, 225, 0.8);
 }
 
@@ -184,7 +190,7 @@ nav.scrolled {
 /* Responsive Design */
 @media (max-width: 768px) {
   nav {
-    padding: 0 1rem;
+    padding: 0 1.5rem;
   }
 
   .nav-brand {
@@ -197,8 +203,44 @@ nav.scrolled {
 
   .back-to-home-button,
   .settings-button {
-    padding: 0.6rem 1rem;
+    padding: 0.6rem;
     font-size: 0.9rem;
+  }
+
+  .back-to-home-button span,
+  .settings-button span {
+    display: none;
+  }
+
+  .nav-brand img {
+    height: 35px;
+  }
+}
+
+@media (max-width: 480px) {
+  nav {
+    padding: 0 1rem;
+    justify-content: center;
+  }
+
+  .nav-menu {
+    position: absolute;
+    right: 1rem;
+  }
+
+  .nav-brand {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .back-to-home-button,
+  .settings-button {
+    padding: 0.5rem;
+  }
+
+  .nav-brand img {
+    height: 30px;
   }
 }
 

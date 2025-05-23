@@ -1,100 +1,93 @@
-import '../styles/HomePage.css';
-import NavBar from '../components/NavBar';
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom'; // Importamos useNavigate
+import { useNavigate } from 'react-router-dom';
+import NavBar from '../components/NavBar';
+import '../styles/HomePage.css';
 
+const colorOptions = [
+  '#4a90e2', '#50c878', '#f39c12', '#e74c3c', '#9b59b6',
+  '#3498db', '#2ecc71', '#f1c40f', '#e67e22', '#c0392b'
+];
 
 type Project = {
   id: number;
   name: string;
   color: string;
+  createdBy: string;
+  createdAt: number;
 };
 
-// Array de colores predefinidos para elegir
-const colorOptions = [
-  '#4a90e2', // azul
-  '#50c878', // verde
-  '#f39c12', // naranja
-  '#e74c3c', // rojo
-  '#9b59b6', // morado
-  '#3498db', // azul claro
-  '#2ecc71', // verde claro
-  '#f1c40f', // amarillo
-  '#e67e22', // naranja oscuro
-  '#c0392b'  // rojo oscuro
-];
-
 const HomePage = () => {
-  const navigate = useNavigate(); // Hook para navegación
-  
-  // Estado para manejar la lista de proyectos
+  const navigate = useNavigate();
   const [projects, setProjects] = useState<Project[]>(() => {
-    // Cargar proyectos desde localStorage al inicializar
     const storedProjects = localStorage.getItem('projects');
     return storedProjects ? JSON.parse(storedProjects) : [];
   });
 
-  // Estado para manejar el nombre del nuevo proyecto
   const [newProjectName, setNewProjectName] = useState('');
-  
-  // Estado para manejar el color seleccionado
   const [selectedColor, setSelectedColor] = useState(colorOptions[0]);
-  
-  // Estado para mostrar/ocultar el selector de colores
   const [showColorPicker, setShowColorPicker] = useState(false);
+  const [activeTooltip, setActiveTooltip] = useState<number | null>(null);
 
-  // Guardar proyectos en localStorage cada vez que cambien
+  // Guardar proyectos en localStorage
   useEffect(() => {
     localStorage.setItem('projects', JSON.stringify(projects));
   }, [projects]);
 
+  // Verificar sesión
   useEffect(() => {
-    // Check for session in local storage
     const session = localStorage.getItem('supabase.auth.token');
     if (!session) {
-      // If no session, redirect to login page
       navigate('/login');
     }
   }, [navigate]);
 
-  // Función para añadir un nuevo proyecto
-  const addProject = () => {
+  const handleAddProject = () => {
     if (newProjectName.trim() === '') {
       alert('El nombre del proyecto no puede estar vacío.');
       return;
     }
 
-    const newProject = {
-      id: Date.now(),
+    const userEmail = localStorage.getItem('userEmail') || 'usuario@example.com';
+    const now = Date.now();
+
+    const newProject: Project = {
+      id: now,
       name: newProjectName,
-      color: selectedColor
+      color: selectedColor,
+      createdBy: userEmail,
+      createdAt: now
     };
 
-    setProjects([...projects, newProject]); 
+    setProjects(prev => [...prev, newProject]);
     setNewProjectName('');
-    // Resetear el color al predeterminado después de crear
     setSelectedColor(colorOptions[0]);
     setShowColorPicker(false);
   };
 
-  // Función para manejar tecla Enter en el input
   const handleKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
-      addProject();
+      handleAddProject();
     }
   };
 
-  // Función para navegar a la página de tareas del proyecto
   const navigateToProjectTasks = (projectName: string) => {
-    //encodeURIComponent maneja correctamente espacios y caracteres especiales en la URL
     const encodedName = encodeURIComponent(projectName);
     navigate(`/project/${encodedName}/sections`);
+  };
+
+  const formatDate = (timestamp: number) => {
+    return new Date(timestamp).toLocaleDateString('es-ES', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    });
   };
 
   return (
     <div className="home-container">
       <NavBar />
-
       <div className="home-page">
         <div className="welcome-section">
           <h2>Panel de Control</h2>
@@ -145,7 +138,7 @@ const HomePage = () => {
                 )}
               </div>
               
-              <button onClick={addProject}>
+              <button onClick={handleAddProject}>
                 Crear Proyecto
               </button>
             </div>
@@ -164,8 +157,97 @@ const HomePage = () => {
                     style={{ backgroundColor: project.color }}
                   ></div>
                   <div className="project-content">
-                    <h3>{project.name}</h3>
-                    <p className="project-meta">Creado el {new Date(project.id).toLocaleDateString()}</p>
+                    <div className="project-header-content">
+                      <h3>{project.name}</h3>
+                      <button
+                        className="info-button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setActiveTooltip(activeTooltip === project.id ? null : project.id);
+                        }}
+                        aria-label="Mostrar información del proyecto"
+                      >
+                        <svg 
+                          width="20" 
+                          height="20" 
+                          viewBox="0 0 24 24" 
+                          fill="none" 
+                          stroke="currentColor" 
+                          strokeWidth="2" 
+                          strokeLinecap="round" 
+                          strokeLinejoin="round"
+                        >
+                          <circle cx="12" cy="12" r="10" />
+                          <line x1="12" y1="16" x2="12" y2="12" />
+                          <line x1="12" y1="8" x2="12.01" y2="8" />
+                        </svg>
+                      </button>
+                    </div>                    {activeTooltip === project.id && (
+                      <div className="project-info-tooltip" style={{
+                        position: 'absolute',
+                        top: '50%',
+                        left: '50%',
+                        transform: 'translate(-50%, -50%)',
+                        backgroundColor: '#f8f9fa',
+                        color: '#333',
+                        padding: '20px',
+                        borderRadius: '12px',
+                        boxShadow: '0 4px 15px rgba(0, 0, 0, 0.1)',
+                        zIndex: 10,
+                        textAlign: 'left',
+                        width: '80%',
+                        maxWidth: '300px'
+                      }}>
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setActiveTooltip(null);
+                          }}
+                          style={{
+                            position: 'absolute',
+                            top: '10px',
+                            right: '10px',
+                            background: 'rgba(255, 59, 48, 0.1)',
+                            border: 'none',
+                            borderRadius: '50%',
+                            cursor: 'pointer',
+                            padding: '8px',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            color: '#ff3b30',
+                            transition: 'all 0.2s ease',
+                            width: '30px',
+                            height: '30px'
+                          }}
+                          onMouseOver={(e) => {
+                            e.currentTarget.style.background = 'rgba(255, 59, 48, 0.2)';
+                            e.currentTarget.style.transform = 'scale(1.1)';
+                          }}
+                          onMouseOut={(e) => {
+                            e.currentTarget.style.background = 'rgba(255, 59, 48, 0.1)';
+                            e.currentTarget.style.transform = 'scale(1)';
+                          }}
+                          aria-label="Cerrar información"
+                        >
+                          <svg 
+                            width="16" 
+                            height="16" 
+                            viewBox="0 0 24 24" 
+                            fill="none" 
+                            stroke="currentColor" 
+                            strokeWidth="2"
+                            strokeLinecap="round" 
+                            strokeLinejoin="round"
+                          >
+                            <line x1="18" y1="6" x2="6" y2="18" />
+                            <line x1="6" y1="6" x2="18" y2="18" />
+                          </svg>
+                        </button>
+                        <p><strong>Creado por:</strong> {project.createdBy}</p>
+                        <p><strong>Fecha:</strong> {formatDate(project.createdAt)}</p>
+                      </div>
+                    )}
                   </div>
                 </div>
               ))

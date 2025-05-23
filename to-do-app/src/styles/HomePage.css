@@ -253,6 +253,59 @@
   box-shadow: 0 6px 16px rgba(45, 212, 191, 0.4);
 }
 
+/* Estilos para el encabezado del proyecto */
+.project-header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 0.75rem;
+}
+
+/* Botón de información */
+.info-button {
+  background: transparent;
+  border: none;
+  padding: 4px;
+  color: var(--text-muted);
+  cursor: pointer;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.info-button:hover {
+  background: rgba(0, 0, 0, 0.05);
+  color: var(--text-primary);
+}
+
+/* Tooltip de información */
+.project-info-tooltip {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: white;
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+  min-width: 200px;
+  margin-top: 0.5rem;
+  animation: fadeIn 0.2s ease-out;
+}
+
+.project-info-tooltip p {
+  margin: 0.5rem 0;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+.project-info-tooltip strong {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
 /* Grid de proyectos */
 .project-grid {
   display: grid;
@@ -391,5 +444,26 @@
 
   .empty-projects h3 {
     color: #e2e8f0;
+  }
+
+  .project-info-tooltip {
+    background: #1e293b;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  }
+
+  .info-button:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
+}
+
+/* Animación para el tooltip */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
