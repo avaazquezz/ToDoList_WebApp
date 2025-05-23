@@ -92,71 +92,91 @@ const HomePage = () => {
   };
 
   return (
-    <div>
+    <div className="home-container">
       <NavBar />
 
       <div className="home-page">
-        <h2>Bienvenido al mando de control</h2>
-        <p>Desde aquí vas a poder crear diferentes proyectos y así manejar todos tus frentes abiertos de la forma más efectiva.</p>
-      </div>
-
-      <div className="projects">
-        <h2>Proyectos</h2>
-
-        <div className="add-project">
-          <input
-            type="text"
-            placeholder="Nombre del proyecto"
-            value={newProjectName}
-            onChange={(e) => setNewProjectName(e.target.value)}
-            onKeyPress={handleKeyPress}
-          />
+        <div className="welcome-section">
+          <h2>Panel de Control</h2>
+          <p>Organiza y gestiona todos tus proyectos desde un solo lugar.</p>
           
-          <div className="color-selector-container">
-            <div 
-              className="color-preview" 
-              style={{ backgroundColor: selectedColor }}
-              onClick={() => setShowColorPicker(!showColorPicker)}
-            ></div>
-            
-            {showColorPicker && (
-              <div className="color-picker">
-                {colorOptions.map((color) => (
+          <div className="stats-container">
+            <div className="stat-card">
+              <span className="stat-number">{projects.length}</span>
+              <span className="stat-label">Proyectos Activos</span>
+            </div>
+          </div>
+        </div>
+
+        <div className="projects">
+          <div className="projects-header">
+            <h2>Mis Proyectos</h2>
+
+            <div className="add-project">
+              <input
+                type="text"
+                placeholder="Nombre del nuevo proyecto"
+                value={newProjectName}
+                onChange={(e) => setNewProjectName(e.target.value)}
+                onKeyPress={handleKeyPress}
+              />
+              
+              <div className="color-selector-container">
+                <div 
+                  className="color-preview" 
+                  style={{ backgroundColor: selectedColor }}
+                  onClick={() => setShowColorPicker(!showColorPicker)}
+                ></div>
+                
+                {showColorPicker && (
+                  <div className="color-picker">
+                    {colorOptions.map((color) => (
+                      <div 
+                        key={color}
+                        className="color-option"
+                        style={{ backgroundColor: color }}
+                        onClick={() => {
+                          setSelectedColor(color);
+                          setShowColorPicker(false);
+                        }}
+                      ></div>
+                    ))}
+                  </div>
+                )}
+              </div>
+              
+              <button onClick={addProject}>
+                Crear Proyecto
+              </button>
+            </div>
+          </div>
+
+          <div className="project-grid">
+            {projects.length > 0 ? (
+              projects.map((project) => (
+                <div 
+                  key={project.id} 
+                  className="project-card"
+                  onClick={() => navigateToProjectTasks(project.name)}
+                >
                   <div 
-                    key={color}
-                    className="color-option"
-                    style={{ backgroundColor: color }}
-                    onClick={() => {
-                      setSelectedColor(color);
-                      setShowColorPicker(false);
-                    }}
+                    className="project-color-bar" 
+                    style={{ backgroundColor: project.color }}
                   ></div>
-                ))}
+                  <div className="project-content">
+                    <h3>{project.name}</h3>
+                    <p className="project-meta">Creado el {new Date(project.id).toLocaleDateString()}</p>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <div className="empty-projects">
+                <h3>No hay proyectos</h3>
+                <p>¡Comienza creando tu primer proyecto!</p>
               </div>
             )}
           </div>
-          
-          <button onClick={addProject}>Crear</button>
         </div>
-
-        <ul className="project-list">
-          {projects.length > 0 ? (
-            projects.map((project) => (
-              <li 
-                key={project.id} 
-                className="project-item"
-                style={{ backgroundColor: project.color }}
-                onClick={() => navigateToProjectTasks(project.name)}
-              >
-                <span>{project.name}</span>
-              </li>
-            ))
-          ) : (
-            <div className="empty-projects">
-              No hay proyectos creados todavía. ¡Crea tu primer proyecto!
-            </div>
-          )}
-        </ul>
       </div>
     </div>
   );
