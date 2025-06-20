@@ -1,5 +1,4 @@
-import { useState, useEffect } from 'react';
-import { supabase } from '../supabaseClient';
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import '../styles/LoginPage.css';
 
@@ -15,21 +14,24 @@ const LoginPage = () => {
     e.preventDefault();
     setError(null);
     setLoading(true);
-    
+
     try {
-      const { error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
+      // Replace with your Node.js API call
+      const response = await fetch('http://localhost:5000/api/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
       });
-      if (error) {
-        if (error.message.includes('Email not confirmed')) {
-          setError('Por favor, confirma tu correo electrónico antes de iniciar sesión.');
-        } else {
-          setError(error.message);
-        }
-      } else {
-        navigate('/home');
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || 'Error al iniciar sesión.');
       }
+
+      // Save token or session data if needed
+      localStorage.setItem('authToken', data.token);
+      navigate('/home');
     } catch (error) {
       if (error instanceof Error) {
         setError(error.message);
@@ -40,40 +42,6 @@ const LoginPage = () => {
       setLoading(false);
     }
   };
-
-  const handleGoogleSignIn = async () => {
-    try {
-      const { error } = await supabase.auth.signInWithOAuth({
-        provider: 'google',
-      });
-      if (error) throw error;
-
-      // Esperar a que la sesión esté completamente sincronizada
-      setTimeout(async () => {
-        const { data: sessionData } = await supabase.auth.getSession();
-        if (sessionData?.session) {
-          localStorage.setItem('supabase.auth.token', JSON.stringify(sessionData.session)); // Guarda la sesión
-          navigate('/home');
-        } else {
-          throw new Error('No se pudo sincronizar la sesión de Google');
-        }
-      }, 1000); // Espera 1 segundo para sincronizar la sesión
-    } catch (error) {
-      if (error instanceof Error) {
-        setError(error.message);
-      } else {
-        setError('Error al iniciar sesión con Google');
-      }
-    }
-  };
-
-  useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      if (session) {
-        navigate('/home'); // Redirige si ya hay una sesión activa
-      }
-    });
-  }, [navigate]);
 
   return (
     <div className="login-container">
@@ -139,25 +107,6 @@ const LoginPage = () => {
             )}
           </button>
         </form>
-
-        <div className="divider">O continúa con</div>
-
-        <div className="social-login">
-          <div className="social-buttons">
-            <button 
-              type="button"
-              className="social-button" 
-              onClick={handleGoogleSignIn}
-              aria-label="Iniciar sesión con Google"
-            >
-              <img 
-                src="../assets/logoGoogle.jpg" 
-                alt="Google" 
-              />
-            </button>
-            {/* Puedes añadir más botones para otros proveedores aquí */}
-          </div>
-        </div>
 
         <div className="signup-prompt">
           ¿No tienes una cuenta?

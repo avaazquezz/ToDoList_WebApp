@@ -1,5 +1,4 @@
-import { useState, useEffect } from 'react';
-import { supabase } from '../supabaseClient';
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import '../styles/RegisterPage.css';
 
@@ -17,56 +16,32 @@ const RegisterPage = () => {
     setLoading(true);
 
     try {
-      const { error } = await supabase.auth.signUp({
-        email,
-        password,
+      // Reemplaza con la llamada a tu API de Node.js
+      const response = await fetch('http://localhost:5000/api/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
       });
-      if (error) throw error;
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || 'Error al registrarse.');
+      }
+
+      // Guarda el token o los datos de la sesión si es necesario
+      localStorage.setItem('authToken', data.token);
       navigate('/home');
     } catch (error) {
       if (error instanceof Error) {
         setError(error.message);
       } else {
-        setError('Ha ocurrido un error durante el registro');
+        setError('Error al registrarse. Inténtalo de nuevo.');
       }
     } finally {
       setLoading(false);
     }
   };
-
-  const handleGoogleSignIn = async () => {
-    try {
-      const { error } = await supabase.auth.signInWithOAuth({
-        provider: 'google',
-      });
-      if (error) throw error;
-
-      // Esperar a que la sesión esté completamente sincronizada
-      setTimeout(async () => {
-        const { data: sessionData } = await supabase.auth.getSession();
-        if (sessionData?.session) {
-          localStorage.setItem('supabase.auth.token', JSON.stringify(sessionData.session)); // Guarda la sesión
-          navigate('/home');
-        } else {
-          throw new Error('No se pudo sincronizar la sesión de Google');
-        }
-      }, 1000); // Espera 1 segundo para sincronizar la sesión
-    } catch (error) {
-      if (error instanceof Error) {
-        setError(error.message);
-      } else {
-        setError('Error al iniciar sesión con Google');
-      }
-    }
-  };
-
-  useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      if (session) {
-        navigate('/home'); // Redirige si ya hay una sesión activa
-      }
-    });
-  }, [navigate]);
 
   return (
     <div className="register-container">
@@ -75,7 +50,7 @@ const RegisterPage = () => {
           <h1>Crear cuenta</h1>
           <p>Completa los siguientes datos para registrarte</p>
         </div>
-        
+
         <form onSubmit={handleRegister}>
           <div className="form-group">
             <label htmlFor="email">Correo electrónico</label>
@@ -89,7 +64,7 @@ const RegisterPage = () => {
               required
             />
           </div>
-          
+
           <div className="form-group">
             <label htmlFor="password">Contraseña</label>
             <div className="password-container">
@@ -112,9 +87,9 @@ const RegisterPage = () => {
               </button>
             </div>
           </div>
-          
+
           {error && <p className="error-message">{error}</p>}
-          
+
           <button 
             type="submit" 
             className="register-button"
@@ -123,25 +98,9 @@ const RegisterPage = () => {
             {loading ? "Procesando..." : "Registrarse"}
           </button>
         </form>
-        
+
         <div className="alternative-actions">
           <p>¿Ya tienes cuenta? <Link to="/login">Iniciar sesión</Link></p>
-        </div>
-        
-        <div className="social-login">
-          <p>O registrarse con</p>
-          <div className="social-buttons">
-            <button 
-              type="button"
-              className="social-button" 
-              onClick={handleGoogleSignIn}
-            >
-              <img 
-                src="../assets/logoGoogle.jpg" 
-                alt="Google" 
-              />
-            </button>
-          </div>
         </div>
       </div>
     </div>
