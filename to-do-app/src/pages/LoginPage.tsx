@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import '../styles/LoginPage.css';
 
@@ -10,14 +10,20 @@ const LoginPage = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
+  useEffect(() => {
+    const token = localStorage.getItem('authToken');
+    if (token) {
+      navigate('/home', { replace: true });
+    }
+  }, []);
+
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
     setLoading(true);
 
     try {
-      // Replace with your Node.js API call
-      const response = await fetch('http://localhost:5000/api/login', {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/auth/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
@@ -29,9 +35,10 @@ const LoginPage = () => {
         throw new Error(data.message || 'Error al iniciar sesión.');
       }
 
-      // Save token or session data if needed
+      // Store token and userId in localStorage
       localStorage.setItem('authToken', data.token);
-      navigate('/home');
+      localStorage.setItem('userId', data.userId || data.created_by);
+      navigate('/home', { replace: true });
     } catch (error) {
       if (error instanceof Error) {
         setError(error.message);

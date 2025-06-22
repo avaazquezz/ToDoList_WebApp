@@ -8,25 +8,38 @@ const colorOptions = [
   '#3498db', '#2ecc71', '#f1c40f', '#e67e22', '#c0392b'
 ];
 
-type Project = {
+// Define the Project type
+interface Project {
   id: number;
   name: string;
   color: string;
   createdBy: string;
   createdAt: number;
-};
+}
 
 const HomePage = () => {
   const navigate = useNavigate();
-  const [projects, setProjects] = useState<Project[]>(() => {
-    const storedProjects = localStorage.getItem('projects');
-    return storedProjects ? JSON.parse(storedProjects) : [];
-  });
-
+  const [projects, setProjects] = useState<Project[]>([]);
   const [newProjectName, setNewProjectName] = useState('');
   const [selectedColor, setSelectedColor] = useState(colorOptions[0]);
   const [showColorPicker, setShowColorPicker] = useState(false);
   const [activeTooltip, setActiveTooltip] = useState<number | null>(null);
+
+  // Obtener proyectos del usuario
+  useEffect(() => {
+    const fetchProjects = async () => {
+      try {
+        const userId = localStorage.getItem('userId');
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/projects/user/${userId}`);
+        const data = await response.json();
+        setProjects(data);
+      } catch (error) {
+        console.error('Error al obtener los proyectos:', error);
+      }
+    };
+
+    fetchProjects();
+  }, []);
 
   // Guardar proyectos en localStorage
   useEffect(() => {
@@ -35,33 +48,63 @@ const HomePage = () => {
 
   // Verificar sesión
   useEffect(() => {
-    const session = localStorage.getItem('supabase.auth.token');
-    if (!session) {
+    const token = localStorage.getItem('authToken');
+    if (!token) {
       navigate('/login');
     }
   }, [navigate]);
 
-  const handleAddProject = () => {
+  const handleAddProject = async () => {
     if (newProjectName.trim() === '') {
       alert('El nombre del proyecto no puede estar vacío.');
       return;
     }
 
-    const userEmail = localStorage.getItem('userEmail') || 'usuario@example.com';
-    const now = Date.now();
+    const userId = localStorage.getItem('userId');
+    if (!userId) {
+      alert('Error: No se encontró el ID del usuario. Por favor, inicia sesión nuevamente.');
+      navigate('/login');
+      return;
+    }
 
-    const newProject: Project = {
-      id: now,
-      name: newProjectName,
-      color: selectedColor,
-      createdBy: userEmail,
-      createdAt: now
-    };
+    try {
+      const createdAt = Date.now();
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/projects/`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: newProjectName,
+          color: selectedColor,
+          created_by: userId,
+          created_at: createdAt
+        })
+      });
 
-    setProjects(prev => [...prev, newProject]);
-    setNewProjectName('');
-    setSelectedColor(colorOptions[0]);
-    setShowColorPicker(false);
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error('Error del servidor:', errorText);
+        throw new Error('Error al crear el proyecto.');
+      }
+
+      const data = await response.json();
+
+      const newProject: Project = {
+        id: data.id,
+        name: newProjectName,
+        color: selectedColor,
+        createdBy: userId,
+        createdAt
+      };
+
+      setProjects(prev => [...prev, newProject]);
+      setNewProjectName('');
+      setSelectedColor(colorOptions[0]);
+      setShowColorPicker(false);
+      alert('Proyecto creado exitosamente.');
+    } catch (error) {
+      console.error('Error al crear el proyecto:', error);
+      alert('Error al crear el proyecto. Inténtalo de nuevo.');
+    }
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {

@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import '../styles/RegisterPage.css';
 
 const RegisterPage = () => {
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -16,21 +17,25 @@ const RegisterPage = () => {
     setLoading(true);
 
     try {
-      // Reemplaza con la llamada a tu API de Node.js
-      const response = await fetch('http://localhost:5000/api/register', {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/auth/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ name, email, password }),
       });
 
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.message || 'Error al registrarse.');
+        if (response.status === 409) {
+          setError('El correo electrónico ya está registrado.');
+        } else {
+          throw new Error(data.message || 'Error al registrarse.');
+        }
+        return;
       }
 
-      // Guarda el token o los datos de la sesión si es necesario
       localStorage.setItem('authToken', data.token);
+      localStorage.setItem('userId', data.userId);
       navigate('/home');
     } catch (error) {
       if (error instanceof Error) {
@@ -52,6 +57,18 @@ const RegisterPage = () => {
         </div>
 
         <form onSubmit={handleRegister}>
+          <div className="form-group">
+            <label htmlFor="name">Nombre:</label>
+            <input
+              id="name"
+              type="text"
+              className="form-input"
+              placeholder="Nombre completo"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              required
+            />
+          </div>
           <div className="form-group">
             <label htmlFor="email">Correo electrónico</label>
             <input
