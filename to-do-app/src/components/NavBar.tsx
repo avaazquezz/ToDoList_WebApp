@@ -2,8 +2,9 @@ import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import '../styles/Navbar.css';
 import WorkToDoLogo from '../assets/WorkToDo_logo.png';
+import * as React from 'react';
 
-const Navbar = () => {
+const Navbar: React.FC = () => {
   const navigate = useNavigate();
   const [scrolled, setScrolled] = useState(false);
   const [dropdownVisible, setDropdownVisible] = useState(false);
