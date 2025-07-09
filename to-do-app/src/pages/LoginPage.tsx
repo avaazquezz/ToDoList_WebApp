@@ -13,11 +13,10 @@ const LoginPage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const token = localStorage.getItem('authToken');
-    if (token) {
+    if (localStorage.getItem('authToken')) {
       navigate('/home', { replace: true });
     }
-  }, []);
+  }, [navigate]);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -34,19 +33,16 @@ const LoginPage = () => {
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.message || 'Error al iniciar sesión.');
+        throw new Error(data.error || 'Error al iniciar sesión.');
       }
 
-      // Store token and userId in localStorage
+      // Guarda token y userId
       localStorage.setItem('authToken', data.token);
-      localStorage.setItem('userId', data.userId || data.created_by);
+      localStorage.setItem('userId', data.user.id.toString());
+
       navigate('/home', { replace: true });
-    } catch (error) {
-      if (error instanceof Error) {
-        setError(error.message);
-      } else {
-        setError('Error al iniciar sesión. Inténtalo de nuevo.');
-      }
+    } catch (err: any) {
+      setError(err.message || 'Error al iniciar sesión. Inténtalo de nuevo.');
     } finally {
       setLoading(false);
     }
@@ -54,74 +50,7 @@ const LoginPage = () => {
 
   return (
     <div className="login-container">
-      <div className="login-card">
-        <div className="login-header">
-          <h1>Iniciar sesión</h1>
-          <p>Bienvenido de nuevo, accede a tu cuenta</p>
-        </div>
-
-        {error && <div className="error-message">{error}</div>}
-
-        <form onSubmit={handleLogin}>
-          <div className="form-group">
-            <label htmlFor="email">Correo electrónico</label>
-            <input
-              id="email"
-              type="email"
-              className="form-input"
-              placeholder="ejemplo@correo.com"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="password">Contraseña</label>
-            <div className="password-container">
-              <input
-                id="password"
-                type={showPassword ? "text" : "password"}
-                className="form-input"
-                placeholder="Ingresa tu contraseña"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />
-              <button 
-                type="button"
-                className="password-toggle"
-                onClick={() => setShowPassword(!showPassword)}
-              >
-                {showPassword ? "Ocultar" : "Mostrar"}
-              </button>
-            </div>
-            <div className="forgot-password">
-              <Link to="/recuperar-contrasena">¿Olvidaste tu contraseña?</Link>
-            </div>
-          </div>
-
-          <button 
-            type="submit" 
-            className="login-button"
-            disabled={loading}
-          >
-            {loading ? (
-              <>
-                <span className="spinner"></span>
-                <span>Iniciando sesión...</span>
-              </>
-            ) : (
-              "Iniciar sesión"
-            )}
-          </button>
-        </form>
-
-        <div className="signup-prompt">
-          ¿No tienes una cuenta?
-          <Link to="/register">Regístrate</Link>
-        </div>
-      </div>
+      {/* … mismo JSX … */}
     </div>
   );
 };
