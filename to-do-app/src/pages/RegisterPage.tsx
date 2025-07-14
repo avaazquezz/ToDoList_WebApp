@@ -50,7 +50,74 @@ const RegisterPage = () => {
 
   return (
     <div className="register-container">
-      {/* … mismo JSX … */}
+      <div className="register-card">
+        <div className="register-header">
+          <h1>Crear Cuenta</h1>
+          <p>Regístrate para comenzar</p>
+        </div>
+        
+        {error && <div className="error-message">{error}</div>}
+        
+        <form onSubmit={handleRegister}>
+          <div className="form-group">
+            <label htmlFor="name">Nombre</label>
+            <input
+              className="form-input"
+              type="text"
+              id="name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="Ingresa tu nombre"
+              required
+            />
+          </div>
+          
+          <div className="form-group">
+            <label htmlFor="email">Correo Electrónico</label>
+            <input
+              className="form-input"
+              type="email"
+              id="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Ingresa tu correo electrónico"
+              required
+            />
+          </div>
+          
+          <div className="form-group">
+            <label htmlFor="password">Contraseña</label>
+            <div className="password-container">
+              <input
+                className="form-input"
+                type={showPassword ? 'text' : 'password'}
+                id="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Ingresa tu contraseña"
+                required
+              />
+              <button
+                type="button"
+                className="password-toggle"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? 'Ocultar' : 'Mostrar'}
+              </button>
+            </div>
+          </div>
+          
+          <button type="submit" className="register-button" disabled={loading}>
+            {loading && <span className="spinner"></span>}
+            {loading ? 'Registrando...' : 'Registrarse'}
+          </button>
+        </form>
+        
+        <div className="login-prompt">
+          ¿Ya tienes cuenta?
+          <Link to="/login">Inicia sesión</Link>
+        </div>
+      </div>
     </div>
   );
 };

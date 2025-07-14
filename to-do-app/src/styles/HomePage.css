@@ -54,6 +54,7 @@
   box-shadow: var(--card-shadow);
   position: relative;
   overflow: hidden;
+  text-align: center;
 }
 
 .welcome-section::before {
@@ -81,9 +82,10 @@
   line-height: 1.6;
   opacity: 0.9;
   max-width: 600px;
-  margin-bottom: 2rem;
+  margin: 0 auto 2rem auto;
   position: relative;
   z-index: 2;
+  text-align: center;
 }
 
 /* Estadísticas */
@@ -92,6 +94,8 @@
   gap: 2rem;
   position: relative;
   z-index: 2;
+  justify-content: center;
+  align-items: center;
 }
 
 .stat-card {
@@ -142,6 +146,8 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 2.5rem;
+  flex-wrap: wrap;
+  gap: 1rem;
 }
 
 .projects-header h2 {
@@ -152,6 +158,7 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   color: transparent;
+  margin: 0;
 }
 
 /* Formulario para añadir proyecto */
@@ -159,6 +166,8 @@
   display: flex;
   gap: 1rem;
   align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
 }
 
 .add-project input {
@@ -397,11 +406,13 @@
   .projects-header {
     flex-direction: column;
     gap: 1.5rem;
+    text-align: center;
   }
 
   .add-project {
     flex-direction: column;
     width: 100%;
+    align-items: center;
   }
 
   .add-project input,

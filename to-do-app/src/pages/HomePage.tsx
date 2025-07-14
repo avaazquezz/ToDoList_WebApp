@@ -32,7 +32,11 @@ const HomePage = () => {
         const userId = localStorage.getItem('userId');
         const response = await fetch(`${import.meta.env.VITE_API_URL}/projects/user/${userId}`);
         const data = await response.json();
-        setProjects(data);
+        const updatedProjects = data.map((project: any) => ({
+          ...project,
+          createdBy: project.creatorName, // Usar el nombre del creador
+        }));
+        setProjects(updatedProjects);
       } catch (error) {
         console.error('Error al obtener los proyectos:', error);
       }

@@ -36,13 +36,14 @@ const LoginPage = () => {
         throw new Error(data.error || 'Error al iniciar sesión.');
       }
 
-      // Guarda token y userId
       localStorage.setItem('authToken', data.token);
       localStorage.setItem('userId', data.user.id.toString());
 
       navigate('/home', { replace: true });
     } catch (err: any) {
-      setError(err.message || 'Error al iniciar sesión. Inténtalo de nuevo.');
+      const errorMessage = err.message || 'Error al iniciar sesión. Inténtalo de nuevo.';
+      setError(errorMessage);
+      console.error('Error en el login:', errorMessage); // Log detallado
     } finally {
       setLoading(false);
     }
@@ -50,7 +51,64 @@ const LoginPage = () => {
 
   return (
     <div className="login-container">
-      {/* … mismo JSX … */}
+      <div className="login-card">
+        <div className="login-header">
+          <h1>Iniciar Sesión</h1>
+          <p>Accede a tu cuenta para continuar</p>
+        </div>
+        
+        {error && <div className="error-message">{error}</div>}
+        
+        <form onSubmit={handleLogin}>
+          <div className="form-group">
+            <label htmlFor="email">Correo Electrónico</label>
+            <input
+              className="form-input"
+              type="email"
+              id="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Ingresa tu correo electrónico"
+              required
+            />
+          </div>
+          
+          <div className="form-group">
+            <label htmlFor="password">Contraseña</label>
+            <div className="password-container">
+              <input
+                className="form-input"
+                type={showPassword ? 'text' : 'password'}
+                id="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Ingresa tu contraseña"
+                required
+              />
+              <button
+                type="button"
+                className="password-toggle"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? 'Ocultar' : 'Mostrar'}
+              </button>
+            </div>
+            <div className="forgot-password">
+              <a href="/forgot-password">¿Olvidaste tu contraseña?</a>
+            </div>
+          </div>
+          
+          <button type="submit" className="login-button" disabled={loading}>
+            {loading && <span className="spinner"></span>}
+            {loading ? 'Iniciando sesión...' : 'Iniciar Sesión'}
+          </button>
+        </form>
+        
+        <div className="signup-prompt">
+          ¿No tienes cuenta?
+          <Link to="/register">Crear cuenta</Link>
+        </div>
+      </div>
     </div>
   );
 };

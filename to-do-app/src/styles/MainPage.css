@@ -62,7 +62,8 @@
 .hero-section h1 {
   font-size: clamp(4rem, 15vw, 12rem);
   font-weight: 900;
-  margin-bottom: 2rem;
+  margin-bottom: 0;
+  margin-top: -12px;
   position: relative;
   z-index: 2;
   letter-spacing: -0.05em;
@@ -152,25 +153,48 @@
   filter: drop-shadow(0 0 28px rgba(59, 130, 246, 0.35));
 }
 
-.hero-text {
-  font-size: clamp(1.1rem, 4vw, 2rem);
-  color: #475569;
-  margin-bottom: 3rem;
-  animation: fadeInUp 1s ease-out 0.3s both;
+.hero-subtitle {
+  font-size: clamp(1.2rem, 3vw, 2rem);
+  color: #305ae0;
+  margin-bottom: 1.8rem;
+  animation: fadeInDown 1s ease-out 0.1s both;
   position: relative;
   z-index: 2;
-  font-weight: 500;
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: 1px;
+  opacity: 0.8;
+  text-shadow: 
+    0 2px 10px rgba(30, 64, 175, 0.2),
+    0 0 20px rgba(59, 130, 246, 0.1);
+  background: linear-gradient(135deg, #1e40af 0%, #3b82f6 50%, #60a5fa 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hero-text {
+  font-size: clamp(0.9rem, 2.5vw, 1.4rem);
+  color: #6c8ab4;
+  margin-top: 4rem;
+  margin-bottom: 5rem;
+  animation: fadeInUp 1s ease-out 0.7s both;
+  position: relative;
+  z-index: 2;
+  font-weight: 400;
   max-width: 90%;
   margin-left: auto;
   margin-right: auto;
   padding: 0 1rem;
+  opacity: 2;
+  font-style: italic;
 }
 
 .hero-buttons {
   display: flex;
   gap: clamp(1rem, 3vw, 2rem);
   justify-content: center;
-  animation: fadeInUp 1s ease-out 0.6s both;
+  animation: fadeInUp 1s ease-out 0.9s both;
   position: relative;
   z-index: 2;
   flex-wrap: wrap;
@@ -244,6 +268,47 @@
     0 12px 35px rgba(0, 0, 0, 0.15),
     inset 0 1px 0 rgba(255,255,255,0.8);
   border-color: rgba(30, 64, 175, 0.5);
+}
+
+/* Contenedor unificado para el letrero */
+.hero-title-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, 
+    rgba(255, 255, 255, 0.95) 0%, 
+    rgba(255, 255, 255, 0.9) 100%);
+  backdrop-filter: blur(15px);
+  border-radius: 16px;
+  padding: clamp(1.2rem, 2.5vw, 2rem) clamp(1rem, 2vw, 1.8rem);
+  margin: clamp(1rem, 2vw, 2rem) auto;
+  box-shadow: 
+    0 15px 30px rgba(30, 64, 175, 0.12),
+    0 0 0 1px rgba(30, 64, 175, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  border: 1.5px solid rgba(30, 64, 175, 0.08);
+  max-width: fit-content;
+}
+
+.hero-title-container::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(135deg, 
+    #1e40af 0%, 
+    #3b82f6 25%, 
+    #60a5fa 50%, 
+    #93c5fd 75%, 
+    #1e40af 100%);
+  border-radius: 22px;
+  z-index: -1;
+  opacity: 0.3;
+  animation: glowPulse 3s ease-in-out infinite alternate;
 }
 
 /* Features Section */
@@ -758,6 +823,29 @@
 
 .cta-main-button:active {
   transform: translateY(-4px) scale(1.02);
+}
+
+/* Animaciones */
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* Blue CTA Animations */

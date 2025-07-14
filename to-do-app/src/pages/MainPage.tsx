@@ -19,22 +19,25 @@ const MainPage = () => {
       </div>
 
       <div className={`hero-section ${isVisible ? 'visible' : ''}`}>
-        <h1>
-          <span className="title-work">Work</span>
-          <span className="title-to">To</span>
-          <span className="title-do">Do</span>
-        </h1>
+        <div className="hero-title-container">
+          <p className="hero-subtitle">
+            Maybe there's a lot of
+          </p>
+          <h1>
+            <span className="title-work">Work</span>
+            <span className="title-to">To</span>
+            <span className="title-do">Do</span>
+          </h1>
+        </div>
         <p className="hero-text">
-          Transforma la manera en que organizas tu vida. 
-          <br />
-          <strong>Simplicidad. Elegancia. Productividad.</strong>
+          Transforma la manera en que organizas tu vida.
         </p>
         <div className="hero-buttons">
           <Link to="/register" className="primary-button">
-            <span>✨ Comienza Gratis</span>
+            <span>✨ REGÍSTRATE</span>
           </Link>
           <Link to="/login" className="secondary-button">
-            <span>🚀 Iniciar Sesión</span>
+            <span>🚀 Inicia Sesión</span>
           </Link>
         </div>
       </div>
@@ -128,7 +131,7 @@ const MainPage = () => {
         <h2>¿Listo para comenzar?</h2>
         <p>Únete gratis y transforma tu productividad hoy mismo.</p>
         <Link to="/register" className="cta-main-button">
-          Comenzar Gratis
+          REGÍSTRATE
         </Link>
       </section>
     </div>
