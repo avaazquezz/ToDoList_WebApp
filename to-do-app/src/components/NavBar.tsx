@@ -37,7 +37,7 @@ const Navbar: React.FC = () => {
         className="nav-brand" 
         onClick={() => navigate('/')}
       >
-        <img src={WorkToDoLogo} alt="WorkToDo Logo" style={{ height: '40px' }} />
+        <img src={WorkToDoLogo} alt="WorkToDo Logo" className="nav-logo" />
       </div>
       
       <div className="nav-menu">

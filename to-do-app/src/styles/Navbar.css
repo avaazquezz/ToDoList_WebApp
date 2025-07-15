@@ -11,8 +11,8 @@
 }
 
 nav {
-  background: var(--navbar-bg);
-  backdrop-filter: blur(10px);
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.95) 0%, rgba(37, 99, 235, 0.9) 100%);
+  backdrop-filter: blur(15px);
   height: var(--navbar-height);
   padding: 0 2rem;
   width: 100%;
@@ -25,29 +25,47 @@ nav {
   top: 0;
   left: 0;
   z-index: 1000;
-  border-bottom: 1px solid var(--navbar-border);
-  box-shadow: var(--navbar-shadow);
-  transition: all 0.3s ease;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 25px rgba(59, 130, 246, 0.15);
 }
 
 nav.scrolled {
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(20px);
-  height: 3.5rem;
+  /* Mantenemos el mismo estilo independientemente del scroll */
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.95) 0%, rgba(37, 99, 235, 0.9) 100%);
+  backdrop-filter: blur(15px);
+  height: var(--navbar-height);
 }
 
 .nav-brand {
   font-size: 1.5rem;
   font-weight: 800;
-  background: var(--brand-gradient);
-  background-clip: text;
-  -webkit-background-clip: text;
-  color: transparent;
+  color: white;
   cursor: pointer;
   transition: all 0.3s ease;
   text-decoration: none;
   position: relative;
   padding: 0.5rem 0;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav-logo {
+  width: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.2));
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  padding: 8px 12px;
+  border-radius: 12px;
+  backdrop-filter: blur(10px);
+}
+
+.nav-brand:hover .nav-logo {
+  transform: translateY(-2px) scale(1.05);
+  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.3));
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.3);
 }
 
 .nav-brand img {
@@ -57,8 +75,8 @@ nav.scrolled {
 }
 
 .nav-brand:hover {
-  transform: translateY(-1px);
-  text-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+  transform: translateY(-1px) scale(1.02);
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
 }
 
 .nav-menu {
@@ -69,7 +87,7 @@ nav.scrolled {
 
 .nav-button {
   background: transparent;
-  color: var(--text-primary);
+  color: white;
   border: none;
   padding: 0.7rem 1.2rem;
   border-radius: 12px;
@@ -91,7 +109,7 @@ nav.scrolled {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(59, 130, 246, 0.05);
+  background: rgba(255, 255, 255, 0.1);
   transform: scaleX(0);
   transform-origin: right;
   transition: transform 0.3s ease;
@@ -103,25 +121,27 @@ nav.scrolled {
 }
 
 .back-to-home-button {
-  background: var(--button-primary);
+  background: rgba(255, 255, 255, 0.2);
   color: white;
   padding: 0.7rem 1.4rem;
   border-radius: 12px;
   font-size: 0.95rem;
-  font-weight: 500;
-  border: none;
+  font-weight: 600;
+  border: 1px solid rgba(255, 255, 255, 0.3);
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 2px 10px rgba(59, 130, 246, 0.2);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  backdrop-filter: blur(10px);
 }
 
 .back-to-home-button:hover {
-  background: var(--button-hover);
+  background: rgba(255, 255, 255, 0.3);
   transform: translateY(-2px);
-  box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+  border-color: rgba(255, 255, 255, 0.5);
 }
 
 .back-to-home-button:active {
@@ -129,24 +149,26 @@ nav.scrolled {
 }
 
 .settings-button {
-  background: transparent;
-  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
   padding: 0.7rem 1.2rem;
   border-radius: 12px;
   font-size: 0.95rem;
   font-weight: 500;
-  border: 1px solid rgba(139, 141, 145, 0.911);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   display: flex;
   align-items: center;
   gap: 0.5rem;
   position: relative;
+  backdrop-filter: blur(10px);
 }
 
 .settings-button:hover {
-  background: rgba(123, 152, 180, 0.349);
-  border-color: rgba(203, 213, 225, 0.8);
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.4);
+  transform: translateY(-1px);
 }
 
 .dropdown-menu {
@@ -187,6 +209,29 @@ nav.scrolled {
   color: var(--button-primary);
 }
 
+.logout-button {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.8rem 1rem;
+  color: #ef4444;
+  text-decoration: none;
+  font-size: 0.95rem;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  font-weight: 500;
+}
+
+.logout-button:hover {
+  background: rgba(239, 68, 68, 0.1);
+  color: #dc2626;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
   nav {
@@ -195,6 +240,11 @@ nav.scrolled {
 
   .nav-brand {
     font-size: 1.3rem;
+  }
+
+  .nav-logo {
+    height: 45px;
+    padding: 6px 10px;
   }
 
   .nav-menu {
@@ -232,6 +282,11 @@ nav.scrolled {
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
+  }
+
+  .nav-logo {
+    height: 40px;
+    padding: 5px 8px;
   }
 
   .back-to-home-button,

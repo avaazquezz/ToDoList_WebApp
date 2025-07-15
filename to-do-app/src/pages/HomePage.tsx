@@ -8,6 +8,13 @@ const colorOptions = [
   '#3498db', '#2ecc71', '#f1c40f', '#e67e22', '#c0392b'
 ];
 
+interface Notification {
+  id: string;
+  type: 'success' | 'error';
+  title: string;
+  message: string;
+}
+
 // Define the Project type
 interface Project {
   id: number;
@@ -24,6 +31,25 @@ const HomePage = () => {
   const [selectedColor, setSelectedColor] = useState(colorOptions[0]);
   const [showColorPicker, setShowColorPicker] = useState(false);
   const [activeTooltip, setActiveTooltip] = useState<number | null>(null);
+  const [notifications, setNotifications] = useState<Notification[]>([]);
+
+  // Función para mostrar notificaciones
+  const showNotification = (type: 'success' | 'error', title: string, message: string) => {
+    const id = Date.now().toString();
+    const notification: Notification = { id, type, title, message };
+    
+    setNotifications(prev => [...prev, notification]);
+    
+    // Auto-eliminar después de 4 segundos
+    setTimeout(() => {
+      setNotifications(prev => prev.filter(n => n.id !== id));
+    }, 4000);
+  };
+
+  // Función para cerrar notificación manualmente
+  const closeNotification = (id: string) => {
+    setNotifications(prev => prev.filter(n => n.id !== id));
+  };
 
   // Obtener proyectos del usuario
   useEffect(() => {
@@ -60,13 +86,13 @@ const HomePage = () => {
 
   const handleAddProject = async () => {
     if (newProjectName.trim() === '') {
-      alert('El nombre del proyecto no puede estar vacío.');
+      showNotification('error', 'Campo requerido', 'El nombre del proyecto no puede estar vacío.');
       return;
     }
 
     const userId = localStorage.getItem('userId');
     if (!userId) {
-      alert('Error: No se encontró el ID del usuario. Por favor, inicia sesión nuevamente.');
+      showNotification('error', 'Sesión expirada', 'No se encontró el ID del usuario. Por favor, inicia sesión nuevamente.');
       navigate('/login');
       return;
     }
@@ -104,10 +130,10 @@ const HomePage = () => {
       setNewProjectName('');
       setSelectedColor(colorOptions[0]);
       setShowColorPicker(false);
-      alert('Proyecto creado exitosamente.');
+      showNotification('success', 'Proyecto creado', 'El proyecto se ha creado exitosamente.');
     } catch (error) {
       console.error('Error al crear el proyecto:', error);
-      alert('Error al crear el proyecto. Inténtalo de nuevo.');
+      showNotification('error', 'Error al crear proyecto', 'Ocurrió un error al crear el proyecto. Inténtalo de nuevo.');
     }
   };
 
@@ -173,7 +199,7 @@ const HomePage = () => {
                     {colorOptions.map((color) => (
                       <div 
                         key={color}
-                        className="color-option"
+                        className={`color-option ${selectedColor === color ? 'selected' : ''}`}
                         style={{ backgroundColor: color }}
                         onClick={() => {
                           setSelectedColor(color);
@@ -306,6 +332,26 @@ const HomePage = () => {
             )}
           </div>
         </div>
+
+        {/* Notificaciones */}
+        {notifications.map(notification => (
+          <div key={notification.id} className={`notification ${notification.type}`}>
+            <div className="notification-icon">
+              {notification.type === 'success' ? '✓' : '⚠'}
+            </div>
+            <div className="notification-content">
+              <div className="notification-title">{notification.title}</div>
+              <div className="notification-message">{notification.message}</div>
+            </div>
+            <button 
+              className="notification-close" 
+              onClick={() => closeNotification(notification.id)}
+              aria-label="Cerrar notificación"
+            >
+              ×
+            </button>
+          </div>
+        ))}
       </div>
     </div>
   );
