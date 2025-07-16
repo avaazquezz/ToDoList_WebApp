@@ -114,7 +114,7 @@ const RegisterPage = () => {
         </form>
         
         <div className="login-prompt">
-          ¿Ya tienes cuenta?
+          ¿Ya tienes cuenta? <br />
           <Link to="/login">Inicia sesión</Link>
         </div>
       </div>

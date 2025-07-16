@@ -20,6 +20,27 @@
   --transition-speed: 0.3s ease;
 }
 
+/* Modal animations */
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9) translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
 /* Estilos base */
 .home-container {
   min-height: 100vh;
@@ -352,6 +373,18 @@
   margin-bottom: 0.75rem;
 }
 
+.project-header-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.project-header-content h3 {
+  flex: 1;
+  margin: 0;
+}
+
 /* Botón de información */
 .info-button {
   background: transparent;
@@ -452,6 +485,7 @@
 /* Estado vacío */
 .empty-projects {
   text-align: center;
+  align-items: center;
   padding: 4rem 2rem;
   color: #64748b;
 }
@@ -461,11 +495,15 @@
   font-weight: 600;
   color: #1e293b;
   margin-bottom: 1rem;
+  align-items: center;
+  text-align: center;
 }
 
 .empty-projects p {
   font-size: 1.1rem;
   color: #64748b;
+  align-items: center;
+  text-align: center;
 }
 
 /* Notificaciones mejoradas */
@@ -694,17 +732,5 @@
 
   .info-button:hover {
     background: rgba(255, 255, 255, 0.1);
-  }
-}
-
-/* Animación para el tooltip */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-5px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
   }
 }

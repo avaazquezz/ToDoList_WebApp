@@ -38,10 +38,11 @@
 
 /* Layout principal */
 .project-page-container {
-  padding-top: var(--navbar-height, 60px);
+  padding-top: 4rem; /* Altura fija del navbar */
   min-height: 100vh;
   background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);
   overflow-x: hidden;
+  position: relative;
 }
 
 .project-main-content {
@@ -803,3 +804,119 @@
   }
 }
 
+/* Estilos específicos para modales de confirmación */
+.confirm-modal .modal-content {
+  animation: confirmModalSlideIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-origin: center;
+}
+
+.confirm-modal .modal-overlay {
+  background: rgba(0, 0, 0, 0.75) !important;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.warning-icon {
+  animation: warningPulse 2s ease-in-out infinite;
+}
+
+@keyframes warningPulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.9;
+  }
+}
+
+@keyframes confirmModalSlideIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9) translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.confirm-warning-box {
+  transition: all 0.3s ease;
+}
+
+.confirm-warning-box:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(245, 158, 11, 0.25);
+}
+
+/* Mejoras responsivas para modales de confirmación */
+@media (max-width: 480px) {
+  .confirm-modal .modal-content {
+    margin: 1rem;
+    max-width: calc(100vw - 2rem);
+  }
+  
+  .confirm-modal .modal-header {
+    padding: 1.5rem 1rem !important;
+  }
+  
+  .confirm-modal .modal-actions {
+    flex-direction: column;
+    gap: 0.75rem !important;
+  }
+  
+  .confirm-modal .modal-btn {
+    width: 100%;
+  }
+}
+
+/* Estilos específicos para modales de confirmación */
+.confirm-modal .modal-content {
+  animation: confirmModalSlideIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-origin: center;
+}
+
+.confirm-modal .modal-overlay {
+  background: rgba(0, 0, 0, 0.75) !important;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.warning-icon {
+  animation: warningPulse 2s ease-in-out infinite;
+}
+
+@keyframes warningPulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.9;
+  }
+}
+
+@keyframes confirmModalSlideIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9) translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.confirm-warning-box {
+  transition: all 0.3s ease;
+}
+
+.confirm-warning-box:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(245, 158, 11, 0.25);
+}
+
+/* Mejor

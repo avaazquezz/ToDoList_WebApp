@@ -172,6 +172,13 @@
   height: 24px;
 }
 
+.login-prompt {
+  margin-top: 1.5rem;
+  text-align: center;
+  color:#1a1a1a;
+  
+}
+
 @media (max-width: 768px) {
   .register-card {
     padding: 1.5rem;

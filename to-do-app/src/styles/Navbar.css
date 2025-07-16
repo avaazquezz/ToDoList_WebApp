@@ -11,8 +11,9 @@
 }
 
 nav {
-  background: linear-gradient(135deg, rgba(59, 130, 246, 0.95) 0%, rgba(37, 99, 235, 0.9) 100%);
-  backdrop-filter: blur(15px);
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.98) 0%, rgba(37, 99, 235, 0.95) 100%);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   height: var(--navbar-height);
   padding: 0 2rem;
   width: 100%;
@@ -24,16 +25,18 @@ nav {
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 1000;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-  box-shadow: 0 4px 25px rgba(59, 130, 246, 0.15);
+  z-index: 9999;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 4px 32px rgba(59, 130, 246, 0.25), 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 nav.scrolled {
   /* Mantenemos el mismo estilo independientemente del scroll */
-  background: linear-gradient(135deg, rgba(59, 130, 246, 0.95) 0%, rgba(37, 99, 235, 0.9) 100%);
-  backdrop-filter: blur(15px);
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.98) 0%, rgba(37, 99, 235, 0.95) 100%);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   height: var(--navbar-height);
+  box-shadow: 0 4px 32px rgba(59, 130, 246, 0.25), 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .nav-brand {

@@ -50,6 +50,20 @@ const ProjectSectionsPage = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingSection, setEditingSection] = useState<Section | null>(null);
   const [projectColor, setProjectColor] = useState('');
+  const [confirmDialog, setConfirmDialog] = useState<{
+    isOpen: boolean;
+    title: string;
+    message: string;
+    type: 'delete-section' | 'delete-project';
+    onConfirm: () => void;
+    targetId?: number;
+  }>({
+    isOpen: false,
+    title: '',
+    message: '',
+    type: 'delete-section',
+    onConfirm: () => {},
+  });
   const navigate = useNavigate();
 
   const decodedProjectName = projectName ? decodeURIComponent(projectName) : '';
@@ -179,41 +193,56 @@ const ProjectSectionsPage = () => {
 
   const deleteSection = async (sectionId: number) => {
     const sectionToDelete = sections.find(s => s.idSection === sectionId);
-    if (sectionToDelete && window.confirm(`¿Estás seguro de que deseas eliminar la sección "${sectionToDelete.title}"?`)) {
-      try {
-        const response = await fetch(`${API_BASE_URL}/sections/${sectionId}`, {
-          method: 'DELETE',
-        });
-        if (!response.ok) throw new Error('Error al eliminar la sección');
-        setSections(prev => prev.filter(s => s.idSection !== sectionId));
-      } catch (error) {
-        console.error('Error al eliminar la sección:', error);
-      }
+    if (sectionToDelete) {
+      setConfirmDialog({
+        isOpen: true,
+        title: 'Eliminar Sección',
+        message: `¿Estás seguro de que deseas eliminar la sección "${sectionToDelete.title}"?\n\nEsta acción no se puede deshacer y se perderán todos los datos asociados.`,
+        type: 'delete-section',
+        targetId: sectionId,
+        onConfirm: async () => {
+          try {
+            const response = await fetch(`${API_BASE_URL}/sections/${sectionId}`, {
+              method: 'DELETE',
+            });
+            if (!response.ok) throw new Error('Error al eliminar la sección');
+            setSections(prev => prev.filter(s => s.idSection !== sectionId));
+            setConfirmDialog(prev => ({ ...prev, isOpen: false }));
+          } catch (error) {
+            console.error('Error al eliminar la sección:', error);
+            alert('Hubo un error al intentar eliminar la sección.');
+          }
+        }
+      });
     }
   };
 
   const deleteProject = async () => {
-    const confirmDelete = window.confirm(
-      `¿Estás seguro que deseas eliminar el proyecto "${decodedProjectName}"?\nEsta acción no se puede deshacer.`
-    );
-    if (!confirmDelete) return;
-    try {
-      const storedProjects = JSON.parse(localStorage.getItem('projects') || '[]');
-      const currentProject = storedProjects.find((p: Project) => p.name === decodedProjectName);
-      if (!currentProject) {
-        alert('No se encontró el proyecto. Por favor, verifica los datos.');
-        return;
+    setConfirmDialog({
+      isOpen: true,
+      title: 'Eliminar Proyecto',
+      message: `¿Estás seguro que deseas eliminar el proyecto "${decodedProjectName}"?\n\nEsta acción eliminará permanentemente:\n• El proyecto completo\n• Todas las secciones\n• Todos los datos asociados\n\n⚠️ Esta acción no se puede deshacer.`,
+      type: 'delete-project',
+      onConfirm: async () => {
+        try {
+          const storedProjects = JSON.parse(localStorage.getItem('projects') || '[]');
+          const currentProject = storedProjects.find((p: Project) => p.name === decodedProjectName);
+          if (!currentProject) {
+            alert('No se encontró el proyecto. Por favor, verifica los datos.');
+            return;
+          }
+          const response = await fetch(`${API_BASE_URL}/projects/${currentProject.id}`, { method: 'DELETE' });
+          if (!response.ok) throw new Error('Error al eliminar el proyecto');
+          const updatedProjects = storedProjects.filter((p: Project) => p.name !== decodedProjectName);
+          localStorage.setItem('projects', JSON.stringify(updatedProjects));
+          setConfirmDialog(prev => ({ ...prev, isOpen: false }));
+          navigate('/home');
+        } catch (error) {
+          console.error('Error al eliminar el proyecto:', error);
+          alert('Hubo un error al intentar eliminar el proyecto.');
+        }
       }
-      const response = await fetch(`${API_BASE_URL}/projects/${currentProject.id}`, { method: 'DELETE' });
-      if (!response.ok) throw new Error('Error al eliminar el proyecto');
-      const updatedProjects = storedProjects.filter((p: Project) => p.name !== decodedProjectName);
-      localStorage.setItem('projects', JSON.stringify(updatedProjects));
-      alert('Proyecto eliminado correctamente.');
-      navigate('/home');
-    } catch (error) {
-      console.error('Error al eliminar el proyecto:', error);
-      alert('Hubo un error al intentar eliminar el proyecto.');
-    }
+    });
   };
 
   return (
@@ -395,6 +424,124 @@ const ProjectSectionsPage = () => {
                 >
                   {editingSection ? 'Guardar Cambios' : 'Crear Sección'}
                 </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Modal de Confirmación */}
+        {confirmDialog.isOpen && (
+          <div
+            className="modal-overlay"
+            onClick={() => setConfirmDialog(prev => ({ ...prev, isOpen: false }))}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="confirm-modal-title"
+          >
+            <div 
+              className="modal-content" 
+              onClick={e => e.stopPropagation()}
+              style={{
+                maxWidth: '500px',
+                background: 'white',
+                border: confirmDialog.type === 'delete-project' ? '2px solid #ef4444' : '2px solid #f59e0b'
+              }}
+            >
+              <div 
+                className="modal-header"
+                style={{
+                  background: confirmDialog.type === 'delete-project' 
+                    ? 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)'
+                    : 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)',
+                  padding: '2rem 1.5rem',
+                  textAlign: 'center'
+                }}
+              >
+                <div style={{
+                  width: '60px',
+                  height: '60px',
+                  borderRadius: '50%',
+                  background: 'rgba(255, 255, 255, 0.2)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  margin: '0 auto 1rem auto'
+                }}>
+                  <svg 
+                    width="32" 
+                    height="32" 
+                    viewBox="0 0 24 24" 
+                    fill="none" 
+                    stroke="white" 
+                    strokeWidth="2.5" 
+                    strokeLinecap="round" 
+                    strokeLinejoin="round"
+                  >
+                    <path d="M12 9v4" />
+                    <path d="M12 17h.01" />
+                    <circle cx="12" cy="12" r="10"/>
+                  </svg>
+                </div>
+                <h2 id="confirm-modal-title" className="modal-title" style={{ margin: 0, color: 'white' }}>
+                  {confirmDialog.title}
+                </h2>
+              </div>
+
+              <div style={{ padding: '2rem 1.5rem' }}>
+                <div style={{
+                  background: '#fef3c7',
+                  border: '1px solid #f59e0b',
+                  borderRadius: '12px',
+                  padding: '1.5rem',
+                  marginBottom: '1.5rem'
+                }}>
+                  <div style={{
+                    background: '#f59e0b',
+                    color: 'white',
+                    padding: '4px 12px',
+                    borderRadius: '8px',
+                    fontSize: '0.75rem',
+                    fontWeight: 'bold',
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.5px',
+                    display: 'inline-block',
+                    marginBottom: '1rem'
+                  }}>
+                    ⚠️ ADVERTENCIA
+                  </div>
+                  <p style={{
+                    margin: 0,
+                    color: '#92400e',
+                    fontWeight: '500',
+                    lineHeight: '1.6',
+                    whiteSpace: 'pre-line'
+                  }}>
+                    {confirmDialog.message}
+                  </p>
+                </div>
+
+                <div className="modal-actions" style={{ gap: '1rem', marginTop: '2rem' }}>
+                  <button
+                    className="modal-btn cancel-button"
+                    onClick={() => setConfirmDialog(prev => ({ ...prev, isOpen: false }))}
+                  >
+                    Cancelar
+                  </button>
+                  <button
+                    className="modal-btn"
+                    onClick={confirmDialog.onConfirm}
+                    style={{
+                      background: confirmDialog.type === 'delete-project'
+                        ? 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)'
+                        : 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)',
+                      color: 'white',
+                      border: 'none',
+                      fontWeight: '600'
+                    }}
+                  >
+                    {confirmDialog.type === 'delete-project' ? 'Eliminar Proyecto' : 'Eliminar Sección'}
+                  </button>
+                </div>
               </div>
             </div>
           </div>
