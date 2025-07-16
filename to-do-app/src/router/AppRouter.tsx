@@ -5,6 +5,7 @@ import AboutPage from '../pages/About';
 import ProjectSectionPage from '../pages/ProjectSectionPage';
 import LoginPage from '../pages/LoginPage';
 import RegisterPage from '../pages/RegisterPage';
+import ToDoPage from '../pages/ToDoPage';
 
 const AppRouter = () => {
   return (
@@ -15,6 +16,7 @@ const AppRouter = () => {
       <Route path="/home" element={<HomePage />} />
       <Route path="/about" element={<AboutPage />} />
       <Route path="/project/:projectName/sections" element={<ProjectSectionPage />} />
+      <Route path="/project/:projectName/sections/:sectionId/todos" element={<ToDoPage />} />
     </Routes>
   );
 };
