@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import '../styles/Navbar.css';
 import WorkToDoLogo from '../assets/WorkToDo_logo.png';
@@ -6,6 +6,7 @@ import * as React from 'react';
 
 const Navbar: React.FC = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [scrolled, setScrolled] = useState(false);
   const [dropdownVisible, setDropdownVisible] = useState(false);
 
@@ -39,7 +40,7 @@ const Navbar: React.FC = () => {
       >
         <img src={WorkToDoLogo} alt="WorkToDo Logo" className="nav-logo" />
       </div>
-      
+
       <div className="nav-menu">
         <button 
           className="back-to-home-button" 
@@ -60,6 +61,28 @@ const Navbar: React.FC = () => {
           </svg>
           <span>Proyectos</span>
         </button>
+
+        {location.pathname.includes('/todos') && (
+          <button 
+            className="back-to-home-button" 
+            onClick={() => navigate(`/project/${location.pathname.split('/')[2]}/sections`)}
+          >
+            <svg 
+              width="20" 
+              height="20" 
+              viewBox="0 0 24 24" 
+              fill="none" 
+              stroke="currentColor" 
+              strokeWidth="2" 
+              strokeLinecap="round" 
+              strokeLinejoin="round"
+            >
+              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+              <polyline points="9 22 9 12 15 12 15 22"/>
+            </svg>
+            <span>Secciones</span>
+          </button>
+        )}
 
         <div className="settings-button" onClick={toggleDropdown}>
           <svg

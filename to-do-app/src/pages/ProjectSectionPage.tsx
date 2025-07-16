@@ -96,13 +96,45 @@ const ProjectSectionsPage = () => {
         const response = await fetch(`${API_BASE_URL}/sections/project/${currentProject.id}`);
         if (!response.ok) throw new Error('Error al cargar las secciones');
         const data = await response.json();
-        setSections(data);
+        setSections(data.map(section => ({
+          idSection: section.idSection,
+          title: section.title,
+          text: section.text, // Ensure 'text' field is correctly mapped
+          color: section.color,
+          gradient: COLORS.find(c => c.value === section.color)?.gradient || '',
+          createdAt: section.createdAt,
+        })));
       } catch (error) {
         console.error('Error al cargar las secciones:', error);
       }
     };
     fetchSections();
   }, [decodedProjectName]);
+
+  useEffect(() => {
+    const storedProjects = localStorage.getItem('projects');
+    if (storedProjects) {
+      const parsedProjects = JSON.parse(storedProjects);
+      const currentProject = parsedProjects.find(p => p.name === decodedProjectName);
+      if (currentProject) {
+        const storedSections = localStorage.getItem(`sections_${currentProject.id}`);
+        if (storedSections) {
+          setSections(JSON.parse(storedSections));
+        }
+      }
+    }
+  }, [decodedProjectName]);
+
+  useEffect(() => {
+    const storedProjects = localStorage.getItem('projects');
+    if (storedProjects) {
+      const parsedProjects = JSON.parse(storedProjects);
+      const currentProject = parsedProjects.find(p => p.name === decodedProjectName);
+      if (currentProject) {
+        localStorage.setItem(`sections_${currentProject.id}`, JSON.stringify(sections));
+      }
+    }
+  }, [sections]);
 
   const closeModal = () => {
     setIsDialogOpen(false);
@@ -156,7 +188,7 @@ const ProjectSectionsPage = () => {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             title: newSectionTitle,
-            description: newSectionText,
+            text: newSectionText, // Corrected field name from 'description' to 'text'
             color: selectedColor,
             createdAt: Date.now(),
             project_id: currentProject.id,
@@ -184,11 +216,11 @@ const ProjectSectionsPage = () => {
   };
 
   const editSection = (section: Section) => {
-    setEditingSection(section);
-    setNewSectionTitle(section.title);
-    setNewSectionText(section.text);
-    setSelectedColor(section.color);
-    setIsDialogOpen(true);
+    setEditingSection(section); // Pass section directly without spreading
+    setNewSectionTitle(section.title || ''); // Ensure title is set
+    setNewSectionText(section.text || ''); // Ensure text is set
+    setSelectedColor(section.color || COLORS[0].value); // Default to first color if undefined
+    setIsDialogOpen(true); // Open the modal
   };
 
   const deleteSection = async (sectionId: number) => {
@@ -453,18 +485,18 @@ const ProjectSectionsPage = () => {
                   width: '60px',
                   height: '60px',
                   borderRadius: '50%',
-                  background: 'rgba(255, 255, 255, 0.2)',
+                  background: 'rgba(255, 255, 255, 0.1)',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                   margin: '0 auto 1rem auto'
                 }}>
-                  <svg 
-                    width="32" 
-                    height="32" 
-                    viewBox="0 0 24 24" 
-                    fill="none" 
-                    stroke="white" 
+                  <svg
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke={confirmDialog.type === 'delete-project' ? '#ef4444' : '#f59e0b'}
                     strokeWidth="2.5" 
                     strokeLinecap="round" 
                     strokeLinejoin="round"
