@@ -27,6 +27,10 @@ const ToDoPage: React.FC = () => {
   const [newNoteTitle, setNewNoteTitle] = useState('');
   const [isCreatingNote, setIsCreatingNote] = useState(false);
   const [editingNoteId, setEditingNoteId] = useState<number | null>(null);
+  const [newTodoContent, setNewTodoContent] = useState<{ [noteId: number]: string }>({});
+  const [focusedNoteId, setFocusedNoteId] = useState<number | null>(null);
+  const [editingTodoId, setEditingTodoId] = useState<number | null>(null);
+  const [editingTodoContent, setEditingTodoContent] = useState('');
 
   useEffect(() => {
     if (!sectionName) {
@@ -122,9 +126,93 @@ const ToDoPage: React.FC = () => {
           note.id === noteId ? { ...note, todos } : note
         )
       );
+
+      // Clear the input for this note
+      setNewTodoContent(prev => ({ ...prev, [noteId]: '' }));
     } catch (err: any) {
       setError(err.message);
     }
+  };
+
+  const handleTodoKeyPress = (e: React.KeyboardEvent, noteId: number) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      const content = newTodoContent[noteId] || '';
+      if (content.trim()) {
+        addTodo(noteId, content);
+      }
+    }
+  };
+
+  const handleTodoChange = (noteId: number, value: string) => {
+    setNewTodoContent(prev => ({ ...prev, [noteId]: value }));
+  };
+
+  const deleteTodo = async (todoId: number, noteId: number) => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/notes/todos/${todoId}`, {
+        method: 'DELETE',
+      });
+
+      if (!response.ok) {
+        throw new Error('Error al eliminar el ToDo');
+      }
+
+      setNotes(prevNotes =>
+        prevNotes.map(note =>
+          note.id === noteId 
+            ? { ...note, todos: note.todos.filter(todo => todo.id !== todoId) }
+            : note
+        )
+      );
+    } catch (err: any) {
+      setError(err.message);
+    }
+  };
+
+  const startEditingTodo = (todoId: number, content: string) => {
+    setEditingTodoId(todoId);
+    setEditingTodoContent(content);
+  };
+
+  const saveEditingTodo = async (todoId: number, isCompleted: boolean) => {
+    if (!editingTodoContent.trim()) return;
+
+    try {
+      const response = await fetch(`${API_BASE_URL}/notes/todos/${todoId}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          content: editingTodoContent, 
+          is_completed: isCompleted 
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Error al actualizar el ToDo');
+      }
+
+      setNotes(prevNotes =>
+        prevNotes.map(note => ({
+          ...note,
+          todos: note.todos.map(todo =>
+            todo.id === todoId 
+              ? { ...todo, content: editingTodoContent } 
+              : todo
+          )
+        }))
+      );
+
+      setEditingTodoId(null);
+      setEditingTodoContent('');
+    } catch (err: any) {
+      setError(err.message);
+    }
+  };
+
+  const cancelEditingTodo = () => {
+    setEditingTodoId(null);
+    setEditingTodoContent('');
   };
 
   const toggleTodo = async (todoId: number, currentStatus: boolean, content: string) => {
@@ -283,7 +371,7 @@ const ToDoPage: React.FC = () => {
         <div key={note.id} className="note-card">
           <div className="note-header">
             {editingNoteId === note.id ? (
-              <>
+              <div className="note-edit-mode">
                 <input
                   type="text"
                   className="note-title-input"
@@ -296,6 +384,14 @@ const ToDoPage: React.FC = () => {
                       )
                     );
                   }}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      saveNote(note.id, note.title);
+                      setEditingNoteId(null);
+                    } else if (e.key === 'Escape') {
+                      cancelEditingNote();
+                    }
+                  }}
                   autoFocus
                 />
                 <div className="note-actions">
@@ -306,25 +402,19 @@ const ToDoPage: React.FC = () => {
                       setEditingNoteId(null);
                     }}
                   >
-                    Guardar
+                    💾 Guardar
                   </button>
                   <button
                     className="cancel-edit-btn"
                     onClick={cancelEditingNote}
                   >
-                    Cancelar
+                    ❌ Cancelar
                   </button>
                 </div>
-              </>
+              </div>
             ) : (
-              <>
-                <div className="note-info">
-                  <h2 className="note-display-title">{note.title}</h2>
-                  <div className="note-meta">
-                    <span className="note-project">📁 {projectName}</span>
-                    <span className="note-section">📂 {sectionName}</span>
-                  </div>
-                </div>
+              <div className="note-display-mode">
+                <h2 className="note-display-title">{note.title}</h2>
                 <div className="note-actions">
                   <button
                     className="edit-note-btn"
@@ -339,62 +429,114 @@ const ToDoPage: React.FC = () => {
                     🗑️ Eliminar
                   </button>
                 </div>
-              </>
+              </div>
             )}
           </div>
 
-          <textarea
-            className="todo-textarea"
-            placeholder="Escribe el contenido del ToDo..."
-            onBlur={(e) => addTodo(note.id, e.target.value)}
-            style={{
-              width: '100%',
-              padding: '0.75rem',
-              border: '2px solid #e2e8f0',
-              borderRadius: '8px',
-              fontSize: '1rem',
-              marginBottom: '1rem'
-            }}
-          />
+          <div className="todo-input-section">
+            <input
+              type="text"
+              className="todo-input"
+              placeholder="Escribe un nuevo ToDo y presiona Enter..."
+              value={newTodoContent[note.id] || ''}
+              onChange={(e) => handleTodoChange(note.id, e.target.value)}
+              onKeyDown={(e) => handleTodoKeyPress(e, note.id)}
+              onFocus={() => setFocusedNoteId(note.id)}
+              onBlur={() => setFocusedNoteId(null)}
+            />
+            <button
+              className="add-todo-btn"
+              onClick={() => {
+                const content = newTodoContent[note.id] || '';
+                if (content.trim()) {
+                  addTodo(note.id, content);
+                }
+              }}
+              disabled={!newTodoContent[note.id]?.trim()}
+            >
+              ➕ Agregar
+            </button>
+          </div>
 
           {note.todos.length === 0 ? (
             <div className="no-todos-message">
-              No hay ToDos en esta nota.
+              <div className="empty-state">
+                <span className="empty-icon">📝</span>
+                <p>No hay tareas en esta nota</p>
+                <span className="empty-hint">Escribe arriba para agregar tu primera tarea</span>
+              </div>
             </div>
           ) : (
             <ul className="todo-list">
-              {note.todos.map(todo => (
-                <li key={todo.id} className="todo-item">
+              {note.todos.map((todo, index) => (
+                <li key={todo.id} className={`todo-item ${todo.is_completed ? 'completed' : ''}`}>
+                  <div className="todo-number">{index + 1}</div>
                   <input 
                     type="checkbox" 
                     checked={todo.is_completed}
                     onChange={() => toggleTodo(todo.id, todo.is_completed, todo.content)}
                     className="todo-checkbox"
                   />
-                  <span className={`todo-content ${todo.is_completed ? 'completed' : ''}`}>
-                    {todo.content}
-                  </span>
+                  {editingTodoId === todo.id ? (
+                    <div className="todo-edit-section">
+                      <input
+                        type="text"
+                        className="todo-edit-input"
+                        value={editingTodoContent}
+                        onChange={(e) => setEditingTodoContent(e.target.value)}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter') {
+                            saveEditingTodo(todo.id, todo.is_completed);
+                          } else if (e.key === 'Escape') {
+                            cancelEditingTodo();
+                          }
+                        }}
+                        autoFocus
+                      />
+                      <div className="todo-edit-actions">
+                        <button
+                          className="save-todo-btn"
+                          onClick={() => saveEditingTodo(todo.id, todo.is_completed)}
+                          title="Guardar cambios"
+                        >
+                          💾
+                        </button>
+                        <button
+                          className="cancel-todo-btn"
+                          onClick={cancelEditingTodo}
+                          title="Cancelar edición"
+                        >
+                          ❌
+                        </button>
+                      </div>
+                    </div>
+                  ) : (
+                    <>
+                      <span className="todo-content">
+                        {todo.content}
+                      </span>
+                      <div className="todo-actions">
+                        <button
+                          className="edit-todo-btn"
+                          onClick={() => startEditingTodo(todo.id, todo.content)}
+                          title="Editar tarea"
+                        >
+                          ✏️
+                        </button>
+                        <button
+                          className="delete-todo-btn"
+                          onClick={() => deleteTodo(todo.id, note.id)}
+                          title="Eliminar tarea"
+                        >
+                          🗑️
+                        </button>
+                      </div>
+                    </>
+                  )}
                 </li>
               ))}
             </ul>
           )}
-
-          <div className="note-actions">
-            <button 
-              className="delete-note-btn"
-              onClick={() => deleteNote(note.id)}
-              style={{
-                background: '#e53e3e',
-                color: 'white',
-                padding: '0.5rem 1rem',
-                borderRadius: '8px',
-                fontSize: '1rem',
-                marginTop: '1rem'
-              }}
-            >
-              Eliminar Nota
-            </button>
-          </div>
         </div>
       ))}
     </div>
