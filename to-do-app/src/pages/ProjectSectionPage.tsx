@@ -99,7 +99,7 @@ const ProjectSectionsPage = () => {
         setSections(data.map(section => ({
           idSection: section.idSection,
           title: section.title,
-          text: section.text, // Ensure 'text' field is correctly mapped
+          text: section.description, // Corrected field name from 'text' to 'description'
           color: section.color,
           gradient: COLORS.find(c => c.value === section.color)?.gradient || '',
           createdAt: section.createdAt,
@@ -188,7 +188,7 @@ const ProjectSectionsPage = () => {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             title: newSectionTitle,
-            text: newSectionText, // Corrected field name from 'description' to 'text'
+            description: newSectionText, 
             color: selectedColor,
             createdAt: Date.now(),
             project_id: currentProject.id,
