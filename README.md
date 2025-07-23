@@ -109,7 +109,7 @@ ToDoList_WebApp/
 ## 🎥 Demo
 Below are screenshots showcasing the MainPage, authentication features, HomePage, SectionsPage, and ToDoPage of the application:
 
-<details><summary>Ver capturas</summary>
+<details><summary>View Demo</summary>
 
 ### MainPage
 - **Overview of the MainPage**:
