@@ -1,67 +1,57 @@
 # ToDoList_WebApp
 
-## Descripción del Proyecto
-ToDoList_WebApp es una aplicación web diseñada para gestionar tareas y proyectos de manera eficiente. Este proyecto combina una interfaz moderna y responsiva con funcionalidades avanzadas para facilitar la organización personal y profesional.
+## Project Description
+ToDoList_WebApp is a web application designed to efficiently manage tasks and projects. This project combines a modern and responsive interface with advanced features to facilitate personal and professional organization.
 
-### Características Principales
-- **Gestión de Tareas**: Crea, edita y elimina tareas fácilmente.
-- **Gestión de Proyectos**: Organiza tus tareas en proyectos.
-- **Autenticación**: Inicio de sesión y registro de usuarios mediante Firebase.
-- **Interfaz Moderna**: Diseño responsivo con un tema oscuro profesional.
-- **Integración con API**: Comunicación fluida con el backend mediante Axios.
+### Key Features
+- **Task Management**: Easily create, edit, and delete tasks.
+- **Project Management**: Organize your tasks into projects.
+- **Authentication**: User login and registration via API.
+- **Modern Interface**: Responsive design with a professional dark theme.
+- **API Integration**: Seamless communication with the backend.
 
-## Tecnologías Utilizadas
+## Technologies Used
 - **Frontend**:
   - React 19.1.0
   - TypeScript
   - Vite
   - React Router DOM
-- **Herramientas de Desarrollo**:
+- **Development Tools**:
   - ESLint
   - Vite.js
   - Docker
 
-## Configuración del Entorno
+## Environment Setup
 
-### Requisitos Previos
-- Node.js (versión 18 o superior)
-- Docker (opcional, para ejecutar en contenedores)
+### Prerequisites
+- Docker (for running in containers)
 
-### Instalación y Ejecución
+### Installation and Execution
 
-#### 1. Clonar el Repositorio
+#### 1. Clone the Repository
 ```bash
 $ git clone https://github.com/avaazquezz/ToDoList_WebApp.git
 $ cd ToDoList_WebApp/to-do-app
 ```
 
-#### 2. Instalar Dependencias
-```bash
-$ npm install
-```
-
-#### 3. Configurar Variables de Entorno
-Crea un archivo `.env` en la raíz del proyecto y define las siguientes variables:
-```
-VITE_API_URL=http://localhost:3001
-```
-
-#### 4. Ejecutar la Aplicación en Desarrollo
-```bash
-$ npm run dev
-```
-La aplicación estará disponible en `http://localhost:3000`.
-
-### Uso con Docker
-#### 1. Construir y Levantar el Contenedor
+#### 2. Build and Start the Container
 ```bash
 $ docker-compose up --build
 ```
 
-#### 2. Acceder a la Aplicación
-La aplicación estará disponible en `http://localhost:3000`.
+#### 3. Access the Application
+The application will be available at `http://localhost:3000`.
 
-## Estructura del Proyecto
+### Important Note
+To ensure the frontend works correctly, you must clone the backend repository and follow its setup instructions. The backend provides the API required for the frontend to function.
+
+#### Backend Repository
+```bash
+$ git clone https://github.com/avaazquezz/WorkToDoApp_Backend.git
+```
+Follow the instructions in the backend repository to set up and run the API.
+
+## Project Structure
 ```
 ToDoList_WebApp/
 ├── to-do-app/
@@ -86,16 +76,58 @@ ToDoList_WebApp/
 │   │   ├── App.tsx
 ```
 
-## 🎥 Demo en Video (WebM)
+## 🎥 Demo
+Below are screenshots showcasing the MainPage, authentication features, HomePage, SectionsPage, and ToDoPage of the application:
 
-Aquí puedes ver una demostración rápida del funcionamiento de la aplicación:
+### MainPage
+- **Overview of the MainPage**:
+  ![MainPage Screenshot 1](src/assets/demo/1.MainPage/MainPage1.png)
+  ![MainPage Screenshot 2](src/assets/demo/1.MainPage/MainPage2.png)
+  ![MainPage Screenshot 3](src/assets/demo/1.MainPage/MainPage3.png)
+  ![MainPage Screenshot 4](src/assets/demo/1.MainPage/MainPage4.png)
 
-👉 [Ver Video Demo](./assets/demo/demo.webm)
+### Authentication
+- **User Authentication Screens**:
+  ![Authentication Screenshot 1](src/assets/demo/2.authUser/Auth1.png)
+  ![Authentication Screenshot 2](src/assets/demo/2.authUser/Auth2.png)
 
+### HomePage
+- **Overview of the HomePage**:
+  ![HomePage Screenshot 1](src/assets/demo/3.HomePage/Home1.png)
+  ![HomePage Screenshot 2](src/assets/demo/3.HomePage/Home2.png)
+  ![HomePage Screenshot 3](src/assets/demo/3.HomePage/Home3.png)
+  ![HomePage Screenshot 4](src/assets/demo/3.HomePage/Home4.png)
+  ![HomePage Screenshot 5](src/assets/demo/3.HomePage/Home5.png)
+  ![HomePage Screenshot 6](src/assets/demo/3.HomePage/Home6.png)
+  ![HomePage Screenshot 7](src/assets/demo/3.HomePage/Home7.png)
 
+### SectionsPage
+- **Overview of the SectionsPage**:
+  ![SectionsPage Screenshot 1](src/assets/demo/4.SectionsPage/Sec1.png)
+  ![SectionsPage Screenshot 2](src/assets/demo/4.SectionsPage/Sec2.png)
+  ![SectionsPage Screenshot 3](src/assets/demo/4.SectionsPage/Sec3.png)
+  ![SectionsPage Screenshot 4](src/assets/demo/4.SectionsPage/Sec4.png)
+  ![SectionsPage Screenshot 5](src/assets/demo/4.SectionsPage/Sec5.png)
+  ![SectionsPage Screenshot 6](src/assets/demo/4.SectionsPage/Sec6.png)
 
-## Contribuciones
-Las contribuciones son bienvenidas. Por favor, abre un issue o envía un pull request para sugerir mejoras o reportar errores.
+### ToDoPage
+- **Overview of the ToDoPage**:
+  ![ToDoPage Screenshot 1](src/assets/demo/5.ToDoPage/ToDo1.png)
+  ![ToDoPage Screenshot 2](src/assets/demo/5.ToDoPage/ToDo2.png)
+  ![ToDoPage Screenshot 3](src/assets/demo/5.ToDoPage/ToDo3.png)
+  ![ToDoPage Screenshot 4](src/assets/demo/5.ToDoPage/ToDo4.png)
+  ![ToDoPage Screenshot 5](src/assets/demo/5.ToDoPage/ToDo5.png)
+  ![ToDoPage Screenshot 6](src/assets/demo/5.ToDoPage/ToDo6.png)
+  ![ToDoPage Screenshot 7](src/assets/demo/5.ToDoPage/ToDo7.png)
+  ![ToDoPage Screenshot 8](src/assets/demo/5.ToDoPage/ToDo8.png)
+  ![ToDoPage Screenshot 9](src/assets/demo/5.ToDoPage/ToDo9.png)
+  ![ToDoPage Screenshot 10](src/assets/demo/5.ToDoPage/ToDo10.png)
+  ![ToDoPage Screenshot 11](src/assets/demo/5.ToDoPage/ToDo11.png)
+  ![ToDoPage Screenshot 12](src/assets/demo/5.ToDoPage/ToDo12.png)
+  ![ToDoPage Screenshot 13](src/assets/demo/5.ToDoPage/ToDo13.png)
 
-## Licencia
-Este proyecto está licenciado bajo la Licencia MIT. Consulta el archivo `LICENSE` para más detalles.
+## Contributions
+Contributions are welcome. Please open an issue or submit a pull request to suggest improvements or report bugs.
+
+## License
+This project is licensed under the MIT License. See the `LICENSE` file for more details.

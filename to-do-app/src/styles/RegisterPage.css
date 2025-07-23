@@ -4,17 +4,48 @@
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  background-color: #f5f7fa;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   padding: 20px;
+  position: relative;
+}
+
+.register-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+  pointer-events: none;
 }
 
 .register-card {
   width: 100%;
-  max-width: 450px;
-  padding: 2.5rem;
-  background-color: white;
-  border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  max-width: 420px;
+  padding: 3rem 2.5rem;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  border-radius: 20px;
+  box-shadow: 
+    0 25px 60px rgba(0, 0, 0, 0.15),
+    0 0 0 1px rgba(255, 255, 255, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  animation: cardAppear 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+  position: relative;
+  z-index: 1;
+}
+
+@keyframes cardAppear {
+  0% {
+    opacity: 0;
+    transform: translateY(30px) scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
 .register-header {
@@ -23,15 +54,21 @@
 }
 
 .register-header h1 {
-  font-size: 2rem;
-  color: #1a1a1a;
+  font-size: 2.25rem;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
   margin-bottom: 0.75rem;
-  font-weight: 600;
+  font-weight: 700;
+  letter-spacing: -0.02em;
 }
 
 .register-header p {
-  color: #6e6e6e;
+  color: #64748b;
   font-size: 1rem;
+  font-weight: 400;
 }
 
 .form-group {
@@ -40,31 +77,38 @@
 
 .form-group label {
   display: block;
-  margin-bottom: 8px;
-  font-weight: 500;
-  color: #333;
+  margin-bottom: 10px;
+  font-weight: 600;
+  color: #374151;
   font-size: 0.95rem;
+  letter-spacing: 0.01em;
 }
 
 .form-input {
   width: 100%;
-  padding: 12px 16px;
+  padding: 14px 18px;
   font-size: 1rem;
-  border: 1px solid #dce1e8;
-  border-radius: 6px;
-  background-color: #f9fafc;
-  transition: all 0.2s ease;
+  border: 2px solid #e5e7eb;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.9);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  backdrop-filter: blur(10px);
+  box-sizing: border-box;
 }
 
 .form-input:focus {
   outline: none;
-  border-color: #4a6cf7;
-  background-color: #fff;
-  box-shadow: 0 0 0 4px rgba(74, 108, 247, 0.1);
+  border-color: #667eea;
+  background: rgba(255, 255, 255, 1);
+  box-shadow: 
+    0 0 0 4px rgba(102, 126, 234, 0.1),
+    0 4px 12px rgba(0, 0, 0, 0.1);
+  transform: translateY(-1px);
 }
 
 .form-input::placeholder {
-  color: #a0a8b0;
+  color: #9ca3af;
+  font-weight: 400;
 }
 
 .password-container {
@@ -73,42 +117,63 @@
 
 .password-toggle {
   position: absolute;
-  right: 16px;
+  right: 18px;
   top: 50%;
   transform: translateY(-50%);
   background: none;
   border: none;
-  color: #6e6e6e;
+  color: #9ca3af;
   cursor: pointer;
+  padding: 4px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.password-toggle:hover {
+  color: #667eea;
+  background: rgba(102, 126, 234, 0.05);
 }
 
 .register-button {
   width: 100%;
-  padding: 14px;
-  background-color: #4a6cf7;
+  padding: 16px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
   border: none;
-  border-radius: 6px;
+  border-radius: 12px;
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
-  margin-top: 1rem;
-  transition: background-color 0.2s ease;
+  margin-top: 1.5rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 16px rgba(102, 126, 234, 0.3);
+  letter-spacing: 0.02em;
 }
 
 .register-button:hover {
-  background-color: #3a5cdb;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+}
+
+.register-button:active {
+  transform: translateY(0);
 }
 
 .register-button:disabled {
-  background-color: #a0a8b0;
+  background: linear-gradient(135deg, #9ca3af 0%, #6b7280 100%);
   cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
 }
 
 .error-message {
-  color: #e53935;
+  color: #ef4444;
   font-size: 0.9rem;
-  margin-top: 0.5rem;
+  margin-top: 0.75rem;
+  padding: 8px 12px;
+  background: rgba(239, 68, 68, 0.1);
+  border-radius: 8px;
+  border-left: 3px solid #ef4444;
 }
 
 .alternative-actions {
@@ -117,17 +182,19 @@
 }
 
 .alternative-actions p {
-  color: #6e6e6e;
+  color: #64748b;
   font-size: 0.95rem;
 }
 
 .alternative-actions a {
-  color: #4a6cf7;
+  color: #667eea;
   text-decoration: none;
-  font-weight: 500;
+  font-weight: 600;
+  transition: color 0.2s ease;
 }
 
 .alternative-actions a:hover {
+  color: #764ba2;
   text-decoration: underline;
 }
 
@@ -140,9 +207,28 @@
 
 .social-login p {
   text-align: center;
-  color: #6e6e6e;
+  color: #64748b;
   font-size: 0.95rem;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.75rem;
+  position: relative;
+}
+
+.social-login p::before,
+.social-login p::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: 45%;
+  height: 1px;
+  background: linear-gradient(to right, transparent, #e5e7eb, transparent);
+}
+
+.social-login p::before {
+  left: 0;
+}
+
+.social-login p::after {
+  right: 0;
 }
 
 .social-buttons {
@@ -155,16 +241,20 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 10px 15px;
-  border-radius: 6px;
-  border: 1px solid #dce1e8;
-  background-color: white;
+  padding: 12px 20px;
+  border-radius: 12px;
+  border: 2px solid #e5e7eb;
+  background: rgba(255, 255, 255, 0.9);
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  backdrop-filter: blur(10px);
 }
 
 .social-button:hover {
-  background-color: #f5f7fa;
+  background: rgba(255, 255, 255, 1);
+  border-color: #667eea;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
 }
 
 .social-button img {
@@ -173,14 +263,24 @@
 }
 
 .login-prompt {
-  margin-top: 1.5rem;
+  margin-top: 2rem;
   text-align: center;
-  color:#1a1a1a;
-  
+  color: #64748b;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(229, 231, 235, 0.5);
 }
 
 @media (max-width: 768px) {
+  .register-container {
+    padding: 15px;
+  }
+  
   .register-card {
-    padding: 1.5rem;
+    padding: 2rem 1.5rem;
+    margin: 10px;
+  }
+  
+  .register-header h1 {
+    font-size: 1.875rem;
   }
 }
