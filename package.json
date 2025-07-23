@@ -11,10 +11,8 @@
   },
   "dependencies": {
     "axios": "^1.10.0",
-    "firebase": "^11.7.1",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
-    "react-firebase-hooks": "^5.1.1",
     "react-router-dom": "^7.5.2",
     "to-do-app": "file:"
   },

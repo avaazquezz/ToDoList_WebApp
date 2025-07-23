@@ -1,5 +1,24 @@
 # ToDoList_WebApp
 
+
+<!--ts-->
+- [ToDoList_WebApp](#todolist_webapp)
+  - [Project Description](#project-description)
+  - [Key Features](#key-features)
+  - [Technologies Used](#technologies-used)
+  - [Environment Setup](#environment-setup)
+    - [Prerequisites](#prerequisites)
+    - [Installation and Execution](#installation-and-execution)
+      - [Using Docker](#using-docker)
+      - [Using npm](#using-npm)
+  - [Project Structure](#project-structure)
+  - [🎥 Demo](#-demo)
+  - [Contributions](#contributions)
+  - [License](#license)
+<!--te-->
+
+
+
 ## Project Description
 ToDoList_WebApp is a web application designed to efficiently manage tasks and projects. This project combines a modern and responsive interface with advanced features to facilitate personal and professional organization.
 
@@ -21,6 +40,7 @@ ToDoList_WebApp is a web application designed to efficiently manage tasks and pr
   - Vite.js
   - Docker
 
+
 ## Environment Setup
 
 ### Prerequisites
@@ -40,6 +60,16 @@ $ docker-compose up --build
 ```
 
 #### 3. Access the Application
+The application will be available at `http://localhost:3000`.
+
+#### Using npm
+If you prefer to use npm instead of Docker, follow these steps:
+
+```bash
+$ npm install
+$ npm run dev
+```
+
 The application will be available at `http://localhost:3000`.
 
 ### Important Note
@@ -79,27 +109,29 @@ ToDoList_WebApp/
 ## 🎥 Demo
 Below are screenshots showcasing the MainPage, authentication features, HomePage, SectionsPage, and ToDoPage of the application:
 
+<details><summary>Ver capturas</summary>
+
 ### MainPage
 - **Overview of the MainPage**:
-  ![MainPage Screenshot 1](https://github.com/avaazquezz/ToDoList_WebApp/blob/main/to-do-app/src/assets/demo/1.MainPage/MainPage1.png)
-  ![MainPage Screenshot 2](https://github.com/avaazquezz/ToDoList_WebApp/blob/main/to-do-app/src/assets/demo/1.MainPage/MainPage2.png)
-  ![MainPage Screenshot 3](https://github.com/avaazquezz/ToDoList_WebApp/blob/main/to-do-app/src/assets/demo/1.MainPage/MainPage3.png)
-  ![MainPage Screenshot 4](https://github.com/avaazquezz/ToDoList_WebApp/blob/main/to-do-app/src/assets/demo/1.MainPage/MainPage4.png)
+  ![MainPage Screenshot 1 - Overview](https://github.com/avaazquezz/ToDoList_WebApp/blob/main/to-do-app/src/assets/demo/1.MainPage/MainPage1.png "MainPage Screenshot 1 - Overview")
+  ![MainPage Screenshot 2 - Features](https://github.com/avaazquezz/ToDoList_WebApp/blob/main/to-do-app/src/assets/demo/1.MainPage/MainPage2.png "MainPage Screenshot 2 - Features")
+  ![MainPage Screenshot 3 - Tasks](https://github.com/avaazquezz/ToDoList_WebApp/blob/main/to-do-app/src/assets/demo/1.MainPage/MainPage3.png "MainPage Screenshot 3 - Tasks")
+  ![MainPage Screenshot 4 - Projects](https://github.com/avaazquezz/ToDoList_WebApp/blob/main/to-do-app/src/assets/demo/1.MainPage/MainPage4.png "MainPage Screenshot 4 - Projects")
 
 ### Authentication
 - **User Authentication Screens**:
-  ![Authentication Screenshot 1](https://github.com/avaazquezz/ToDoList_WebApp/blob/main/to-do-app/src/assets/demo/2.authUser/Auth1.png)
-  ![Authentication Screenshot 2](https://github.com/avaazquezz/ToDoList_WebApp/blob/main/to-do-app/src/assets/demo/2.authUser/Auth2.png)
+  ![Authentication Screenshot 1 - Login](https://github.com/avaazquezz/ToDoList_WebApp/blob/main/to-do-app/src/assets/demo/2.authUser/Auth1.png "Authentication Screenshot 1 - Login")
+  ![Authentication Screenshot 2 - Register](https://github.com/avaazquezz/ToDoList_WebApp/blob/main/to-do-app/src/assets/demo/2.authUser/Auth2.png "Authentication Screenshot 2 - Register")
 
 ### HomePage
 - **Overview of the HomePage**:
-  ![HomePage Screenshot 1](https://github.com/avaazquezz/ToDoList_WebApp/blob/main/to-do-app/src/assets/demo/3.HomePage/Home1.png)
-  ![HomePage Screenshot 2](https://github.com/avaazquezz/ToDoList_WebApp/blob/main/to-do-app/src/assets/demo/3.HomePage/Home2.png)
-  ![HomePage Screenshot 3](https://github.com/avaazquezz/ToDoList_WebApp/blob/main/to-do-app/src/assets/demo/3.HomePage/Home3.png)
-  ![HomePage Screenshot 4](https://github.com/avaazquezz/ToDoList_WebApp/blob/main/to-do-app/src/assets/demo/3.HomePage/Home4.png)
-  ![HomePage Screenshot 5](https://github.com/avaazquezz/ToDoList_WebApp/blob/main/to-do-app/src/assets/demo/3.HomePage/Home5.png)
-  ![HomePage Screenshot 6](https://github.com/avaazquezz/ToDoList_WebApp/blob/main/to-do-app/src/assets/demo/3.HomePage/Home6.png)
-  ![HomePage Screenshot 7](https://github.com/avaazquezz/ToDoList_WebApp/blob/main/to-do-app/src/assets/demo/3.HomePage/Home7.png)
+  ![HomePage Screenshot 1 - Dashboard](https://github.com/avaazquezz/ToDoList_WebApp/blob/main/to-do-app/src/assets/demo/3.HomePage/Home1.png "HomePage Screenshot 1 - Dashboard")
+  ![HomePage Screenshot 2 - Tasks](https://github.com/avaazquezz/ToDoList_WebApp/blob/main/to-do-app/src/assets/demo/3.HomePage/Home2.png "HomePage Screenshot 2 - Tasks")
+  ![HomePage Screenshot 3 - Calendar](https://github.com/avaazquezz/ToDoList_WebApp/blob/main/to-do-app/src/assets/demo/3.HomePage/Home3.png "HomePage Screenshot 3 - Calendar")
+  ![HomePage Screenshot 4 - Notifications](https://github.com/avaazquezz/ToDoList_WebApp/blob/main/to-do-app/src/assets/demo/3.HomePage/Home4.png "HomePage Screenshot 4 - Notifications")
+  ![HomePage Screenshot 5 - Activity](https://github.com/avaazquezz/ToDoList_WebApp/blob/main/to-do-app/src/assets/demo/3.HomePage/Home5.png "HomePage Screenshot 5 - Activity")
+  ![HomePage Screenshot 6 - Settings](https://github.com/avaazquezz/ToDoList_WebApp/blob/main/to-do-app/src/assets/demo/3.HomePage/Home6.png "HomePage Screenshot 6 - Settings")
+  ![HomePage Screenshot 7 - Profile](https://github.com/avaazquezz/ToDoList_WebApp/blob/main/to-do-app/src/assets/demo/3.HomePage/Home7.png "HomePage Screenshot 7 - Profile")
 
 ### SectionsPage
 - **Overview of the SectionsPage**:
@@ -126,8 +158,11 @@ Below are screenshots showcasing the MainPage, authentication features, HomePage
   ![ToDoPage Screenshot 12](https://github.com/avaazquezz/ToDoList_WebApp/blob/main/to-do-app/src/assets/demo/5.ToDoPage/ToDo12.png)
   ![ToDoPage Screenshot 13](https://github.com/avaazquezz/ToDoList_WebApp/blob/main/to-do-app/src/assets/demo/5.ToDoPage/ToDo13.png)
 
+</details>
+
 ## Contributions
 Contributions are welcome. Please open an issue or submit a pull request to suggest improvements or report bugs.
 
 ## License
 This project is licensed under the MIT License. See the `LICENSE` file for more details.
+
