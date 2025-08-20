@@ -1,3 +1,11 @@
+/// <reference types="vite/client" />
+
+interface ImportMeta {
+  readonly env: {
+    readonly VITE_API_URL: string;
+  };
+}
+
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import NavBar from '../components/NavBar';
@@ -234,7 +242,7 @@ const HomePage = () => {
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
               color: 'transparent',
-              margin: '0 0 2rem 0',
+              margin: '0 0 1rem 0',
               textAlign: 'left',
               letterSpacing: '-0.02em',
               textShadow: '0 2px 4px rgba(0,0,0,0.1)'
@@ -250,7 +258,7 @@ const HomePage = () => {
             padding: '0 1rem'
           }}>
             <div className="add-project" style={{
-              maxWidth: '800px',
+              maxWidth: '50rem',
               width: '100%',
               display: 'flex',
               gap: '16px',
@@ -266,7 +274,7 @@ const HomePage = () => {
                 onKeyPress={handleKeyPress}
                 style={{
                   flex: '1',
-                  minWidth: '250px',
+                  minWidth: '235px',
                   padding: '12px 16px',
                   border: '2px solid #e1e8ed',
                   borderRadius: '8px',
@@ -292,7 +300,7 @@ const HomePage = () => {
                 onChange={(e) => setNewProjectDescription(e.target.value)}
                 style={{
                   flex: '1',
-                  minWidth: '250px',
+                  minWidth: '300px',
                   padding: '12px 16px',
                   border: '2px solid #e1e8ed',
                   borderRadius: '8px',
@@ -387,8 +395,8 @@ const HomePage = () => {
                   className="project-card"
                   onClick={() => navigateToProjectTasks(project.name)}
                   style={{
-                    backgroundColor: '#ffffff',
-                    border: '1px solid #e1e8ed',
+                    backgroundColor: '#dae6f7ff',
+                    border: '3px solid #0f98faff',
                     borderRadius: '12px',
                     padding: '20px',
                     cursor: 'pointer',
@@ -398,7 +406,7 @@ const HomePage = () => {
                     overflow: 'hidden'
                   }}
                   onMouseOver={(e) => {
-                    e.currentTarget.style.transform = 'translateY(-4px)';
+                    e.currentTarget.style.transform = 'translateY(-16px)';
                     e.currentTarget.style.boxShadow = '0 8px 25px rgba(0, 0, 0, 0.15)';
                   }}
                   onMouseOut={(e) => {
@@ -410,9 +418,9 @@ const HomePage = () => {
                     className="project-color-bar" 
                     style={{ 
                       backgroundColor: project.color,
-                      height: '6px',
-                      borderRadius: '3px',
-                      marginBottom: '16px'
+                      height: '10px',
+                      borderRadius: '8px',
+                      marginBottom: '6px'
                     }}
                   ></div>
                   <div className="project-content">
@@ -422,13 +430,13 @@ const HomePage = () => {
                       justifyContent: 'space-between',
                       marginBottom: '12px'
                     }}>
-                      <div style={{ flex: 1, marginRight: '12px' }}>
+                      <div style={{ flex: 1, marginRight: '25px' }}>
                         <h3 style={{
                           margin: 0,
-                          fontSize: '22px',
-                          fontWeight: '700',
+                          fontSize: '20px',
+                          fontWeight: '800',
                           color: '#2c3e50',
-                          marginBottom: project.description ? '10px' : '0',
+                          marginBottom: project.description ? '15px' : '0',
                           lineHeight: '1.2',
                           textAlign: 'left'
                         }}>
@@ -438,7 +446,7 @@ const HomePage = () => {
                           <p style={{
                             margin: 0,
                             fontSize: '16px',
-                            color: '#64748b',
+                            color: '#4d5661ff',
                             lineHeight: '1.5',
                             display: '-webkit-box',
                             WebkitLineClamp: 2,
@@ -507,12 +515,12 @@ const HomePage = () => {
                           }}
                           aria-label="Editar proyecto"
                           style={{
-                            background: 'rgba(74, 144, 226, 0.1)',
+                            background: 'rgba(192, 211, 233, 0.77)',
                             border: 'none',
                             borderRadius: '6px',
                             padding: '8px',
                             cursor: 'pointer',
-                            color: '#4a90e2',
+                            color: '#1d3147ff',
                             fontSize: '14px',
                             fontWeight: '500',
                             transition: 'all 0.2s ease',
@@ -523,18 +531,58 @@ const HomePage = () => {
                             height: '32px'
                           }}
                           onMouseOver={(e) => {
-                            e.currentTarget.style.background = 'rgba(74, 144, 226, 0.2)';
+                            e.currentTarget.style.background = 'rgba(74, 145, 226, 0.35)';
+                            // Crear tooltip si no existe
+                            if (!e.currentTarget.querySelector('.edit-tooltip')) {
+                              const tooltip = document.createElement('div');
+                              tooltip.className = 'edit-tooltip';
+                              tooltip.textContent = 'Editar proyecto';
+                              tooltip.style.cssText = `
+                              position: absolute;
+                              top: -35px;
+                              left: 50%;
+                              transform: translateX(-50%);
+                              background: rgba(0, 0, 0, 0.8);
+                              color: white;
+                              padding: 6px 12px;
+                              border-radius: 6px;
+                              font-size: 12px;
+                              font-weight: 500;
+                              white-space: nowrap;
+                              z-index: 1000;
+                              pointer-events: none;
+                              opacity: 0;
+                              transition: opacity 0.2s ease;
+                              `;
+                              e.currentTarget.style.position = 'relative';
+                              e.currentTarget.appendChild(tooltip);
+                              setTimeout(() => {
+                              tooltip.style.opacity = '1';
+                              }, 50);
+                            }
                             e.currentTarget.style.transform = 'scale(1.1)';
                           }}
                           onMouseOut={(e) => {
                             e.currentTarget.style.background = 'rgba(74, 144, 226, 0.1)';
                             e.currentTarget.style.transform = 'scale(1)';
+                            // Eliminar tooltip al quitar el mouse
+                            const tooltip = e.currentTarget.querySelector('.edit-tooltip') as HTMLElement;
+                            if (tooltip) {
+                              tooltip.style.opacity = '0';
+                              setTimeout(() => {
+                                if (tooltip.parentNode) {
+                                  tooltip.parentNode.removeChild(tooltip);
+                                }
+                              }, 200);
+                            }
                           }}
                         >
                           ✎
                         </button>
                       </div>
-                    </div>                    {activeTooltip === project.id && (
+                    </div>                    
+                    
+                    {activeTooltip === project.id && (
                       <>
                         {/* Overlay para cerrar al hacer clic fuera */}
                         <div 
@@ -558,16 +606,17 @@ const HomePage = () => {
                           top: '50%',
                           left: '50%',
                           transform: 'translate(-50%, -50%)',
-                          backgroundColor: '#ffffff',
+                          backgroundColor: '#fffdfdff',
                           color: '#333',
                           padding: '24px',
                           borderRadius: '16px',
                           boxShadow: '0 20px 60px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(0, 0, 0, 0.05)',
                           zIndex: 1000,
                           width: '280px',
+                          height: '245',
                           border: '1px solid rgba(0, 0, 0, 0.08)',
                           backdropFilter: 'blur(10px)',
-                          animation: 'fadeIn 0.2s ease-out'
+                          animation: 'fadeIn 0.2s ease-out',
                         }}>
                           <button
                             onClick={(e) => {
@@ -578,32 +627,32 @@ const HomePage = () => {
                               position: 'absolute',
                               top: '12px',
                               right: '12px',
-                              background: 'rgba(0, 0, 0, 0.05)',
+                              background: 'rgba(160, 148, 148, 0.36)',
                               border: 'none',
                               borderRadius: '8px',
                               cursor: 'pointer',
-                              padding: '6px',
+                              padding: '4px',
                               display: 'flex',
                               alignItems: 'center',
                               justifyContent: 'center',
-                              color: '#6b7280',
+                              color: '#f30a0aff',
                               transition: 'all 0.2s ease',
-                              width: '28px',
-                              height: '28px'
+                              width: '32px',
+                              height: '32px'
                             }}
                             onMouseOver={(e) => {
-                              e.currentTarget.style.background = 'rgba(239, 68, 68, 0.1)';
-                              e.currentTarget.style.color = '#ef4444';
+                              e.currentTarget.style.background = 'rgba(239, 68, 68, 0.57)';
+                              e.currentTarget.style.color = '#f71313ff';
                             }}
                             onMouseOut={(e) => {
-                              e.currentTarget.style.background = 'rgba(0, 0, 0, 0.05)';
-                              e.currentTarget.style.color = '#6b7280';
+                              e.currentTarget.style.background = 'rgba(160, 148, 148, 0.36)';
+                              e.currentTarget.style.color = '#f30a0aff';
                             }}
                             aria-label="Cerrar información"
                           >
                             <svg 
-                              width="14" 
-                              height="14" 
+                              width="25" 
+                              height="25" 
                               viewBox="0 0 24 24" 
                               fill="none" 
                               stroke="currentColor" 
@@ -621,7 +670,7 @@ const HomePage = () => {
                               margin: '0 0 16px 0',
                               fontSize: '16px',
                               fontWeight: '700',
-                              color: '#1f2937',
+                              color: '#000000ff',
                               textAlign: 'left'
                             }}>
                               Información del Proyecto
@@ -660,7 +709,7 @@ const HomePage = () => {
                                 <p style={{
                                   margin: 0,
                                   fontSize: '11px',
-                                  color: '#6b7280',
+                                  color: '#5d6472ff',
                                   fontWeight: '500',
                                   textTransform: 'uppercase',
                                   letterSpacing: '0.5px'
@@ -669,8 +718,8 @@ const HomePage = () => {
                                 </p>
                                 <p style={{
                                   margin: 0,
-                                  fontSize: '13px',
-                                  color: '#1f2937',
+                                  fontSize: '12px',
+                                  color: '#0e3e81ff',
                                   fontWeight: '600'
                                 }}>
                                   {project.createdBy}
@@ -715,7 +764,7 @@ const HomePage = () => {
                                 <p style={{
                                   margin: 0,
                                   fontSize: '11px',
-                                  color: '#6b7280',
+                                  color: '#4b525fff',
                                   fontWeight: '500',
                                   textTransform: 'uppercase',
                                   letterSpacing: '0.5px'
@@ -725,7 +774,7 @@ const HomePage = () => {
                                 <p style={{
                                   margin: 0,
                                   fontSize: '13px',
-                                  color: '#1f2937',
+                                  color: '#133058ff',
                                   fontWeight: '600'
                                 }}>
                                   {formatDate(project.createdAt)}
@@ -775,254 +824,320 @@ const HomePage = () => {
               className="modal-overlay"
               onClick={() => setEditingProject(null)}
               style={{
-                position: 'fixed',
-                top: 0,
-                left: 0,
-                right: 0,
-                bottom: 0,
-                backgroundColor: 'rgba(0, 0, 0, 0.6)',
-                zIndex: 1000,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                backdropFilter: 'blur(4px)'
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          width: '100vw',
+          height: '100vh',
+          backgroundColor: 'rgba(0, 0, 0, 0.6)',
+          zIndex: 9999,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          backdropFilter: 'blur(8px)',
+          padding: '20px',
+          boxSizing: 'border-box'
               }}
             >
               {/* Modal Content */}
               <div 
-                className="edit-project-modal"
-                onClick={(e) => e.stopPropagation()}
-                style={{
-                  backgroundColor: '#fff',
-                  borderRadius: '16px',
-                  padding: '32px',
-                  width: '90%',
-                  maxWidth: '500px',
-                  boxShadow: '0 20px 60px rgba(0, 0, 0, 0.15)',
-                  animation: 'modalSlideIn 0.3s ease-out',
-                  position: 'relative'
-                }}
+          className="edit-project-modal"
+          onClick={(e) => e.stopPropagation()}
+          style={{
+            backgroundColor: '#ffffff',
+            borderRadius: '20px',
+            padding: '32px',
+            width: '90%',
+            maxWidth: '480px',
+            maxHeight: '85vh',
+            overflowY: 'auto',
+            boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(255, 255, 255, 0.05)',
+            animation: 'modalSlideIn 0.3s ease-out',
+            position: 'relative',
+            border: '1px solid rgba(255, 255, 255, 0.1)'
+          }}
               >
-                {/* Close Button */}
-                <button
-                  onClick={() => setEditingProject(null)}
-                  style={{
-                    position: 'absolute',
-                    top: '16px',
-                    right: '16px',
-                    background: 'rgba(0, 0, 0, 0.1)',
-                    border: 'none',
-                    borderRadius: '50%',
-                    width: '32px',
-                    height: '32px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    cursor: 'pointer',
-                    transition: 'all 0.2s ease'
-                  }}
-                  onMouseOver={(e) => {
-                    e.currentTarget.style.background = 'rgba(0, 0, 0, 0.15)';
-                  }}
-                  onMouseOut={(e) => {
-                    e.currentTarget.style.background = 'rgba(0, 0, 0, 0.1)';
-                  }}
+          {/* Close Button */}
+          <button
+            onClick={() => setEditingProject(null)}
+            style={{
+              position: 'absolute',
+              top: '20px',
+              right: '20px',
+              background: 'rgba(239, 68, 68, 0.1)',
+              border: 'none',
+              borderRadius: '12px',
+              cursor: 'pointer',
+              padding: '8px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              color: '#ef4444',
+              transition: 'all 0.2s ease',
+              width: '40px',
+              height: '40px'
+            }}
+            onMouseOver={(e) => {
+              e.currentTarget.style.background = 'rgba(239, 68, 68, 0.2)';
+              e.currentTarget.style.transform = 'scale(1.05)';
+            }}
+            onMouseOut={(e) => {
+              e.currentTarget.style.background = 'rgba(239, 68, 68, 0.1)';
+              e.currentTarget.style.transform = 'scale(1)';
+            }}
+            aria-label="Cerrar"
+          >
+            <svg 
+              width="20" 
+              height="20" 
+              viewBox="0 0 24 24" 
+              fill="none" 
+              stroke="currentColor" 
+              strokeWidth="2"
+              strokeLinecap="round" 
+              strokeLinejoin="round"
+            >
+              <line x1="18" y1="6" x2="6" y2="18" />
+              <line x1="6" y1="6" x2="18" y2="18" />
+            </svg>
+          </button>
+
+          {/* Modal Header */}
+          <div style={{ marginBottom: '32px', paddingRight: '60px' }}>
+            <h3 style={{
+              margin: 0,
+              fontSize: '32px',
+              fontWeight: '700',
+              background: 'linear-gradient(135deg, #1e293b, #475569)',
+              backgroundClip: 'text',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              marginBottom: '8px',
+              lineHeight: '1.2'
+            }}>
+              Editar Proyecto
+            </h3>
+            <p style={{
+              margin: 0,
+              color: '#64748b',
+              fontSize: '16px',
+              lineHeight: '1.5'
+            }}>
+              Modifica los detalles de tu proyecto
+            </p>
+          </div>
+
+          {/* Form Fields */}
+          <div style={{ marginBottom: '28px' }}>
+            <label style={{
+              display: 'block',
+              marginBottom: '12px',
+              fontSize: '16px',
+              fontWeight: '600',
+              color: '#374151'
+            }}>
+              Nombre del proyecto
+            </label>
+            <input
+              type="text"
+              placeholder="Ingresa el nombre del proyecto"
+              value={editProjectName}
+              onChange={(e) => setEditProjectName(e.target.value)}
+              style={{
+                width: '100%',
+                padding: '16px 20px',
+                border: '2px solid #e5e7eb',
+                color: '#1f2937',
+                backgroundColor: '#ffffff',
+                borderRadius: '12px',
+                fontSize: '16px',
+                fontFamily: 'inherit',
+                outline: 'none',
+                transition: 'all 0.2s ease',
+                boxSizing: 'border-box',
+                boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)'
+              }}
+              onFocus={(e) => {
+                e.target.style.borderColor = '#3b82f6';
+                e.target.style.boxShadow = '0 0 0 3px rgba(59, 130, 246, 0.1)';
+              }}
+              onBlur={(e) => {
+                e.target.style.borderColor = '#e5e7eb';
+                e.target.style.boxShadow = '0 1px 3px rgba(0, 0, 0, 0.1)';
+              }}
+            />
+          </div>
+
+          <div style={{ marginBottom: '28px' }}>
+            <label style={{
+              display: 'block',
+              marginBottom: '12px',
+              fontSize: '16px',
+              fontWeight: '600',
+              color: '#374151'
+            }}>
+              Descripción del proyecto
+            </label>
+            <textarea
+              placeholder="Describe tu proyecto (opcional)"
+              value={editProjectDescription}
+              onChange={(e) => setEditProjectDescription(e.target.value)}
+              rows={3}
+              style={{
+                width: '100%',
+                padding: '16px 20px',
+                border: '2px solid #e5e7eb',
+                color: '#1f2937',
+                backgroundColor: '#ffffff',
+                borderRadius: '12px',
+                fontSize: '16px',
+                fontFamily: 'inherit',
+                outline: 'none',
+                transition: 'all 0.2s ease',
+                boxSizing: 'border-box',
+                boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)',
+                resize: 'vertical',
+                minHeight: '80px'
+              }}
+              onFocus={(e) => {
+                e.target.style.borderColor = '#3b82f6';
+                e.target.style.boxShadow = '0 0 0 3px rgba(59, 130, 246, 0.1)';
+              }}
+              onBlur={(e) => {
+                e.target.style.borderColor = '#e5e7eb';
+                e.target.style.boxShadow = '0 1px 3px rgba(0, 0, 0, 0.1)';
+              }}
+            />
+          </div>
+
+          <div style={{ marginBottom: '40px' }}>
+            <label style={{
+              display: 'block',
+              marginBottom: '16px',
+              fontSize: '16px',
+              fontWeight: '600',
+              color: '#374151'
+            }}>
+              Color del proyecto
+            </label>
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(50px, 1fr))',
+              gap: '12px',
+              maxWidth: '400px'
+            }}>
+              {colorOptions.map((color) => (
+                <div
+            key={color}
+            style={{
+              backgroundColor: color,
+              width: '50px',
+              height: '50px',
+              borderRadius: '12px',
+              cursor: 'pointer',
+              border: editProjectColor === color ? '3px solid #1f2937' : '2px solid #ffffff',
+              transition: 'all 0.2s ease',
+              boxShadow: editProjectColor === color 
+                ? '0 0 0 2px rgba(31, 41, 55, 0.3), 0 8px 25px rgba(0, 0, 0, 0.15)' 
+                : '0 4px 12px rgba(0, 0, 0, 0.15)',
+              position: 'relative'
+            }}
+            onClick={() => setEditProjectColor(color)}
+            onMouseOver={(e) => {
+              e.currentTarget.style.transform = 'scale(1.1)';
+              e.currentTarget.style.boxShadow = '0 8px 25px rgba(0, 0, 0, 0.25)';
+            }}
+            onMouseOut={(e) => {
+              e.currentTarget.style.transform = 'scale(1)';
+              e.currentTarget.style.boxShadow = editProjectColor === color 
+                ? '0 0 0 2px rgba(31, 41, 55, 0.3), 0 8px 25px rgba(0, 0, 0, 0.15)' 
+                : '0 4px 12px rgba(0, 0, 0, 0.15)';
+            }}
                 >
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <line x1="18" y1="6" x2="6" y2="18" />
-                    <line x1="6" y1="6" x2="18" y2="18" />
-                  </svg>
-                </button>
-
-                {/* Modal Header */}
-                <div style={{ marginBottom: '24px' }}>
-                  <h3 style={{
-                    margin: 0,
-                    fontSize: '24px',
-                    fontWeight: '600',
-                    color: '#2c3e50',
-                    marginBottom: '8px'
-                  }}>
-                    Editar Proyecto
-                  </h3>
-                  <p style={{
-                    margin: 0,
-                    color: '#7f8c8d',
-                    fontSize: '14px'
-                  }}>
-                    Modifica los detalles de tu proyecto
-                  </p>
+            {editProjectColor === color && (
+              <div style={{
+                position: 'absolute',
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+                color: '#ffffff',
+                fontSize: '20px',
+                fontWeight: 'bold',
+                textShadow: '0 2px 4px rgba(0, 0, 0, 0.5)'
+              }}>
+                ✓
+              </div>
+            )}
                 </div>
+              ))}
+            </div>
+          </div>
 
-                {/* Form Fields */}
-                <div style={{ marginBottom: '24px' }}>
-                  <label style={{
-                    display: 'block',
-                    marginBottom: '8px',
-                    fontSize: '14px',
-                    fontWeight: '500',
-                    color: '#34495e'
-                  }}>
-                    Nombre del proyecto
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="Ingresa el nombre del proyecto"
-                    value={editProjectName}
-                    onChange={(e) => setEditProjectName(e.target.value)}
-                    style={{
-                      width: '100%',
-                      padding: '12px 16px',
-                      border: '2px solid #e1e8ed',
-                      borderRadius: '8px',
-                      fontSize: '16px',
-                      fontFamily: 'inherit',
-                      outline: 'none',
-                      transition: 'border-color 0.2s ease',
-                      boxSizing: 'border-box'
-                    }}
-                    onFocus={(e) => {
-                      e.target.style.borderColor = '#4a90e2';
-                    }}
-                    onBlur={(e) => {
-                      e.target.style.borderColor = '#e1e8ed';
-                    }}
-                  />
-                </div>
-
-                <div style={{ marginBottom: '24px' }}>
-                  <label style={{
-                    display: 'block',
-                    marginBottom: '8px',
-                    fontSize: '14px',
-                    fontWeight: '500',
-                    color: '#34495e'
-                  }}>
-                    Descripción del proyecto
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="Describe tu proyecto (opcional)"
-                    value={editProjectDescription}
-                    onChange={(e) => setEditProjectDescription(e.target.value)}
-                    style={{
-                      width: '100%',
-                      padding: '12px 16px',
-                      border: '2px solid #e1e8ed',
-                      borderRadius: '8px',
-                      fontSize: '16px',
-                      fontFamily: 'inherit',
-                      outline: 'none',
-                      transition: 'border-color 0.2s ease',
-                      boxSizing: 'border-box'
-                    }}
-                    onFocus={(e) => {
-                      e.target.style.borderColor = '#4a90e2';
-                    }}
-                    onBlur={(e) => {
-                      e.target.style.borderColor = '#e1e8ed';
-                    }}
-                  />
-                </div>
-
-                <div style={{ marginBottom: '32px' }}>
-                  <label style={{
-                    display: 'block',
-                    marginBottom: '12px',
-                    fontSize: '14px',
-                    fontWeight: '500',
-                    color: '#34495e'
-                  }}>
-                    Color del proyecto
-                  </label>
-                  <div style={{
-                    display: 'flex',
-                    flexWrap: 'wrap',
-                    gap: '8px',
-                    alignItems: 'center'
-                  }}>
-                    {colorOptions.map((color) => (
-                      <div
-                        key={color}
-                        style={{
-                          backgroundColor: color,
-                          width: '40px',
-                          height: '40px',
-                          borderRadius: '8px',
-                          cursor: 'pointer',
-                          border: editProjectColor === color ? '3px solid #4a90e2' : '2px solid #e1e8ed',
-                          transition: 'all 0.2s ease',
-                          boxShadow: editProjectColor === color ? '0 0 0 1px #4a90e2' : '0 2px 4px rgba(0, 0, 0, 0.1)'
-                        }}
-                        onClick={() => setEditProjectColor(color)}
-                        onMouseOver={(e) => {
-                          e.currentTarget.style.transform = 'scale(1.1)';
-                          e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.15)';
-                        }}
-                        onMouseOut={(e) => {
-                          e.currentTarget.style.transform = 'scale(1)';
-                          e.currentTarget.style.boxShadow = editProjectColor === color ? '0 0 0 1px #4a90e2' : '0 2px 4px rgba(0, 0, 0, 0.1)';
-                        }}
-                      />
-                    ))}
-                  </div>
-                </div>
-
-                {/* Action Buttons */}
-                <div style={{
-                  display: 'flex',
-                  gap: '12px',
-                  justifyContent: 'flex-end'
-                }}>
-                  <button
-                    onClick={() => setEditingProject(null)}
-                    style={{
-                      padding: '12px 24px',
-                      border: '2px solid #e1e8ed',
-                      borderRadius: '8px',
-                      backgroundColor: 'transparent',
-                      color: '#7f8c8d',
-                      fontSize: '16px',
-                      fontWeight: '500',
-                      cursor: 'pointer',
-                      transition: 'all 0.2s ease'
-                    }}
-                    onMouseOver={(e) => {
-                      e.currentTarget.style.backgroundColor = '#f8f9fa';
-                      e.currentTarget.style.borderColor = '#bdc3c7';
-                    }}
-                    onMouseOut={(e) => {
-                      e.currentTarget.style.backgroundColor = 'transparent';
-                      e.currentTarget.style.borderColor = '#e1e8ed';
-                    }}
-                  >
-                    Cancelar
-                  </button>
-                  <button
-                    onClick={handleEditProject}
-                    style={{
-                      padding: '12px 24px',
-                      border: 'none',
-                      borderRadius: '8px',
-                      backgroundColor: '#4a90e2',
-                      color: '#fff',
-                      fontSize: '16px',
-                      fontWeight: '500',
-                      cursor: 'pointer',
-                      transition: 'all 0.2s ease'
-                    }}
-                    onMouseOver={(e) => {
-                      e.currentTarget.style.backgroundColor = '#357abd';
-                      e.currentTarget.style.transform = 'translateY(-1px)';
-                    }}
-                    onMouseOut={(e) => {
-                      e.currentTarget.style.backgroundColor = '#4a90e2';
-                      e.currentTarget.style.transform = 'translateY(0)';
-                    }}
-                  >
-                    Guardar Cambios
-                  </button>
-                </div>
+          {/* Action Buttons */}
+          <div style={{
+            display: 'flex',
+            gap: '16px',
+            justifyContent: 'flex-end',
+            flexWrap: 'wrap'
+          }}>
+            <button
+              onClick={() => setEditingProject(null)}
+              style={{
+                padding: '14px 28px',
+                border: '2px solid #e5e7eb',
+                borderRadius: '12px',
+                backgroundColor: '#ffffff',
+                color: '#6b7280',
+                fontSize: '16px',
+                fontWeight: '600',
+                cursor: 'pointer',
+                transition: 'all 0.2s ease',
+                minWidth: '120px'
+              }}
+              onMouseOver={(e) => {
+                e.currentTarget.style.backgroundColor = '#f9fafb';
+                e.currentTarget.style.borderColor = '#d1d5db';
+                e.currentTarget.style.color = '#374151';
+              }}
+              onMouseOut={(e) => {
+                e.currentTarget.style.backgroundColor = '#ffffff';
+                e.currentTarget.style.borderColor = '#e5e7eb';
+                e.currentTarget.style.color = '#6b7280';
+              }}
+            >
+              Cancelar
+            </button>
+            <button
+              onClick={handleEditProject}
+              style={{
+                padding: '14px 28px',
+                border: 'none',
+                borderRadius: '12px',
+                background: 'linear-gradient(135deg, #3b82f6, #1d4ed8)',
+                color: '#ffffff',
+                fontSize: '16px',
+                fontWeight: '600',
+                cursor: 'pointer',
+                transition: 'all 0.2s ease',
+                boxShadow: '0 4px 12px rgba(59, 130, 246, 0.4)',
+                minWidth: '160px'
+              }}
+              onMouseOver={(e) => {
+                e.currentTarget.style.background = 'linear-gradient(135deg, #2563eb, #1e40af)';
+                e.currentTarget.style.transform = 'translateY(-2px)';
+                e.currentTarget.style.boxShadow = '0 8px 20px rgba(59, 130, 246, 0.5)';
+              }}
+              onMouseOut={(e) => {
+                e.currentTarget.style.background = 'linear-gradient(135deg, #3b82f6, #1d4ed8)';
+                e.currentTarget.style.transform = 'translateY(0)';
+                e.currentTarget.style.boxShadow = '0 4px 12px rgba(59, 130, 246, 0.4)';
+              }}
+            >
+              Guardar Cambios
+            </button>
+          </div>
               </div>
             </div>
           </>
