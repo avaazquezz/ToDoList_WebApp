@@ -1,3 +1,13 @@
+/// <reference types="vite/client" />
+
+interface ImportMetaEnv {
+  readonly VITE_API_URL: string;
+}
+
+interface ImportMeta {
+  readonly env: ImportMetaEnv;
+}
+
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import '../styles/RegisterPage.css';
