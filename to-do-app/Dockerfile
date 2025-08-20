@@ -1,5 +1,5 @@
-# Use the official Node.js image as a base
-FROM node:18
+# Use the official Node.js image as a base (Node 20 LTS required by react-router 7)
+FROM node:20
 
 # Set the working directory inside the container
 WORKDIR /app
