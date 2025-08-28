@@ -35,9 +35,11 @@
 @keyframes fadeIn {
   from {
     opacity: 0;
+    transform: translate(-50%, -50%) scale(0.9);
   }
   to {
     opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
   }
 }
 
@@ -46,6 +48,238 @@
   min-height: 100vh;
   background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
   padding: 2rem 1rem;
+}
+
+/* Botón de información del proyecto */
+.info-button {
+  background: rgba(34, 197, 94, 0.1);
+  border: none;
+  border-radius: 6px;
+  padding: 8px;
+  cursor: pointer;
+  color: #22c55e;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+}
+
+.info-button:hover {
+  background: rgba(34, 197, 94, 0.2) !important;
+}
+
+/* Botón de editar proyecto */
+.edit-button {
+  background: rgba(192, 211, 233, 0.77);
+  border: none;
+  border-radius: 6px;
+  padding: 8px;
+  cursor: pointer;
+  color: #1d3147ff;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+}
+
+.edit-button:hover {
+  background: rgba(74, 145, 226, 0.35) !important;
+}
+
+/* Overlay para modal */
+.modal-overlay-transparent {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 999;
+  background-color: transparent;
+}
+
+/* Tooltip de información del proyecto */
+.project-info-tooltip {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #ffffff;
+  color: #1f2937;
+  padding: 14px;
+  border-radius: 10px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12), 0 0 0 1px rgba(0, 0, 0, 0.08);
+  z-index: 1000;
+  width: 300px;
+  min-height: 120px;
+  max-height: 180px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
+  animation: fadeIn 0.2s ease-out;
+  overflow: visible;
+}
+
+/* Botón de cerrar del tooltip */
+.close-tooltip-button {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: rgba(239, 68, 68, 0.1);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ef4444;
+  transition: all 0.2s ease;
+  width: 24px;
+  height: 24px;
+  box-shadow: 0 1px 4px rgba(239, 68, 68, 0.1);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.close-tooltip-button:hover {
+  background: rgba(239, 68, 68, 0.2) !important;
+  transform: scale(1.1);
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.2);
+}
+
+/* Contenedor de información con margen */
+.info-container-with-margin {
+  margin-bottom: 10px;
+  border-bottom: 1px solid #e5e7eb;
+  padding-bottom: 6px;
+}
+
+/* Título de información */
+.info-title {
+  margin: 0 0 8px 0;
+  font-size: 14px;
+  font-weight: 700;
+  color: #1f2937;
+  text-align: center;
+  letter-spacing: -0.025em;
+  padding-right: 25px;
+}
+
+/* Contenedor de información en columna */
+.info-column-container {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 6px;
+}
+
+/* Item de información */
+.info-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px;
+  background-color: #ffffff !important;
+  border-radius: 6px;
+  border: 1px solid #d1d5db;
+  transition: all 0.2s ease;
+  min-height: 40px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.info-item:hover {
+  background-color: #9fb7ce;
+  border-color: #9ca3af;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+/* Avatar de usuario */
+.user-avatar {
+  width: 28px;
+  height: 28px;
+  background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 12px;
+  font-weight: 700;
+  box-shadow: 0 2px 6px rgba(59, 130, 246, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  flex-shrink: 0;
+}
+
+/* Contenedor de información de fecha */
+.date-icon-container {
+  width: 28px;
+  height: 28px;
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  box-shadow: 0 2px 6px rgba(16, 185, 129, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  flex-shrink: 0;
+}
+
+/* Contenedor flex que toma el espacio restante */
+.flex-1 {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* Etiqueta de información pequeña */
+.info-label {
+  margin: 0 0 1px 0;
+  font-size: 10px;
+  color: #696f7a;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  line-height: 1.2;
+}
+
+/* Valor de información para creador */
+.info-value-creator {
+  margin: 0;
+  font-size: 12px;
+  color: #1f2937;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+/* Etiqueta de fecha */
+.date-label {
+  margin: 0 0 1px 0;
+  font-size: 10px;
+  color: #6b7280;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  line-height: 1.2;
+}
+
+/* Valor de fecha */
+.date-value {
+  margin: 0;
+  font-size: 12px;
+  color: #1f2937;
+  font-weight: 600;
+  line-height: 1.3;
 }
 
 .home-page {
@@ -404,31 +638,6 @@
   color: var(--text-primary);
 }
 
-/* Tooltip de información */
-.project-info-tooltip {
-  position: absolute;
-  top: 100%;
-  right: 0;
-  background: white;
-  border-radius: 8px;
-  padding: 1rem;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-  z-index: 10;
-  min-width: 200px;
-  margin-top: 0.5rem;
-  animation: fadeIn 0.2s ease-out;
-}
-
-.project-info-tooltip p {
-  margin: 0.5rem 0;
-  color: var(--text-secondary);
-  font-size: 0.9rem;
-}
-
-.project-info-tooltip strong {
-  color: var(--text-primary);
-  font-weight: 600;
-}
 
 /* Grid de proyectos */
 .project-grid {
@@ -725,10 +934,12 @@
     color: #e2e8f0;
   }
 
+  /* DESHABILITADO - Conflicto con tooltip principal
   .project-info-tooltip {
     background: #1e293b;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
   }
+  */
 
   .info-button:hover {
     background: rgba(255, 255, 255, 0.1);
@@ -919,6 +1130,7 @@
   box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
 }
 
+/* DESHABILITADO - Conflicto con tooltip principal
 .project-info-tooltip {
   position: absolute;
   top: 100%;
@@ -934,6 +1146,7 @@
   font-size: 0.875rem;
   line-height: 1.4;
 }
+*/
 
 .tooltip-date {
   color: #4a5568;
@@ -1097,6 +1310,7 @@
   box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
 }
 
+/* DESHABILITADO - Conflicto con tooltip principal
 .project-info-tooltip {
   position: absolute;
   top: 100%;
@@ -1112,6 +1326,7 @@
   font-size: 0.875rem;
   line-height: 1.4;
 }
+*/
 
 /* Botones de acción específicos en project cards */
 .info-button {

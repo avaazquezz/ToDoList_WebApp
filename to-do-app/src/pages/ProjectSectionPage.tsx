@@ -4,7 +4,7 @@ import NavBar from '../components/NavBar';
 import { useNotification } from '../hooks/useNotification';
 import '../styles/ProjectSectionPage.css';
 
-const API_BASE_URL = import.meta.env.VITE_API_URL;
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 // Función para ajustar el color y crear el degradado
 const adjustColor = (color: string, amount: number): string => {
@@ -369,7 +369,7 @@ const ProjectSectionsPage = () => {
             onClick={deleteProject}
             aria-label={"Eliminar proyecto " + decodedProjectName}
           >
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginRight: '0.5rem' }} aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="svg-with-margin" aria-hidden="true">
               <path d="M3 6h18" />
               <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
               <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
@@ -466,35 +466,21 @@ const ProjectSectionsPage = () => {
             aria-labelledby="confirm-modal-title"
           >
             <div 
-              className="modal-content" 
+              className="modal-content modal-dynamic-border"
               onClick={e => e.stopPropagation()}
               style={{
-                maxWidth: '650px',
-                width: '90%',
-                background: 'white',
                 border: confirmDialog.type === 'delete-project' ? '2px solid #ef4444' : '2px solid #f59e0b'
               }}
             >
               <div 
-                className="modal-header"
+                className="modal-header modal-header-dynamic"
                 style={{
                   background: confirmDialog.type === 'delete-project' 
                     ? 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)'
-                    : 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)',
-                  padding: '2.5rem 2rem',
-                  textAlign: 'center'
+                    : 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)'
                 }}
               >
-                <div style={{
-                  width: '80px',
-                  height: '80px',
-                  borderRadius: '50%',
-                  background: 'rgba(255, 255, 255, 0.1)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  margin: '0 auto 1.5rem auto'
-                }}>
+                <div className="modal-icon-circle">
                   <svg
                     width="32"
                     height="32"
@@ -517,18 +503,7 @@ const ProjectSectionsPage = () => {
 
               <div className="confirm-modal-content">
                 <div className="confirm-modal-icon-container">
-                  <div style={{
-                    background: '#f59e0b',
-                    color: 'white',
-                    padding: '4px 12px',
-                    borderRadius: '8px',
-                    fontSize: '0.75rem',
-                    fontWeight: 'bold',
-                    textTransform: 'uppercase',
-                    letterSpacing: '0.5px',
-                    display: 'inline-block',
-                    marginBottom: '1rem'
-                  }}>
+                  <div className="warning-badge">
                     ⚠️ ADVERTENCIA
                   </div>
                   <p className="confirm-modal-text">
@@ -536,7 +511,7 @@ const ProjectSectionsPage = () => {
                   </p>
                 </div>
 
-                <div className="modal-actions" style={{ gap: '1.5rem', marginTop: '2.5rem', padding: '0 1rem' }}>
+                <div className="modal-actions modal-actions-spaced">
                   <button
                     className="modal-btn cancel-button"
                     onClick={() => setConfirmDialog(prev => ({ ...prev, isOpen: false }))}
@@ -544,15 +519,12 @@ const ProjectSectionsPage = () => {
                     Cancelar
                   </button>
                   <button
-                    className="modal-btn"
+                    className="modal-btn modal-btn-dynamic"
                     onClick={confirmDialog.onConfirm}
                     style={{
                       background: confirmDialog.type === 'delete-project'
                         ? 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)'
-                        : 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)',
-                      color: 'white',
-                      border: 'none',
-                      fontWeight: '600'
+                        : 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)'
                     }}
                   >
                     {confirmDialog.type === 'delete-project' ? 'Eliminar Proyecto' : 'Eliminar Sección'}

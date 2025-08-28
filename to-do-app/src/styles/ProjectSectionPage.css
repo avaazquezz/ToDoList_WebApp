@@ -1031,3 +1031,81 @@
   line-height: 1.6;
   white-space: pre-line;
 }
+
+/* Clases para estilos dinámicos específicos */
+
+/* Header dinámico del proyecto */
+.project-header-dynamic {
+  position: relative; /* Para permitir backgrounds dinámicos */
+}
+
+/* Tarjeta de sección con fondo dinámico */
+.section-card-dynamic {
+  position: relative; /* Para permitir backgrounds y borders dinámicos */
+}
+
+/* SVG con margen específico */
+.svg-with-margin {
+  margin-right: 0.5rem;
+}
+
+/* Color option con gradiente dinámico */
+.color-option-gradient {
+  position: relative; /* Para permitir backgrounds dinámicos */
+}
+
+/* Modal con borde dinámico */
+.modal-dynamic-border {
+  max-width: 650px;
+  width: 90%;
+  background: white;
+  /* Border se establecerá dinámicamente */
+}
+
+/* Header del modal con colores dinámicos */
+.modal-header-dynamic {
+  position: relative; /* Para permitir backgrounds dinámicos */
+  padding: 2.5rem 2rem;
+  text-align: center;
+}
+
+/* Contenedor de icono circular */
+.modal-icon-circle {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.5rem auto;
+}
+
+/* Badge de advertencia */
+.warning-badge {
+  background: #f59e0b;
+  color: white;
+  padding: 4px 12px;
+  border-radius: 8px;
+  font-size: 0.75rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  display: inline-block;
+  margin-bottom: 1rem;
+}
+
+/* Acciones del modal con espaciado específico */
+.modal-actions-spaced {
+  gap: 1.5rem;
+  margin-top: 2.5rem;
+  padding: 0 1rem;
+}
+
+/* Botón del modal con fondo dinámico */
+.modal-btn-dynamic {
+  position: relative; /* Para permitir backgrounds dinámicos */
+  color: white;
+  border: none;
+  font-weight: 600;
+}

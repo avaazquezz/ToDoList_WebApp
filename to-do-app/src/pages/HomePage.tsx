@@ -49,7 +49,7 @@ const HomePage = () => {
         const data = await response.json();
         const updatedProjects = data.map((project: any) => ({
           ...project,
-          createdBy: project.creatorName, // Usar el nombre del creador
+          createdBy: project.creatorName || project.createdBy || 'Usuario', // Usar el nombre del creador
         }));
         setProjects(updatedProjects);
       } catch (error) {
@@ -292,24 +292,8 @@ const HomePage = () => {
                             setActiveTooltip(activeTooltip === project.id ? null : project.id);
                           }}
                           aria-label="Mostrar información del proyecto"
-                          style={{
-                            background: 'rgba(34, 197, 94, 0.1)',
-                            border: 'none',
-                            borderRadius: '6px',
-                            padding: '8px',
-                            cursor: 'pointer',
-                            color: '#22c55e',
-                            fontSize: '14px',
-                            fontWeight: '500',
-                            transition: 'all 0.2s ease',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            width: '32px',
-                            height: '32px'
-                          }}
                           onMouseOver={(e) => {
-                            e.currentTarget.style.background = 'rgba(34, 197, 94, 0.2)';
+                            e.currentTarget.style.background = 'rgba(34, 197, 94, 1)';
                             // Crear tooltip si no existe
                             if (!e.currentTarget.querySelector('.info-tooltip')) {
                               const tooltip = document.createElement('div');
@@ -377,22 +361,6 @@ const HomePage = () => {
                             setEditingProject(project);
                           }}
                           aria-label="Editar proyecto"
-                          style={{
-                            background: 'rgba(192, 211, 233, 0.77)',
-                            border: 'none',
-                            borderRadius: '6px',
-                            padding: '8px',
-                            cursor: 'pointer',
-                            color: '#1d3147ff',
-                            fontSize: '14px',
-                            fontWeight: '500',
-                            transition: 'all 0.2s ease',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            width: '32px',
-                            height: '32px'
-                          }}
                           onMouseOver={(e) => {
                             e.currentTarget.style.background = 'rgba(74, 145, 226, 0.35)';
                             // Crear tooltip si no existe
@@ -449,77 +417,29 @@ const HomePage = () => {
                       <>
                         {/* Overlay para cerrar al hacer clic fuera */}
                         <div 
-                          style={{
-                            position: 'fixed',
-                            top: 0,
-                            left: 0,
-                            right: 0,
-                            bottom: 0,
-                            zIndex: 999,
-                            backgroundColor: 'transparent'
-                          }}
+                          className="modal-overlay-transparent"
                           onClick={(e) => {
                             e.stopPropagation();
                             setActiveTooltip(null);
                           }}
                         />
                         
-                        <div className="project-info-tooltip" style={{
-                          position: 'absolute',
-                          top: '50%',
-                          left: '50%',
-                          transform: 'translate(-50%, -50%)',
-                          backgroundColor: '#fffdfdff',
-                          color: '#333',
-                          padding: '24px',
-                          borderRadius: '16px',
-                          boxShadow: '0 20px 60px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(0, 0, 0, 0.05)',
-                          zIndex: 1000,
-                          width: '280px',
-                          height: '245',
-                          border: '1px solid rgba(0, 0, 0, 0.08)',
-                          backdropFilter: 'blur(10px)',
-                          animation: 'fadeIn 0.2s ease-out',
-                        }}>
+                        <div className="project-info-tooltip">
                           <button
                             onClick={(e) => {
                               e.stopPropagation();
                               setActiveTooltip(null);
                             }}
-                            style={{
-                              position: 'absolute',
-                              top: '12px',
-                              right: '12px',
-                              background: 'rgba(160, 148, 148, 0.36)',
-                              border: 'none',
-                              borderRadius: '8px',
-                              cursor: 'pointer',
-                              padding: '4px',
-                              display: 'flex',
-                              alignItems: 'center',
-                              justifyContent: 'center',
-                              color: '#f30a0aff',
-                              transition: 'all 0.2s ease',
-                              width: '32px',
-                              height: '32px'
-                            }}
-                            onMouseOver={(e) => {
-                              e.currentTarget.style.background = 'rgba(239, 68, 68, 0.57)';
-                              e.currentTarget.style.color = '#f71313ff';
-                            }}
-                            onMouseOut={(e) => {
-                              e.currentTarget.style.background = 'rgba(160, 148, 148, 0.36)';
-                              e.currentTarget.style.color = '#f30a0aff';
-                            }}
+                            className="close-tooltip-button"
                             aria-label="Cerrar información"
                           >
                             <svg 
-                              width="25" 
-                              height="25" 
+                              width="20" 
+                              height="20" 
                               viewBox="0 0 24 24" 
                               fill="none" 
                               stroke="currentColor" 
-                              strokeWidth="2"
+                              strokeWidth="2.5"
                               strokeLinecap="round" 
                               strokeLinejoin="round"
                             >
@@ -528,87 +448,29 @@ const HomePage = () => {
                             </svg>
                           </button>
                           
-                          <div style={{ marginBottom: '20px' }}>
-                            <h4 style={{
-                              margin: '0 0 16px 0',
-                              fontSize: '16px',
-                              fontWeight: '700',
-                              color: '#000000ff',
-                              textAlign: 'left'
-                            }}>
+                          <div className="info-container-with-margin">
+                            <h4 className="info-title">
                               Información del Proyecto
                             </h4>
                           </div>
                           
-                          <div style={{
-                            display: 'flex',
-                            flexDirection: 'column',
-                            gap: '14px'
-                          }}>
-                            <div style={{
-                              display: 'flex',
-                              alignItems: 'center',
-                              gap: '12px',
-                              padding: '12px',
-                              backgroundColor: '#f8fafc',
-                              borderRadius: '8px',
-                              border: '1px solid #e2e8f0'
-                            }}>
-                              <div style={{
-                                width: '32px',
-                                height: '32px',
-                                backgroundColor: '#3b82f6',
-                                borderRadius: '8px',
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                color: 'white',
-                                fontSize: '13px',
-                                fontWeight: '600'
-                              }}>
+                          <div className="info-column-container">
+                            <div className="info-item">
+                              <div className="user-avatar">
                                 {project.createdBy.charAt(0).toUpperCase()}
                               </div>
-                              <div style={{ flex: 1 }}>
-                                <p style={{
-                                  margin: 0,
-                                  fontSize: '11px',
-                                  color: '#5d6472ff',
-                                  fontWeight: '500',
-                                  textTransform: 'uppercase',
-                                  letterSpacing: '0.5px'
-                                }}>
+                              <div className="flex-1">
+                                <p className="info-label">
                                   Creado por
                                 </p>
-                                <p style={{
-                                  margin: 0,
-                                  fontSize: '12px',
-                                  color: '#0e3e81ff',
-                                  fontWeight: '600'
-                                }}>
+                                <p className="info-value-creator">
                                   {project.createdBy}
                                 </p>
                               </div>
                             </div>
                             
-                            <div style={{
-                              display: 'flex',
-                              alignItems: 'center',
-                              gap: '12px',
-                              padding: '12px',
-                              backgroundColor: '#f8fafc',
-                              borderRadius: '8px',
-                              border: '1px solid #e2e8f0'
-                            }}>
-                              <div style={{
-                                width: '32px',
-                                height: '32px',
-                                backgroundColor: '#10b981',
-                                borderRadius: '8px',
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                color: 'white'
-                              }}>
+                            <div className="info-item">
+                              <div className="date-icon-container">
                                 <svg 
                                   width="16" 
                                   height="16" 
@@ -623,23 +485,11 @@ const HomePage = () => {
                                   <line x1="3" y1="10" x2="21" y2="10" />
                                 </svg>
                               </div>
-                              <div style={{ flex: 1 }}>
-                                <p style={{
-                                  margin: 0,
-                                  fontSize: '11px',
-                                  color: '#4b525fff',
-                                  fontWeight: '500',
-                                  textTransform: 'uppercase',
-                                  letterSpacing: '0.5px'
-                                }}>
+                              <div className="flex-1">
+                                <p className="date-label">
                                   Fecha de creación
                                 </p>
-                                <p style={{
-                                  margin: 0,
-                                  fontSize: '13px',
-                                  color: '#133058ff',
-                                  fontWeight: '600'
-                                }}>
+                                <p className="date-value">
                                   {formatDate(project.createdAt)}
                                 </p>
                               </div>
