@@ -10,6 +10,7 @@ interface ImportMeta {
 
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useNotification } from '../hooks/useNotification';
 import '../styles/RegisterPage.css';
 
 const apiUrl = import.meta.env.VITE_API_URL;
@@ -19,14 +20,16 @@ const RegisterPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-  const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const { showSuccess, showError, showLoading, dismissAll } = useNotification();
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError(null);
     setLoading(true);
+
+    // Mostrar notificación de carga
+    const toastId = showLoading('Creando tu cuenta...');
 
     try {
       const response = await fetch(`${apiUrl}/auth/register`, {
@@ -39,7 +42,8 @@ const RegisterPage = () => {
 
       if (!response.ok) {
         if (response.status === 409) {
-          setError('El correo electrónico ya está registrado.');
+          dismissAll();
+          showError('El correo electrónico ya está registrado.');
         } else {
           throw new Error(data.error || 'Error al registrarse.');
         }
@@ -50,9 +54,19 @@ const RegisterPage = () => {
       localStorage.setItem('authToken', data.token);
       localStorage.setItem('userId', data.user.id.toString());
 
-      navigate('/home');
+      // Cerrar toast de loading y mostrar éxito
+      dismissAll();
+      showSuccess(`¡Bienvenido ${name}! Tu cuenta ha sido creada exitosamente`);
+
+      // Pequeña pausa para que se vea la notificación antes de navegar
+      setTimeout(() => {
+        navigate('/home');
+      }, 1500);
+
     } catch (err: any) {
-      setError(err.message || 'Error al registrarse. Inténtalo de nuevo.');
+      // Cerrar toast de loading y mostrar error
+      dismissAll();
+      showError(err.message || 'Error al registrarse. Inténtalo de nuevo.');
     } finally {
       setLoading(false);
     }
@@ -65,8 +79,6 @@ const RegisterPage = () => {
           <h1>Crear Cuenta</h1>
           <p>Regístrate para comenzar</p>
         </div>
-        
-        {error && <div className="error-message">{error}</div>}
         
         <form onSubmit={handleRegister}>
           <div className="form-group">

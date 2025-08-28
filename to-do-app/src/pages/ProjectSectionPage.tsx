@@ -1,6 +1,7 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import NavBar from '../components/NavBar';
+import { useNotification } from '../hooks/useNotification';
 import '../styles/ProjectSectionPage.css';
 
 const API_BASE_URL = import.meta.env.VITE_API_URL;
@@ -65,6 +66,7 @@ const ProjectSectionsPage = () => {
     onConfirm: () => {},
   });
   const navigate = useNavigate();
+  const { showSuccess, showError, showWarning } = useNotification();
 
   const decodedProjectName = projectName ? decodeURIComponent(projectName) : '';
 
@@ -78,7 +80,7 @@ const ProjectSectionsPage = () => {
         setProjectColor(currentProject.color);
       }
     } catch (error) {
-      console.error('Error al cargar el color del proyecto:', error);
+      showError('Error al cargar la configuración del proyecto');
     }
   }, [decodedProjectName]);
 
@@ -90,7 +92,7 @@ const ProjectSectionsPage = () => {
         const storedProjects: Project[] = JSON.parse(localStorage.getItem('projects') || '[]');
         const currentProject = storedProjects.find(p => p.name === decodedProjectName);
         if (!currentProject) {
-          console.error('No se encontró el proyecto en localStorage');
+          showError('No se encontró el proyecto en localStorage');
           return;
         }
         const response = await fetch(`${API_BASE_URL}/sections/project/${currentProject.id}`);
@@ -105,7 +107,7 @@ const ProjectSectionsPage = () => {
           createdAt: section.createdAt,
         })));
       } catch (error) {
-        console.error('Error al cargar las secciones:', error);
+        showError('Error al cargar las secciones del proyecto');
       }
     };
     fetchSections();
@@ -146,12 +148,12 @@ const ProjectSectionsPage = () => {
 
   const addOrUpdateSection = async () => {
     if (newSectionTitle.trim() === '' || newSectionText.trim() === '') {
-      alert('Por favor completa todos los campos requeridos.');
+      showWarning('Por favor completa todos los campos requeridos');
       return;
     }
     const userId = localStorage.getItem('userId');
     if (!userId) {
-      alert('No se encontró el ID del usuario. Por favor, inicia sesión nuevamente.');
+      showError('No se encontró el ID del usuario. Por favor, inicia sesión nuevamente');
       navigate('/login');
       return;
     }
@@ -175,12 +177,13 @@ const ProjectSectionsPage = () => {
             ? { ...section, title: newSectionTitle, text: newSectionText, color: selectedColor, gradient: selectedColorObj?.gradient }
             : section
         ));
+        showSuccess('Sección actualizada correctamente');
       } else {
         // CREATE
         const storedProjects: Project[] = JSON.parse(localStorage.getItem('projects') || '[]');
         const currentProject = storedProjects.find(p => p.name === decodedProjectName);
         if (!currentProject) {
-          alert('No se encontró el proyecto. Por favor, verifica los datos.');
+          showError('No se encontró el proyecto. Por favor, verifica los datos');
           return;
         }
         const response = await fetch(`${API_BASE_URL}/sections`, {
@@ -208,10 +211,11 @@ const ProjectSectionsPage = () => {
             createdAt: Date.now(),
           }
         ]);
+        showSuccess('Sección creada correctamente');
       }
       closeModal();
     } catch (error) {
-      console.error('Error al guardar la sección:', error);
+      showError(editingSection ? 'Error al actualizar la sección' : 'Error al crear la sección');
     }
   };
 
@@ -240,9 +244,9 @@ const ProjectSectionsPage = () => {
             if (!response.ok) throw new Error('Error al eliminar la sección');
             setSections(prev => prev.filter(s => s.idSection !== sectionId));
             setConfirmDialog(prev => ({ ...prev, isOpen: false }));
+            showSuccess('Sección eliminada correctamente');
           } catch (error) {
-            console.error('Error al eliminar la sección:', error);
-            alert('Hubo un error al intentar eliminar la sección.');
+            showError('Error al eliminar la sección');
           }
         }
       });
@@ -260,7 +264,7 @@ const ProjectSectionsPage = () => {
           const storedProjects = JSON.parse(localStorage.getItem('projects') || '[]');
           const currentProject = storedProjects.find((p: Project) => p.name === decodedProjectName);
           if (!currentProject) {
-            alert('No se encontró el proyecto. Por favor, verifica los datos.');
+            showError('No se encontró el proyecto. Por favor, verifica los datos');
             return;
           }
           const response = await fetch(`${API_BASE_URL}/projects/${currentProject.id}`, { method: 'DELETE' });
@@ -268,10 +272,10 @@ const ProjectSectionsPage = () => {
           const updatedProjects = storedProjects.filter((p: Project) => p.name !== decodedProjectName);
           localStorage.setItem('projects', JSON.stringify(updatedProjects));
           setConfirmDialog(prev => ({ ...prev, isOpen: false }));
+          showSuccess('Proyecto eliminado correctamente');
           navigate('/home');
         } catch (error) {
-          console.error('Error al eliminar el proyecto:', error);
-          alert('Hubo un error al intentar eliminar el proyecto.');
+          showError('Error al eliminar el proyecto');
         }
       }
     });
@@ -283,12 +287,11 @@ const ProjectSectionsPage = () => {
 
       <div className="project-main-content">
         <div
-          className="project-header"
+          className="project-header project-header-dynamic"
           style={{
             background: projectColor
               ? `linear-gradient(135deg, ${projectColor}, ${adjustColor(projectColor, -30)})`
-              : 'var(--gradient-primary)',
-            transition: 'background 0.3s ease'
+              : 'var(--gradient-primary)'
           }}
         >
           <h1>{decodedProjectName}</h1>
@@ -466,7 +469,8 @@ const ProjectSectionsPage = () => {
               className="modal-content" 
               onClick={e => e.stopPropagation()}
               style={{
-                maxWidth: '500px',
+                maxWidth: '650px',
+                width: '90%',
                 background: 'white',
                 border: confirmDialog.type === 'delete-project' ? '2px solid #ef4444' : '2px solid #f59e0b'
               }}
@@ -477,26 +481,26 @@ const ProjectSectionsPage = () => {
                   background: confirmDialog.type === 'delete-project' 
                     ? 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)'
                     : 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)',
-                  padding: '2rem 1.5rem',
+                  padding: '2.5rem 2rem',
                   textAlign: 'center'
                 }}
               >
                 <div style={{
-                  width: '60px',
-                  height: '60px',
+                  width: '80px',
+                  height: '80px',
                   borderRadius: '50%',
                   background: 'rgba(255, 255, 255, 0.1)',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  margin: '0 auto 1rem auto'
+                  margin: '0 auto 1.5rem auto'
                 }}>
                   <svg
-                    width="24"
-                    height="24"
+                    width="32"
+                    height="32"
                     viewBox="0 0 24 24"
                     fill="none"
-                    stroke={confirmDialog.type === 'delete-project' ? '#ef4444' : '#f59e0b'}
+                    stroke="white"
                     strokeWidth="2.5" 
                     strokeLinecap="round" 
                     strokeLinejoin="round"
@@ -506,19 +510,13 @@ const ProjectSectionsPage = () => {
                     <circle cx="12" cy="12" r="10"/>
                   </svg>
                 </div>
-                <h2 id="confirm-modal-title" className="modal-title" style={{ margin: 0, color: 'white' }}>
+                <h2 id="confirm-modal-title" className="modal-title modal-title-white">
                   {confirmDialog.title}
                 </h2>
               </div>
 
-              <div style={{ padding: '2rem 1.5rem' }}>
-                <div style={{
-                  background: '#fef3c7',
-                  border: '1px solid #f59e0b',
-                  borderRadius: '12px',
-                  padding: '1.5rem',
-                  marginBottom: '1.5rem'
-                }}>
+              <div className="confirm-modal-content">
+                <div className="confirm-modal-icon-container">
                   <div style={{
                     background: '#f59e0b',
                     color: 'white',
@@ -533,18 +531,12 @@ const ProjectSectionsPage = () => {
                   }}>
                     ⚠️ ADVERTENCIA
                   </div>
-                  <p style={{
-                    margin: 0,
-                    color: '#92400e',
-                    fontWeight: '500',
-                    lineHeight: '1.6',
-                    whiteSpace: 'pre-line'
-                  }}>
+                  <p className="confirm-modal-text">
                     {confirmDialog.message}
                   </p>
                 </div>
 
-                <div className="modal-actions" style={{ gap: '1rem', marginTop: '2rem' }}>
+                <div className="modal-actions" style={{ gap: '1.5rem', marginTop: '2.5rem', padding: '0 1rem' }}>
                   <button
                     className="modal-btn cancel-button"
                     onClick={() => setConfirmDialog(prev => ({ ...prev, isOpen: false }))}

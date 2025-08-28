@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useLocation } from 'react-router-dom';
 import '../styles/ToDoPage.css';
 import NavBar from '../components/NavBar';
+import { useNotification } from '../hooks/useNotification';
 
 const API_BASE_URL = import.meta.env.VITE_API_URL;
 
@@ -23,7 +24,6 @@ const ToDoPage: React.FC = () => {
   const sectionName = location.state?.sectionName || ''; // Use section name from state
 
   const [notes, setNotes] = useState<Note[]>([]);
-  const [error, setError] = useState<string | null>(null);
   const [newNoteTitle, setNewNoteTitle] = useState('');
   const [isCreatingNote, setIsCreatingNote] = useState(false);
   const [editingNoteId, setEditingNoteId] = useState<number | null>(null);
@@ -31,10 +31,11 @@ const ToDoPage: React.FC = () => {
   const [focusedNoteId, setFocusedNoteId] = useState<number | null>(null);
   const [editingTodoId, setEditingTodoId] = useState<number | null>(null);
   const [editingTodoContent, setEditingTodoContent] = useState('');
+  const { showSuccess, showError, showWarning } = useNotification();
 
   useEffect(() => {
     if (!sectionName) {
-      setError('No se pudo obtener el nombre de la sección desde el estado.');
+      showError('No se pudo obtener el nombre de la sección desde el estado');
       return;
     }
 
@@ -57,7 +58,7 @@ const ToDoPage: React.FC = () => {
         
         setNotes(notesWithTodos);
       } catch (err: any) {
-        setError(err.message);
+        showError('Error al cargar las notas');
       }
     };
 
@@ -65,11 +66,14 @@ const ToDoPage: React.FC = () => {
   }, [sectionId, sectionName]);
 
   const createNote = async () => {
-    if (!newNoteTitle.trim()) return;
+    if (!newNoteTitle.trim()) {
+      showWarning('Por favor, ingresa un título para la nota');
+      return;
+    }
     
     const userId = localStorage.getItem('userId');
     if (!userId) {
-      setError('No se encontró el ID del usuario. Por favor, inicia sesión nuevamente.');
+      showError('No se encontró el ID del usuario. Por favor, inicia sesión nuevamente');
       return;
     }
 
@@ -98,8 +102,9 @@ const ToDoPage: React.FC = () => {
       setNotes(prev => [...prev, newNote]);
       setNewNoteTitle('');
       setIsCreatingNote(false);
+      showSuccess('Nota creada correctamente');
     } catch (err: any) {
-      setError(err.message);
+      showError('Error al crear la nota');
     }
   };
 
@@ -130,7 +135,7 @@ const ToDoPage: React.FC = () => {
       // Clear the input for this note
       setNewTodoContent(prev => ({ ...prev, [noteId]: '' }));
     } catch (err: any) {
-      setError(err.message);
+      showError('Error al crear la tarea');
     }
   };
 
@@ -165,8 +170,9 @@ const ToDoPage: React.FC = () => {
             : note
         )
       );
+      showSuccess('Tarea eliminada correctamente');
     } catch (err: any) {
-      setError(err.message);
+      showError('Error al eliminar la tarea');
     }
   };
 
@@ -205,8 +211,9 @@ const ToDoPage: React.FC = () => {
 
       setEditingTodoId(null);
       setEditingTodoContent('');
+      showSuccess('Tarea actualizada correctamente');
     } catch (err: any) {
-      setError(err.message);
+      showError('Error al actualizar la tarea');
     }
   };
 
@@ -239,7 +246,7 @@ const ToDoPage: React.FC = () => {
         }))
       );
     } catch (err: any) {
-      setError(err.message);
+      showError('Error al actualizar el estado de la tarea');
     }
   };
 
@@ -262,8 +269,9 @@ const ToDoPage: React.FC = () => {
           note.id === noteId ? { ...note, title } : note
         )
       );
+      showSuccess('Nota actualizada correctamente');
     } catch (err: any) {
-      setError(err.message);
+      showError('Error al actualizar la nota');
     }
   };
 
@@ -281,8 +289,9 @@ const ToDoPage: React.FC = () => {
       }
 
       setNotes(prevNotes => prevNotes.filter(note => note.id !== noteId));
+      showSuccess('Nota eliminada correctamente');
     } catch (err: any) {
-      setError(err.message);
+      showError('Error al eliminar la nota');
     }
   };
 
@@ -321,38 +330,24 @@ const ToDoPage: React.FC = () => {
             ✨ Crear Nueva Nota
           </button>
         )}
-
-        {error && (
-          <div className="error-message">
-            {error}
-          </div>
-        )}
       </div>
 
       {isCreatingNote && (
-        <div className="note-card" style={{ marginBottom: '2rem' }}>
+        <div className="note-card note-card-creating">
           <input
             type="text"
             placeholder="Título de la nota..."
             value={newNoteTitle}
             onChange={(e) => setNewNoteTitle(e.target.value)}
-            style={{
-              width: '100%',
-              padding: '0.75rem',
-              border: '2px solid #e2e8f0',
-              borderRadius: '8px',
-              fontSize: '1rem',
-              marginBottom: '1rem'
-            }}
+            className="note-input-field"
             autoFocus
           />
-          <div style={{ display: 'flex', gap: '1rem' }}>
+          <div className="note-buttons-container">
             <button className="add-todo-btn" onClick={createNote}>
               Crear Nota
             </button>
             <button 
-              className="add-todo-btn" 
-              style={{ background: '#e53e3e' }}
+              className="add-todo-btn cancel-btn"
               onClick={() => setIsCreatingNote(false)}
             >
               Cancelar
@@ -361,7 +356,7 @@ const ToDoPage: React.FC = () => {
         </div>
       )}
 
-      {notes.length === 0 && !error && (
+      {notes.length === 0 && (
         <div className="no-notes-message">
           No hay notas disponibles en esta sección.
         </div>

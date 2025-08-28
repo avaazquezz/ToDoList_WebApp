@@ -920,3 +920,114 @@
 }
 
 /* Mejor
+
+/* Estilo para el header con color dinámico */
+.project-header-dynamic {
+  transition: background 0.3s ease;
+}
+
+/* Estilo para el overlay del modal */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 999;
+  background-color: transparent;
+}
+
+/* Estilo para el modal de confirmación */
+.confirm-modal-content {
+  padding: 2.5rem 2rem;
+}
+
+.confirm-modal-icon-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 1rem;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #fef3c7, #f59e0b);
+}
+
+.confirm-modal-text {
+  text-align: center;
+  color: #374151;
+  font-size: 1.2rem;
+  line-height: 1.7;
+  margin: 0;
+  padding: 1rem;
+}
+
+.confirm-modal-actions {
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.confirm-cancel-button {
+  background: #f3f4f6;
+  border: 1px solid #d1d5db;
+  color: #374151;
+  padding: 1rem 2rem;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+  min-width: 140px;
+}
+
+.confirm-cancel-button:hover {
+  background: #e5e7eb;
+  transform: translateY(-1px);
+}
+
+.confirm-delete-button {
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+  border: none;
+  color: white;
+  padding: 1rem 2rem;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+  min-width: 140px;
+}
+
+.modal-title-white {
+  margin: 0;
+  color: white;
+}
+
+.confirm-modal-warning-box {
+  background: #fef3c7;
+  border: 1px solid #f59e0b;
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.confirm-modal-warning-badge {
+  background: #f59e0b;
+  color: white;
+  padding: 4px 12px;
+  border-radius: 8px;
+  font-size: 0.75rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  display: inline-block;
+  margin-bottom: 1rem;
+}
+
+.confirm-modal-text {
+  margin: 0;
+  color: #92400e;
+  font-weight: 500;
+  line-height: 1.6;
+  white-space: pre-line;
+}
