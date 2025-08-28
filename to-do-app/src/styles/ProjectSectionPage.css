@@ -1109,3 +1109,80 @@
   border: none;
   font-weight: 600;
 }
+
+/* Estilos para el mensaje de advertencia */
+.warning-message {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1.5rem;
+  background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+  border: 1px solid #fecaca;
+  border-radius: 16px;
+  margin: 0;
+}
+
+.warning-icon {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: rgba(239, 68, 68, 0.1);
+  border-radius: 50%;
+}
+
+.warning-text {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #7f1d1d;
+  font-weight: 500;
+  white-space: pre-line;
+}
+
+/* Botón de eliminar con estilo de peligro */
+.delete-button {
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  color: white;
+  box-shadow: 
+    0 4px 12px rgba(239, 68, 68, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  position: relative;
+}
+
+.delete-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 
+    0 8px 25px rgba(239, 68, 68, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+/* Estilos específicos para el modal de editar proyecto */
+.modal-content .modal-header {
+  background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+  border-top-left-radius: 24px;
+  border-top-right-radius: 24px;
+  padding: 2rem 1.5rem;
+  margin: 0;
+  text-align: center;
+  border-bottom: none;
+}
+
+/* Override para el header específico del modal de proyectos */
+.modal-content .modal-title {
+  color: #ffffff;
+  font-size: 1.75rem;
+  font-weight: 800;
+  margin: 0 0 0.5rem 0;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+
+.modal-content .modal-subtitle {
+  color: #ffffff;
+  font-size: 1rem;
+  margin: 0;
+  opacity: 0.95;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+}

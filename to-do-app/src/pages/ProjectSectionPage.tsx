@@ -4,7 +4,7 @@ import NavBar from '../components/NavBar';
 import { useNotification } from '../hooks/useNotification';
 import '../styles/ProjectSectionPage.css';
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+const API_BASE_URL = 'http://localhost:3001/api';
 
 // Función para ajustar el color y crear el degradado
 const adjustColor = (color: string, amount: number): string => {
@@ -95,7 +95,7 @@ const ProjectSectionsPage = () => {
           showError('No se encontró el proyecto en localStorage');
           return;
         }
-        const response = await fetch(`${API_BASE_URL}/sections/project/${currentProject.id}`);
+        const response = await fetch(`${API_BASE_URL}/project/${currentProject.id}/sections`);
         if (!response.ok) throw new Error('Error al cargar las secciones');
         const data = await response.json();
         setSections(data.map(section => ({
@@ -186,7 +186,16 @@ const ProjectSectionsPage = () => {
           showError('No se encontró el proyecto. Por favor, verifica los datos');
           return;
         }
-        const response = await fetch(`${API_BASE_URL}/sections`, {
+        console.log('📤 Enviando datos:', {
+          title: newSectionTitle,
+          description: newSectionText, 
+          color: selectedColor,
+          createdAt: Date.now(),
+          project_id: currentProject.id,
+          user_id: userId,
+        });
+        
+        const response = await fetch(`${API_BASE_URL}/project/${currentProject.id}/sections`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -198,8 +207,18 @@ const ProjectSectionsPage = () => {
             user_id: userId,
           }),
         });
-        if (!response.ok) throw new Error('Error al crear la sección');
+        
+        console.log('📥 Response status:', response.status);
+        console.log('📥 Response ok:', response.ok);
+        
+        if (!response.ok) {
+          const errorText = await response.text();
+          console.log('❌ Error response:', errorText);
+          throw new Error(`Error al crear la sección: ${errorText}`);
+        }
+        
         const data = await response.json();
+        console.log('✅ Success data:', data);
         setSections(prev => [
           ...prev,
           {
@@ -215,6 +234,7 @@ const ProjectSectionsPage = () => {
       }
       closeModal();
     } catch (error) {
+      console.error('💥 Catch error:', error);
       showError(editingSection ? 'Error al actualizar la sección' : 'Error al crear la sección');
     }
   };
@@ -465,71 +485,47 @@ const ProjectSectionsPage = () => {
             aria-modal="true"
             aria-labelledby="confirm-modal-title"
           >
-            <div 
-              className="modal-content modal-dynamic-border"
-              onClick={e => e.stopPropagation()}
-              style={{
-                border: confirmDialog.type === 'delete-project' ? '2px solid #ef4444' : '2px solid #f59e0b'
-              }}
-            >
-              <div 
-                className="modal-header modal-header-dynamic"
-                style={{
-                  background: confirmDialog.type === 'delete-project' 
-                    ? 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)'
-                    : 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)'
-                }}
-              >
-                <div className="modal-icon-circle">
-                  <svg
-                    width="32"
-                    height="32"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="white"
-                    strokeWidth="2.5" 
-                    strokeLinecap="round" 
-                    strokeLinejoin="round"
-                  >
-                    <path d="M12 9v4" />
-                    <path d="M12 17h.01" />
-                    <circle cx="12" cy="12" r="10"/>
-                  </svg>
-                </div>
-                <h2 id="confirm-modal-title" className="modal-title modal-title-white">
+            <div className="modal-content" onClick={e => e.stopPropagation()}>
+              <div className="modal-header">
+                <h2 id="confirm-modal-title" className="modal-title">
                   {confirmDialog.title}
                 </h2>
+                <p className="modal-subtitle">
+                  {confirmDialog.type === 'delete-project' 
+                    ? 'Esta acción eliminará permanentemente el proyecto y todos sus datos'
+                    : 'Esta acción eliminará permanentemente la sección'
+                  }
+                </p>
               </div>
 
-              <div className="confirm-modal-content">
-                <div className="confirm-modal-icon-container">
-                  <div className="warning-badge">
-                    ⚠️ ADVERTENCIA
+              <div className="form-group">
+                <div className="warning-message">
+                  <div className="warning-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ef4444" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M12 9v4" />
+                      <path d="M12 17h.01" />
+                      <circle cx="12" cy="12" r="10"/>
+                    </svg>
                   </div>
-                  <p className="confirm-modal-text">
+                  <p className="warning-text">
                     {confirmDialog.message}
                   </p>
                 </div>
+              </div>
 
-                <div className="modal-actions modal-actions-spaced">
-                  <button
-                    className="modal-btn cancel-button"
-                    onClick={() => setConfirmDialog(prev => ({ ...prev, isOpen: false }))}
-                  >
-                    Cancelar
-                  </button>
-                  <button
-                    className="modal-btn modal-btn-dynamic"
-                    onClick={confirmDialog.onConfirm}
-                    style={{
-                      background: confirmDialog.type === 'delete-project'
-                        ? 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)'
-                        : 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)'
-                    }}
-                  >
-                    {confirmDialog.type === 'delete-project' ? 'Eliminar Proyecto' : 'Eliminar Sección'}
-                  </button>
-                </div>
+              <div className="modal-actions">
+                <button
+                  className="modal-btn cancel-button"
+                  onClick={() => setConfirmDialog(prev => ({ ...prev, isOpen: false }))}
+                >
+                  Cancelar
+                </button>
+                <button
+                  className="modal-btn delete-button"
+                  onClick={confirmDialog.onConfirm}
+                >
+                  {confirmDialog.type === 'delete-project' ? 'Eliminar Proyecto' : 'Eliminar Sección'}
+                </button>
               </div>
             </div>
           </div>
