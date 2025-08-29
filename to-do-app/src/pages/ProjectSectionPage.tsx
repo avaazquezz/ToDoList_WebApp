@@ -45,10 +45,6 @@ interface Project {
 const ProjectSectionsPage = () => {
   const { projectName } = useParams<{ projectName: string }>();
   const [sections, setSections] = useState<Section[]>([]);
-  const [newSectionTitle, setNewSectionTitle] = useState('');
-  const [newSectionText, setNewSectionText] = useState('');
-  const [selectedColor, setSelectedColor] = useState(COLORS[0].value);
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingSection, setEditingSection] = useState<Section | null>(null);
   const [editingSectionId, setEditingSectionId] = useState<number | null>(null);
   const [editingSectionData, setEditingSectionData] = useState<{
@@ -56,21 +52,15 @@ const ProjectSectionsPage = () => {
     text: string;
     color: string;
   }>({ title: '', text: '', color: '' });
-  const [projectColor, setProjectColor] = useState('');
-  const [confirmDialog, setConfirmDialog] = useState<{
-    isOpen: boolean;
+  const [deletingSectionId, setDeletingSectionId] = useState<number | null>(null);
+  const [isDeletingProject, setIsDeletingProject] = useState(false);
+  const [isCreatingSection, setIsCreatingSection] = useState(false);
+  const [newSectionData, setNewSectionData] = useState<{
     title: string;
-    message: string;
-    type: 'delete-section' | 'delete-project';
-    onConfirm: () => void;
-    targetId?: number;
-  }>({
-    isOpen: false,
-    title: '',
-    message: '',
-    type: 'delete-section',
-    onConfirm: () => {},
-  });
+    text: string;
+    color: string;
+  }>({ title: '', text: '', color: COLORS[0].value });
+  const [projectColor, setProjectColor] = useState('');
   const navigate = useNavigate();
   const { showSuccess, showError, showWarning } = useNotification();
 
@@ -144,14 +134,6 @@ const ProjectSectionsPage = () => {
     }
   }, [sections]);
 
-  const closeModal = () => {
-    setIsDialogOpen(false);
-    setEditingSection(null);
-    setNewSectionTitle('');
-    setNewSectionText('');
-    setSelectedColor(COLORS[0].value);
-  };
-
   const startInlineEdit = (section: Section) => {
     setEditingSectionId(section.idSection);
     setEditingSectionData({
@@ -164,6 +146,84 @@ const ProjectSectionsPage = () => {
   const cancelInlineEdit = () => {
     setEditingSectionId(null);
     setEditingSectionData({ title: '', text: '', color: '' });
+  };
+
+  const cancelInlineDelete = () => {
+    setDeletingSectionId(null);
+  };
+
+  const startInlineCreate = () => {
+    setIsCreatingSection(true);
+    setNewSectionData({ title: '', text: '', color: COLORS[0].value });
+  };
+
+  const cancelInlineCreate = () => {
+    setIsCreatingSection(false);
+    setNewSectionData({ title: '', text: '', color: COLORS[0].value });
+  };
+
+  const saveInlineCreate = async () => {
+    if (!newSectionData.title.trim() || !newSectionData.text.trim()) {
+      showWarning('Por favor, completa todos los campos');
+      return;
+    }
+
+    const userId = localStorage.getItem('userId');
+    if (!userId) {
+      showError('No se encontró el ID del usuario. Por favor, inicia sesión nuevamente');
+      navigate('/login');
+      return;
+    }
+
+    try {
+      const storedProjects: Project[] = JSON.parse(localStorage.getItem('projects') || '[]');
+      const currentProject = storedProjects.find(p => p.name === decodedProjectName);
+      
+      if (!currentProject) {
+        showError('No se encontró el proyecto');
+        return;
+      }
+
+      const selectedColorObj = COLORS.find(c => c.value === newSectionData.color);
+
+      const response = await fetch(`${API_BASE_URL}/project/${currentProject.id}/sections`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          title: newSectionData.title,
+          description: newSectionData.text,
+          color: newSectionData.color,
+          createdAt: Date.now(),
+          project_id: currentProject.id,
+          user_id: userId,
+        }),
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`Error al crear la sección: ${errorText}`);
+      }
+
+      const data = await response.json();
+      
+      // Agregar la nueva sección al estado
+      setSections(prev => [
+        ...prev,
+        {
+          idSection: data.idSection,
+          title: newSectionData.title,
+          text: newSectionData.text,
+          color: newSectionData.color,
+          gradient: selectedColorObj?.gradient,
+          createdAt: Date.now(),
+        }
+      ]);
+
+      showSuccess('Sección creada correctamente');
+      cancelInlineCreate();
+    } catch (error) {
+      showError('Error al crear la sección');
+    }
   };
 
   const saveInlineEdit = async () => {
@@ -215,155 +275,56 @@ const ProjectSectionsPage = () => {
     }
   };
 
-  const addOrUpdateSection = async () => {
-    if (newSectionTitle.trim() === '' || newSectionText.trim() === '') {
-      showWarning('Por favor completa todos los campos requeridos');
-      return;
-    }
-    const userId = localStorage.getItem('userId');
-    if (!userId) {
-      showError('No se encontró el ID del usuario. Por favor, inicia sesión nuevamente');
-      navigate('/login');
-      return;
-    }
-    const selectedColorObj = COLORS.find(c => c.value === selectedColor);
-    try {
-      if (editingSection) {
-        // UPDATE
-        const response = await fetch(`${API_BASE_URL}/sections/${editingSection.idSection}`, {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            title: newSectionTitle,
-            description: newSectionText,
-            color: selectedColor,
-            user_id: userId,
-          }),
-        });
-        if (!response.ok) throw new Error('Error al actualizar la sección');
-        setSections(prev => prev.map(section =>
-          section.idSection === editingSection.idSection
-            ? { ...section, title: newSectionTitle, text: newSectionText, color: selectedColor, gradient: selectedColorObj?.gradient }
-            : section
-        ));
-        showSuccess('Sección actualizada correctamente');
-      } else {
-        // CREATE
-        const storedProjects: Project[] = JSON.parse(localStorage.getItem('projects') || '[]');
-        const currentProject = storedProjects.find(p => p.name === decodedProjectName);
-        if (!currentProject) {
-          showError('No se encontró el proyecto. Por favor, verifica los datos');
-          return;
-        }
-        console.log('📤 Enviando datos:', {
-          title: newSectionTitle,
-          description: newSectionText, 
-          color: selectedColor,
-          createdAt: Date.now(),
-          project_id: currentProject.id,
-          user_id: userId,
-        });
-        
-        const response = await fetch(`${API_BASE_URL}/project/${currentProject.id}/sections`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            title: newSectionTitle,
-            description: newSectionText, 
-            color: selectedColor,
-            createdAt: Date.now(),
-            project_id: currentProject.id,
-            user_id: userId,
-          }),
-        });
-        
-        console.log('📥 Response status:', response.status);
-        console.log('📥 Response ok:', response.ok);
-        
-        if (!response.ok) {
-          const errorText = await response.text();
-          console.log('❌ Error response:', errorText);
-          throw new Error(`Error al crear la sección: ${errorText}`);
-        }
-        
-        const data = await response.json();
-        console.log('✅ Success data:', data);
-        setSections(prev => [
-          ...prev,
-          {
-            idSection: data.idSection,
-            title: newSectionTitle,
-            text: newSectionText,
-            color: selectedColor,
-            gradient: selectedColorObj?.gradient,
-            createdAt: Date.now(),
-          }
-        ]);
-        showSuccess('Sección creada correctamente');
-      }
-      closeModal();
-    } catch (error) {
-      console.error('💥 Catch error:', error);
-      showError(editingSection ? 'Error al actualizar la sección' : 'Error al crear la sección');
-    }
-  };
+
 
   const editSection = (section: Section) => {
     startInlineEdit(section);
   };
 
   const deleteSection = async (sectionId: number) => {
-    const sectionToDelete = sections.find(s => s.idSection === sectionId);
-    if (sectionToDelete) {
-      setConfirmDialog({
-        isOpen: true,
-        title: 'Eliminar Sección',
-        message: `¿Estás seguro de que deseas eliminar la sección "${sectionToDelete.title}"?\n\nEsta acción no se puede deshacer y se perderán todos los datos asociados.`,
-        type: 'delete-section',
-        targetId: sectionId,
-        onConfirm: async () => {
-          try {
-            const response = await fetch(`${API_BASE_URL}/sections/${sectionId}`, {
-              method: 'DELETE',
-            });
-            if (!response.ok) throw new Error('Error al eliminar la sección');
-            setSections(prev => prev.filter(s => s.idSection !== sectionId));
-            setConfirmDialog(prev => ({ ...prev, isOpen: false }));
-            showSuccess('Sección eliminada correctamente');
-          } catch (error) {
-            showError('Error al eliminar la sección');
-          }
-        }
+    setDeletingSectionId(sectionId);
+  };
+
+  const confirmDeleteSection = async (sectionId: number) => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/sections/${sectionId}`, {
+        method: 'DELETE',
       });
+      if (!response.ok) throw new Error('Error al eliminar la sección');
+      setSections(prev => prev.filter(s => s.idSection !== sectionId));
+      setDeletingSectionId(null);
+      showSuccess('Sección eliminada correctamente');
+    } catch (error) {
+      showError('Error al eliminar la sección');
     }
   };
 
   const deleteProject = async () => {
-    setConfirmDialog({
-      isOpen: true,
-      title: 'Eliminar Proyecto',
-      message: `¿Estás seguro que deseas eliminar el proyecto "${decodedProjectName}"?\n\nEsta acción eliminará permanentemente:\n• El proyecto completo\n• Todas las secciones\n• Todos los datos asociados\n\n⚠️ Esta acción no se puede deshacer.`,
-      type: 'delete-project',
-      onConfirm: async () => {
-        try {
-          const storedProjects = JSON.parse(localStorage.getItem('projects') || '[]');
-          const currentProject = storedProjects.find((p: Project) => p.name === decodedProjectName);
-          if (!currentProject) {
-            showError('No se encontró el proyecto. Por favor, verifica los datos');
-            return;
-          }
-          const response = await fetch(`${API_BASE_URL}/projects/${currentProject.id}`, { method: 'DELETE' });
-          if (!response.ok) throw new Error('Error al eliminar el proyecto');
-          const updatedProjects = storedProjects.filter((p: Project) => p.name !== decodedProjectName);
-          localStorage.setItem('projects', JSON.stringify(updatedProjects));
-          setConfirmDialog(prev => ({ ...prev, isOpen: false }));
-          showSuccess('Proyecto eliminado correctamente');
-          navigate('/home');
-        } catch (error) {
-          showError('Error al eliminar el proyecto');
-        }
+    setIsDeletingProject(true);
+  };
+
+  const confirmDeleteProject = async () => {
+    try {
+      const storedProjects = JSON.parse(localStorage.getItem('projects') || '[]');
+      const currentProject = storedProjects.find((p: Project) => p.name === decodedProjectName);
+      if (!currentProject) {
+        showError('No se encontró el proyecto. Por favor, verifica los datos');
+        return;
       }
-    });
+      const response = await fetch(`${API_BASE_URL}/projects/${currentProject.id}`, { method: 'DELETE' });
+      if (!response.ok) throw new Error('Error al eliminar el proyecto');
+      const updatedProjects = storedProjects.filter((p: Project) => p.name !== decodedProjectName);
+      localStorage.setItem('projects', JSON.stringify(updatedProjects));
+      setIsDeletingProject(false);
+      showSuccess('Proyecto eliminado correctamente');
+      navigate('/home');
+    } catch (error) {
+      showError('Error al eliminar el proyecto');
+    }
+  };
+
+  const cancelDeleteProject = () => {
+    setIsDeletingProject(false);
   };
 
   return (
@@ -379,30 +340,157 @@ const ProjectSectionsPage = () => {
               : 'var(--gradient-primary)'
           }}
         >
-          <h1>{decodedProjectName}</h1>
-          <p>Organiza tu proyecto en secciones para una mejor gestión de tareas</p>
-          <div className="project-top-btn">
-            <button
-              className="add-section-button"
-              onClick={() => setIsDialogOpen(true)}
-              aria-label="Crear nueva sección"
-            >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                <line x1="12" y1="5" x2="12" y2="19" />
-                <line x1="5" y1="12" x2="19" y2="12" />
-              </svg>
-              Nueva Sección
-            </button>
-          </div>
+          {isDeletingProject ? (
+            <div className="inline-delete-project-form">
+              <div className="inline-delete-header">
+                <div className="inline-delete-icon">
+                  <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M3 6h18" />
+                    <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
+                    <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
+                  </svg>
+                </div>
+                <h2 className="inline-delete-title">Eliminar Proyecto</h2>
+              </div>
+              
+              <div className="inline-delete-content">
+                <p className="inline-delete-question">
+                  ¿Estás seguro que deseas eliminar el proyecto <strong>"{decodedProjectName}"</strong>?
+                </p>
+                
+                <div className="inline-delete-warning">
+                  <div className="inline-delete-warning-icon">!</div>
+                  <div className="inline-delete-warning-text">
+                    <strong>Esta acción eliminará permanentemente:</strong>
+                    <ul>
+                      <li>El proyecto completo</li>
+                      <li>Todas las secciones</li>
+                      <li>Todos los datos asociados</li>
+                    </ul>
+                    <p><strong>Esta acción no se puede deshacer.</strong></p>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="inline-delete-actions">
+                <button
+                  className="inline-btn cancel-btn"
+                  onClick={cancelDeleteProject}
+                >
+                  Cancelar
+                </button>
+                <button
+                  className="inline-btn delete-btn-confirm"
+                  onClick={confirmDeleteProject}
+                >
+                  Eliminar Proyecto
+                </button>
+              </div>
+            </div>
+          ) : (
+            <>
+              <h1>{decodedProjectName}</h1>
+              <p>Organiza tu proyecto en secciones para una mejor gestión de tareas</p>
+              <div className="project-top-btn">
+                <button
+                  className="add-section-button"
+                  onClick={startInlineCreate}
+                  aria-label="Crear nueva sección"
+                >
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                    <line x1="12" y1="5" x2="12" y2="19" />
+                    <line x1="5" y1="12" x2="19" y2="12" />
+                  </svg>
+                  Nueva Sección
+                </button>
+              </div>
+            </>
+          )}
         </div>
 
         <div className="sections-list">
-          {sections.length > 0 ? (
+          {(sections.length > 0 || isCreatingSection) ? (
             <div className="section-cards">
+              {/* Div de creación inline - aparece al principio */}
+              {isCreatingSection && (
+                <div
+                  className="section-card creating"
+                  style={{
+                    background: `linear-gradient(to bottom right, ${newSectionData.color}15, ${newSectionData.color}08)`,
+                    borderColor: `${newSectionData.color}30`,
+                    '--project-color': projectColor || 'var(--primary-color)'
+                  } as React.CSSProperties}
+                >
+                  <div className="inline-edit-form" onClick={(e) => e.stopPropagation()}>
+                    <div className="inline-form-group">
+                      <label htmlFor="create-title">Título</label>
+                      <input
+                        type="text"
+                        id="create-title"
+                        value={newSectionData.title}
+                        onChange={(e) => setNewSectionData({...newSectionData, title: e.target.value})}
+                        placeholder="Título de la sección"
+                        maxLength={50}
+                        className="inline-edit-input"
+                        autoFocus
+                      />
+                    </div>
+                    
+                    <div className="inline-form-group">
+                      <label htmlFor="create-text">Descripción</label>
+                      <textarea
+                        id="create-text"
+                        value={newSectionData.text}
+                        onChange={(e) => setNewSectionData({...newSectionData, text: e.target.value})}
+                        placeholder="Descripción de la sección"
+                        rows={3}
+                        maxLength={200}
+                        className="inline-edit-textarea"
+                      />
+                    </div>
+                    
+                    <div className="inline-form-group">
+                      <label>Color de la sección</label>
+                      <div className="inline-color-options">
+                        {COLORS.map(color => (
+                          <button
+                            key={color.id}
+                            type="button"
+                            className={`inline-color-option ${newSectionData.color === color.value ? 'selected' : ''}`}
+                            style={{ background: color.gradient }}
+                            onClick={() => setNewSectionData({...newSectionData, color: color.value})}
+                            aria-label={`Color ${color.name}`}
+                            aria-pressed={newSectionData.color === color.value}
+                          />
+                        ))}
+                      </div>
+                    </div>
+                    
+                    <div className="inline-edit-actions">
+                      <button
+                        type="button"
+                        className="inline-btn cancel-btn"
+                        onClick={cancelInlineCreate}
+                      >
+                        Cancelar
+                      </button>
+                      <button
+                        type="button"
+                        className="inline-btn save-btn"
+                        onClick={saveInlineCreate}
+                      >
+                        Crear
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )}
+              
+              {/* Secciones existentes */}
               {sections.map(section => (
                 <div
                   key={section.idSection}
-                  className={`section-card ${editingSectionId === section.idSection ? 'editing' : ''}`}
+                  className={`section-card ${editingSectionId === section.idSection ? 'editing' : ''} ${deletingSectionId === section.idSection ? 'deleting' : ''}`}
                   style={{
                     background: `linear-gradient(to bottom right, ${section.color}15, ${section.color}08)`,
                     borderColor: `${section.color}30`,
@@ -410,7 +498,7 @@ const ProjectSectionsPage = () => {
                   } as React.CSSProperties}
                   role="article"
                   aria-labelledby={"section-title-" + section.idSection}
-                  onClick={() => editingSectionId !== section.idSection && navigate(`/project/${decodedProjectName}/sections/${section.idSection}/todos`, { state: { sectionName: section.title } })}
+                  onClick={() => editingSectionId !== section.idSection && deletingSectionId !== section.idSection && navigate(`/project/${decodedProjectName}/sections/${section.idSection}/todos`, { state: { sectionName: section.title } })}
                 >
                   {editingSectionId === section.idSection ? (
                     // Modo edición inline
@@ -475,6 +563,51 @@ const ProjectSectionsPage = () => {
                         </button>
                       </div>
                     </div>
+                  ) : deletingSectionId === section.idSection ? (
+                    // Modo eliminación inline
+                    <div className="inline-delete-form" onClick={(e) => e.stopPropagation()}>
+                      <div className="inline-delete-header">
+                        <div className="inline-delete-icon">
+                          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 9V13M12 17H12.01M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                          </svg>
+                        </div>
+                        <h4 className="inline-delete-title">Eliminar Sección</h4>
+                      </div>
+                      
+                      <div className="inline-delete-content">
+                        <p className="inline-delete-question">
+                          ¿Estás seguro de que deseas eliminar la sección <strong>"{section.title}"</strong>?
+                        </p>
+                        <div className="inline-delete-warning">
+                          <div className="inline-delete-warning-icon">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <path d="M12 9V13M12 17H12.01M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                            </svg>
+                          </div>
+                          <span className="inline-delete-warning-text">
+                            Esta acción no se puede deshacer y se perderán todos los datos asociados.
+                          </span>
+                        </div>
+                      </div>
+                      
+                      <div className="inline-delete-actions">
+                        <button
+                          type="button"
+                          className="inline-btn cancel-btn"
+                          onClick={cancelInlineDelete}
+                        >
+                          Cancelar
+                        </button>
+                        <button
+                          type="button"
+                          className="inline-btn delete-btn-confirm"
+                          onClick={() => confirmDeleteSection(section.idSection)}
+                        >
+                          Eliminar Sección
+                        </button>
+                      </div>
+                    </div>
                   ) : (
                     // Modo vista normal
                     <>
@@ -503,7 +636,7 @@ const ProjectSectionsPage = () => {
                 </div>
               ))}
             </div>
-          ) : (
+          ) : !isCreatingSection ? (
             <div className="empty-sections" role="status">
               <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                 <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
@@ -513,7 +646,7 @@ const ProjectSectionsPage = () => {
               <p>No hay secciones en este proyecto.</p>
               <p>¡Comienza creando tu primera sección!</p>
             </div>
-          )}
+          ) : null}
         </div>
 
         <div className="project-bottom-actions">
@@ -530,136 +663,6 @@ const ProjectSectionsPage = () => {
             Eliminar Proyecto
           </button>
         </div>
-
-        {isDialogOpen && !editingSection && (
-          <div
-            className="modal-overlay"
-            onClick={closeModal}
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="modal-title"
-          >
-            <div className="modal-content" onClick={e => e.stopPropagation()}>
-              <div className="modal-header">
-                <h2 id="modal-title" className="modal-title">
-                  Nueva Sección
-                </h2>
-                <p className="modal-subtitle">
-                  Crea una nueva sección para organizar tus tareas
-                </p>
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="sectionTitle">Título</label>
-                <input
-                  type="text"
-                  id="sectionTitle"
-                  value={newSectionTitle}
-                  onChange={e => setNewSectionTitle(e.target.value)}
-                  placeholder="Escribe un título descriptivo"
-                  maxLength={50}
-                />
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="sectionText">Descripción</label>
-                <textarea
-                  id="sectionText"
-                  value={newSectionText}
-                  onChange={e => setNewSectionText(e.target.value)}
-                  placeholder="Describe el propósito de esta sección"
-                  rows={3}
-                  maxLength={200}
-                />
-              </div>
-
-              <div className="form-group">
-                <label>Color de la sección</label>
-                <div className="color-options">
-                  {COLORS.map(color => (
-                    <button
-                      key={color.id}
-                      className={"color-option " + (selectedColor === color.value ? 'selected' : '')}
-                      style={{ background: color.gradient }}
-                      onClick={() => setSelectedColor(color.value)}
-                      aria-label={"Color " + color.name}
-                      aria-pressed={selectedColor === color.value}
-                    />
-                  ))}
-                </div>
-              </div>
-
-              <div className="modal-actions">
-                <button
-                  className="modal-btn cancel-button"
-                  onClick={closeModal}
-                >Cancelar</button>
-                <button
-                  className="modal-btn create-button"
-                  onClick={addOrUpdateSection}
-                  disabled={!newSectionTitle.trim() || !newSectionText.trim()}
-                >
-                  Crear Sección
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* Modal de Confirmación */}
-        {confirmDialog.isOpen && (
-          <div
-            className="modal-overlay"
-            onClick={() => setConfirmDialog(prev => ({ ...prev, isOpen: false }))}
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="confirm-modal-title"
-          >
-            <div className="modal-content" onClick={e => e.stopPropagation()}>
-              <div className="modal-header">
-                <h2 id="confirm-modal-title" className="modal-title">
-                  {confirmDialog.title}
-                </h2>
-                <p className="modal-subtitle">
-                  {confirmDialog.type === 'delete-project' 
-                    ? 'Esta acción eliminará permanentemente el proyecto y todos sus datos'
-                    : 'Esta acción eliminará permanentemente la sección'
-                  }
-                </p>
-              </div>
-
-              <div className="form-group">
-                <div className="warning-message">
-                  <div className="warning-icon">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ef4444" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M12 9v4" />
-                      <path d="M12 17h.01" />
-                      <circle cx="12" cy="12" r="10"/>
-                    </svg>
-                  </div>
-                  <p className="warning-text">
-                    {confirmDialog.message}
-                  </p>
-                </div>
-              </div>
-
-              <div className="modal-actions">
-                <button
-                  className="modal-btn cancel-button"
-                  onClick={() => setConfirmDialog(prev => ({ ...prev, isOpen: false }))}
-                >
-                  Cancelar
-                </button>
-                <button
-                  className="modal-btn delete-button"
-                  onClick={confirmDialog.onConfirm}
-                >
-                  {confirmDialog.type === 'delete-project' ? 'Eliminar Proyecto' : 'Eliminar Sección'}
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
       </div>
     </div>
   );
