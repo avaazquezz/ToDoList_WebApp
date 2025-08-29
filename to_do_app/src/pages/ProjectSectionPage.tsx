@@ -94,7 +94,7 @@ const ProjectSectionsPage = () => {
         const response = await fetch(`${API_BASE_URL}/project/${currentProject.id}/sections`);
         if (!response.ok) throw new Error('Error al cargar las secciones');
         const data = await response.json();
-        setSections(data.map(section => ({
+        setSections(data.map((section: any) => ({
           idSection: section.idSection,
           title: section.title,
           text: section.description, // Corrected field name from 'text' to 'description'
@@ -113,7 +113,7 @@ const ProjectSectionsPage = () => {
     const storedProjects = localStorage.getItem('projects');
     if (storedProjects) {
       const parsedProjects = JSON.parse(storedProjects);
-      const currentProject = parsedProjects.find(p => p.name === decodedProjectName);
+      const currentProject = parsedProjects.find((p: Project) => p.name === decodedProjectName);
       if (currentProject) {
         const storedSections = localStorage.getItem(`sections_${currentProject.id}`);
         if (storedSections) {
@@ -127,7 +127,7 @@ const ProjectSectionsPage = () => {
     const storedProjects = localStorage.getItem('projects');
     if (storedProjects) {
       const parsedProjects = JSON.parse(storedProjects);
-      const currentProject = parsedProjects.find(p => p.name === decodedProjectName);
+      const currentProject = parsedProjects.find((p: Project) => p.name === decodedProjectName);
       if (currentProject) {
         localStorage.setItem(`sections_${currentProject.id}`, JSON.stringify(sections));
       }
