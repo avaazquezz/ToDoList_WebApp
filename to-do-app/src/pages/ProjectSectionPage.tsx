@@ -4,7 +4,7 @@ import NavBar from '../components/NavBar';
 import { useNotification } from '../hooks/useNotification';
 import '../styles/ProjectSectionPage.css';
 
-const API_BASE_URL = 'http://localhost:3001/api';
+const API_BASE_URL = import.meta.env.VITE_API_URL;
 
 // Función para ajustar el color y crear el degradado
 const adjustColor = (color: string, amount: number): string => {
@@ -241,7 +241,7 @@ const ProjectSectionsPage = () => {
         return;
       }
 
-      const response = await fetch(`${API_BASE_URL}/project/${currentProject.id}/sections/${editingSectionId}`, {
+      const response = await fetch(`${API_BASE_URL}/sections/${editingSectionId}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
