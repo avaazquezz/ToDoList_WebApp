@@ -69,7 +69,7 @@ const MainPage = () => {
             <p>Insights detallados sobre tu rendimiento. Visualiza patrones, identifica mejoras y celebra tus logros.</p>
           </div>
           <div className="feature-card">
-            <div className="feature-icon">�</div>
+            <div className="feature-icon">🔒</div>
             <h3>Seguridad Premium</h3>
             <p>Protección de datos de nivel empresarial. Tu información personal y proyectos completamente seguros.</p>
           </div>

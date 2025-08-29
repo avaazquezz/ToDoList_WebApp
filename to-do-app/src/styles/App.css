@@ -40,3 +40,84 @@
 .read-the-docs {
   color: #888;
 }
+
+/* =================== TOAST NOTIFICATIONS STYLES =================== */
+
+/* Configuración del contenedor de toasts */
+.toast-container {
+  z-index: 9999;
+}
+
+/* Estilos globales para todas las notificaciones */
+.toast-container [data-hot-toast] {
+  background: #363636;
+  color: #fff;
+  border-radius: 12px;
+  padding: 16px;
+  font-size: 14px;
+  font-weight: 500;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  animation-duration: 0.35s;
+  animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Notificaciones de éxito */
+.toast-container [data-hot-toast].success {
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: #fff;
+}
+
+.toast-container [data-hot-toast].success .react-hot-toast-icon {
+  color: #fff;
+}
+
+/* Notificaciones de error */
+.toast-container [data-hot-toast].error {
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+  color: #fff;
+}
+
+.toast-container [data-hot-toast].error .react-hot-toast-icon {
+  color: #fff;
+}
+
+/* Notificaciones de loading */
+.toast-container [data-hot-toast].loading {
+  background: linear-gradient(135deg, #3b82f6, #1e40af);
+  color: #fff;
+}
+
+.toast-container [data-hot-toast].loading .react-hot-toast-icon {
+  color: #fff;
+}
+
+/* Animaciones mejoradas */
+.toast-container [data-hot-toast].enter {
+  animation: toast-enter 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.toast-container [data-hot-toast].exit {
+  animation: toast-exit 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes toast-enter {
+  from {
+    transform: translateX(100%) scale(0.9);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0) scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes toast-exit {
+  from {
+    transform: translateX(0) scale(1);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(100%) scale(0.9);
+    opacity: 0;
+  }
+}

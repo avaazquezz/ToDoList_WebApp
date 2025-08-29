@@ -35,9 +35,11 @@
 @keyframes fadeIn {
   from {
     opacity: 0;
+    transform: translate(-50%, -50%) scale(0.9);
   }
   to {
     opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
   }
 }
 
@@ -46,6 +48,236 @@
   min-height: 100vh;
   background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
   padding: 2rem 1rem;
+}
+
+/* Botón de información del proyecto */
+.info-button {
+  background: rgba(34, 197, 94, 0.1);
+  border: none;
+  border-radius: 6px;
+  padding: 8px;
+  cursor: pointer;
+  color: #22c55e;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+}
+
+.info-button:hover {
+  background: rgba(34, 197, 94, 0.2) !important;
+}
+
+/* Botón de editar proyecto */
+.edit-button {
+  background: rgba(192, 211, 233, 0.77);
+  border: none;
+  border-radius: 6px;
+  padding: 8px;
+  cursor: pointer;
+  color: #1d3147ff;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+}
+
+.edit-button:hover {
+  background: rgba(74, 145, 226, 0.35) !important;
+}
+
+/* Overlay para modal */
+.modal-overlay-transparent {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 999;
+  background-color: transparent;
+}
+
+/* Tooltip de información del proyecto */
+.project-info-tooltip {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #ffffff;
+  color: #1f2937;
+  padding: 14px;
+  border-radius: 10px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12), 0 0 0 1px rgba(0, 0, 0, 0.08);
+  z-index: 1000;
+  width: 300px;
+  min-height: 120px;
+  max-height: 180px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
+  animation: fadeIn 0.2s ease-out;
+  overflow: visible;
+}
+
+/* Botón de cerrar del tooltip */
+.close-tooltip-button {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: rgba(239, 68, 68, 0.1);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ef4444;
+  transition: all 0.2s ease;
+  width: 24px;
+  height: 24px;
+  box-shadow: 0 1px 4px rgba(239, 68, 68, 0.1);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.close-tooltip-button:hover {
+  background: rgba(239, 68, 68, 0.2) !important;
+  transform: scale(1.1);
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.2);
+}
+
+/* Contenedor de información con margen */
+.info-container-with-margin {
+  margin-bottom: 10px;
+  border-bottom: 1px solid #e5e7eb;
+  padding-bottom: 6px;
+}
+
+/* Título de información */
+.info-title {
+  margin: 0 0 8px 0;
+  font-size: 14px;
+  font-weight: 700;
+  color: #1f2937;
+  text-align: center;
+  letter-spacing: -0.025em;
+  padding-right: 25px;
+}
+
+/* Contenedor de información en columna */
+.info-column-container {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Item de información */
+.info-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px;
+  background-color: #ffffff !important;
+  border-radius: 6px;
+  border: 1px solid #d1d5db;
+  transition: all 0.2s ease;
+  min-height: 40px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.info-item:hover {
+  background-color: #9fb7ce;
+  border-color: #9ca3af;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+/* Avatar de usuario */
+.user-avatar {
+  width: 28px;
+  height: 28px;
+  background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 12px;
+  font-weight: 700;
+  box-shadow: 0 2px 6px rgba(59, 130, 246, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  flex-shrink: 0;
+}
+
+/* Contenedor de información de fecha */
+.date-icon-container {
+  width: 28px;
+  height: 28px;
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  box-shadow: 0 2px 6px rgba(16, 185, 129, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  flex-shrink: 0;
+}
+
+/* Contenedor flex que toma el espacio restante */
+.flex-1 {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* Etiqueta de información pequeña */
+.info-label {
+  margin: 0 0 1px 0;
+  font-size: 10px;
+  color: #696f7a;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  line-height: 1.2;
+}
+
+/* Valor de información para creador */
+.info-value-creator {
+  margin: 0;
+  font-size: 12px;
+  color: #1f2937;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+/* Etiqueta de fecha */
+.date-label {
+  margin: 0 0 1px 0;
+  font-size: 10px;
+  color: #6b7280;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  line-height: 1.2;
+}
+
+/* Valor de fecha */
+.date-value {
+  margin: 0;
+  font-size: 12px;
+  color: #1f2937;
+  font-weight: 600;
+  line-height: 1.3;
 }
 
 .home-page {
@@ -404,31 +636,6 @@
   color: var(--text-primary);
 }
 
-/* Tooltip de información */
-.project-info-tooltip {
-  position: absolute;
-  top: 100%;
-  right: 0;
-  background: white;
-  border-radius: 8px;
-  padding: 1rem;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-  z-index: 10;
-  min-width: 200px;
-  margin-top: 0.5rem;
-  animation: fadeIn 0.2s ease-out;
-}
-
-.project-info-tooltip p {
-  margin: 0.5rem 0;
-  color: var(--text-secondary);
-  font-size: 0.9rem;
-}
-
-.project-info-tooltip strong {
-  color: var(--text-primary);
-  font-weight: 600;
-}
 
 /* Grid de proyectos */
 .project-grid {
@@ -486,22 +693,22 @@
 .empty-projects {
   text-align: center;
   align-items: center;
-  padding: 4rem 2rem;
+  padding: 1rem 2rem;
   color: #64748b;
 }
 
 .empty-projects h3 {
-  font-size: 1.5rem;
-  font-weight: 600;
-  color: #1e293b;
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #e3e6eb;
   margin-bottom: 1rem;
   align-items: center;
   text-align: center;
 }
 
 .empty-projects p {
-  font-size: 1.1rem;
-  color: #64748b;
+  font-size: 1.5rem;
+  color: #5d95e2;
   align-items: center;
   text-align: center;
 }
@@ -519,7 +726,7 @@
     0 25px 80px rgba(4, 99, 35, 0.342),
     0 0 0 1px rgba(38, 243, 124, 0.459),
     inset 0 1px 0 rgba(255, 255, 255, 0.9);
-  border: 1px solid rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.288);
   z-index: 10000;
   max-width: 500px;
   min-width: 400px;
@@ -532,12 +739,12 @@
 
 .notification.success {
   border-left: 6px solid #09df97;
-  background: linear-gradient(135deg, rgba(16, 185, 129, 0.08) 0%, rgba(255, 255, 255, 0.98) 100%);
+  background: linear-gradient(135deg, rgba(117, 226, 190, 0.658) 0%, rgba(101, 236, 113, 0.98) 100%);
 }
 
 .notification.error {
   border-left: 6px solid #ef4444;
-  background: linear-gradient(135deg, rgba(239, 68, 68, 0.08) 0%, rgba(255, 255, 255, 0.98) 100%);
+  background: linear-gradient(135deg, rgba(235, 131, 131, 0.719) 0%, rgba(255, 255, 255, 0.98) 100%);
 }
 
 .notification-icon {
@@ -725,12 +932,597 @@
     color: #e2e8f0;
   }
 
+  /* DESHABILITADO - Conflicto con tooltip principal
   .project-info-tooltip {
     background: #1e293b;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
   }
+  */
 
   .info-button:hover {
     background: rgba(255, 255, 255, 0.1);
   }
+}
+
+/* Nuevas clases para eliminar inline styles */
+.projects-header-title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, #6366f1, #3b82f6);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  margin: 0 0 1rem 0;
+  text-align: left;
+  letter-spacing: -0.02em;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.add-project-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2.5rem;
+  padding: 0 1rem;
+}
+
+.add-project-wrapper {
+  max-width: 50rem;
+  width: 100%;
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.project-name-input {
+  flex: 1;
+  min-width: 235px;
+  padding: 12px 16px;
+  border: 2px solid #e1e8ed;
+  border-radius: 8px;
+  font-size: 16px;
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.2s ease;
+  box-sizing: border-box;
+  height: 48px;
+}
+
+.project-name-input:focus {
+  border-color: #4a90e2;
+}
+
+.project-description-input {
+  flex: 1;
+  min-width: 300px;
+  padding: 12px 16px;
+  border: 2px solid #e1e8ed;
+  border-radius: 8px;
+  font-size: 16px;
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.2s ease;
+  box-sizing: border-box;
+  height: 48px;
+}
+
+.project-description-input:focus {
+  border-color: #4a90e2;
+}
+
+.color-selector-container {
+  display: flex;
+  align-items: center;
+}
+
+.color-preview {
+  width: 48px;
+  height: 48px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  border: 2px solid #e1e8ed;
+}
+
+.add-project-button {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  background-color: #4a90e2;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  height: 48px;
+  min-width: 140px;
+  box-shadow: 0 2px 8px rgba(74, 144, 226, 0.3);
+}
+
+.add-project-button:hover {
+  background-color: #357abd;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(74, 144, 226, 0.4);
+}
+
+.project-header-content {
+  display: flex;
+  align-items: flex-start;
+  gap: 25px;
+}
+
+.project-info-section {
+  flex: 1;
+  margin-right: 25px;
+}
+
+.project-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin: 0 0 0.75rem 0;
+  color: #1a202c;
+  line-height: 1.2;
+  letter-spacing: -0.025em;
+}
+
+.project-description {
+  font-size: 1rem;
+  color: #718096;
+  margin: 0;
+  line-height: 1.5;
+  font-weight: 400;
+}
+
+.project-actions {
+  display: flex;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.action-button {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 8px;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 36px;
+  height: 36px;
+}
+
+.edit-action-button {
+  background: linear-gradient(135deg, #3b82f6, #1e40af);
+}
+
+.edit-action-button:hover {
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+}
+
+.delete-action-button {
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+}
+
+.delete-action-button:hover {
+  background: linear-gradient(135deg, #dc2626, #b91c1c);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
+}
+
+.view-action-button {
+  background: linear-gradient(135deg, #10b981, #059669);
+}
+
+.view-action-button:hover {
+  background: linear-gradient(135deg, #059669, #047857);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+}
+
+/* DESHABILITADO - Conflicto con tooltip principal
+.project-info-tooltip {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 8px;
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 1rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  width: 280px;
+  font-size: 0.875rem;
+  line-height: 1.4;
+}
+*/
+
+.tooltip-date {
+  color: #4a5568;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  font-size: 0.8rem;
+}
+
+/* Estilos para project cards */
+.project-card-custom {
+  background-color: #dae6f7ff;
+  border: 3px solid #0f98faff;
+  border-radius: 12px;
+  padding: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Estilo especial para la tarjeta del proyecto en modo de edición */
+.project-card-custom.editing {
+  min-height: auto;
+  max-height: none;
+  align-items: stretch;
+  justify-content: flex-start;
+  padding: 1.25rem;
+  cursor: default;
+  background: rgba(45, 55, 72, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  transform: none !important;
+  animation: editProjectSlideIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes editProjectSlideIn {
+  from {
+    opacity: 0.7;
+    transform: scale(0.98);
+    background: rgba(218, 230, 247, 1);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+    background: rgba(45, 55, 72, 0.95);
+  }
+}
+
+.project-card-custom.editing::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--project-color);
+  opacity: 0.8;
+}
+
+/* Evitar hover en modo edición para proyectos */
+.project-card-custom.editing:hover {
+  transform: none !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Estilos específicos para los labels en modo edición de proyectos */
+.project-card-custom.editing .inline-form-group label {
+  color: #ffffff !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+/* Mejorar contraste de los inputs en modo edición */
+.project-card-custom.editing .inline-edit-input,
+.project-card-custom.editing .inline-edit-textarea {
+  background: #ffffff;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  color: #1e293b;
+}
+
+.project-card-custom.editing .inline-edit-input:focus,
+.project-card-custom.editing .inline-edit-textarea:focus {
+  border-color: var(--project-color);
+  box-shadow: 
+    0 0 0 4px rgba(59, 130, 246, 0.1),
+    0 4px 20px rgba(59, 130, 246, 0.15);
+}
+
+/* Mejorar la paleta de colores en modo edición de proyectos */
+.project-card-custom.editing .inline-color-options {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.08) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  padding: 1rem;
+  border-radius: 12px;
+}
+
+.project-card-custom.editing .inline-color-option {
+  width: 40px;
+  height: 40px;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  border-radius: 10px;
+  transition: all 0.3s ease;
+  box-shadow: 
+    0 2px 8px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.project-card-custom.editing .inline-color-option:hover {
+  transform: translateY(-2px) scale(1.1);
+  border-color: rgba(255, 255, 255, 0.8);
+  box-shadow: 
+    0 6px 20px rgba(0, 0, 0, 0.3),
+    inset 0 2px 0 rgba(255, 255, 255, 0.4);
+}
+
+.project-card-custom.editing .inline-color-option.selected {
+  border-color: #ffffff;
+  transform: scale(1.05);
+  box-shadow: 
+    0 4px 15px rgba(0, 0, 0, 0.3),
+    0 0 0 3px rgba(255, 255, 255, 0.6),
+    inset 0 2px 0 rgba(255, 255, 255, 0.4);
+}
+
+.project-card-custom:hover {
+  transform: translateY(-16px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.project-color-bar {
+  height: 10px;
+  border-radius: 8px;
+  margin-bottom: 6px;
+}
+
+.project-header-content {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.project-info-section {
+  flex: 1;
+  margin-right: 25px;
+}
+
+.project-card-custom .project-title {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 700;
+  color: #1e293b;
+  line-height: 1.3;
+  text-align: left;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  transition: color 0.2s ease;
+  letter-spacing: -0.025em;
+  max-width: 100%;
+  word-wrap: break-word;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.project-card-custom:hover .project-title {
+  color: #0f172a;
+}
+
+.project-card-custom .project-title-with-description {
+  margin-bottom: 15px;
+  font-size: 20px;
+  white-space: normal;
+  overflow: visible;
+  text-overflow: initial;
+  color: #1e293b;
+}
+
+.project-description {
+  margin: 0;
+  font-size: 16px;
+  color: #4d5661ff;
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-align: left;
+}
+
+.project-actions {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+  align-items: center;
+}
+
+.edit-action-button {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #3b82f6, #1e40af);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 36px;
+  height: 36px;
+}
+
+.edit-action-button:hover {
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+}
+
+.delete-action-button {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 36px;
+  height: 36px;
+}
+
+.delete-action-button:hover {
+  background: linear-gradient(135deg, #dc2626, #b91c1c);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
+}
+
+.view-action-button {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 36px;
+  height: 36px;
+}
+
+.view-action-button:hover {
+  background: linear-gradient(135deg, #059669, #047857);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+}
+
+/* DESHABILITADO - Conflicto con tooltip principal
+.project-info-tooltip {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 8px;
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 1rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  width: 280px;
+  font-size: 0.875rem;
+  line-height: 1.4;
+}
+*/
+
+/* Botones de acción específicos en project cards */
+.info-button {
+  background: rgba(34, 197, 94, 0.1);
+  border: none;
+  border-radius: 8px;
+  padding: 8px;
+  cursor: pointer;
+  color: #22c55e;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  position: relative;
+  box-shadow: 0 2px 4px rgba(34, 197, 94, 0.1);
+}
+
+.info-button:hover {
+  background: rgba(34, 197, 94, 0.2);
+  transform: scale(1.1) translateY(-1px);
+  box-shadow: 0 4px 8px rgba(34, 197, 94, 0.2);
+  color: #16a34a;
+}
+
+.edit-button {
+  background: rgba(59, 130, 246, 0.1);
+  border: none;
+  border-radius: 8px;
+  padding: 8px;
+  cursor: pointer;
+  color: #3b82f6;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  position: relative;
+  box-shadow: 0 2px 4px rgba(59, 130, 246, 0.1);
+}
+
+.edit-button:hover {
+  background: rgba(59, 130, 246, 0.2);
+  transform: scale(1.1) translateY(-1px);
+  box-shadow: 0 4px 8px rgba(59, 130, 246, 0.2);
+  color: #2563eb;
+}
+
+.delete-button {
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+  border: none;
+  border-radius: 6px;
+  padding: 8px 12px;
+  cursor: pointer;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 32px;
+  height: 32px;
+}
+
+.delete-button:hover {
+  background: linear-gradient(135deg, #dc2626, #b91c1c);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
+}
+
+.view-button {
+  background: linear-gradient(135deg, #10b981, #059669);
+  border: none;
+  border-radius: 6px;
+  padding: 8px 12px;
+  cursor: pointer;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 32px;
+  height: 32px;
+}
+
+.view-button:hover {
+  background: linear-gradient(135deg, #059669, #047857);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
 }

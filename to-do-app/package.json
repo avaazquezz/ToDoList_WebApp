@@ -10,11 +10,17 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@dnd-kit/core": "^6.3.1",
+    "@dnd-kit/sortable": "^10.0.0",
+    "@dnd-kit/utilities": "^3.2.2",
+    "@react-spring/web": "^10.0.1",
+    "@types/react-modal": "^3.16.3",
     "axios": "^1.10.0",
-    "firebase": "^11.7.1",
+    "framer-motion": "^12.23.12",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
-    "react-firebase-hooks": "^5.1.1",
+    "react-hot-toast": "^2.6.0",
+    "react-modal": "^3.16.3",
     "react-router-dom": "^7.5.2",
     "to-do-app": "file:"
   },
