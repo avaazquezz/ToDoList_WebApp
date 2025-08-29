@@ -1,5 +1,12 @@
 /* ToDoPage.css - Ultra Professional Design */
 
+html, body {
+  height: 100%;
+  box-sizing: border-box;
+  overflow-x: hidden; /* evita barras extra por elementos 100vw u offsets */
+  overflow-y: auto; /* dejar que el body gestione el scroll principal */
+}
+
 /* CSS Variables for consistent theming */
 :root {
   --primary-color: #2563eb;
@@ -55,6 +62,7 @@
   --space-lg: 1.5rem;
   --space-xl: 2rem;
   --space-2xl: 2.5rem;
+  --space-3xl: 3.5rem;
 }
 
 /* Glass morphism effect */
@@ -123,10 +131,12 @@
   animation: gradientShift 15s ease infinite;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
   color: var(--text-primary);
-  padding-top: 4rem;
+  padding-top: 0.5rem;
   line-height: 1.6;
   position: relative;
   overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
 @keyframes gradientShift {
@@ -184,19 +194,23 @@
 }
 
 .main-content-wrapper {
-  max-width: 1400px;
+  max-width: 1200px;
   margin: 0 auto;
-  padding: var(--space-xl);
+  padding: var(--space-sm) var(--space-lg);
   position: relative;
   z-index: 1;
   animation: fadeIn 0.6s ease-out;
+  min-height: auto;
+  display: flex;
+  flex-direction: column;
 }
 
 /* Professional header section */
 .todo-header-section {
   text-align: center;
-  margin-bottom: var(--space-2xl);
-  padding: var(--space-2xl) var(--space-xl);
+  margin-bottom: 5rem;
+  margin-top: 5rem;
+  padding: var(--space-md) var(--space-md);
   background: linear-gradient(135deg, 
     rgba(59, 130, 246, 0.1) 0%, 
     rgba(6, 182, 212, 0.1) 100%);
@@ -205,6 +219,10 @@
   backdrop-filter: blur(20px);
   position: relative;
   overflow: hidden;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: var(--space-sm);
 }
 
 .todo-header-section::before {
@@ -250,17 +268,20 @@
   justify-content: center;
   align-items: center;
   gap: var(--space-md);
-  margin-bottom: var(--space-2xl);
+  margin-bottom: var(--space-sm);
   flex-wrap: wrap;
   position: relative;
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .project-breadcrumb {
   display: flex;
   align-items: center;
-  gap: var(--space-md);
+  gap: var(--space-sm);
   background: var(--bg-card);
-  padding: var(--space-lg) var(--space-xl);
+  padding: var(--space-md) var(--space-lg);
   border-radius: var(--radius-xl);
   border: 1px solid var(--border-primary);
   position: relative;
@@ -307,8 +328,8 @@
 }
 
 .breadcrumb-icon {
-  width: 28px;
-  height: 28px;
+  width: 24px;
+  height: 24px;
   background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
   border-radius: var(--radius-sm);
   display: flex;
@@ -450,9 +471,10 @@
 .create-note-section {
   display: flex;
   justify-content: center;
-  margin-bottom: var(--space-2xl);
+  margin-top: 3rem;
+  margin-bottom: 3rem;
   position: relative;
-  max-width: 400px;
+  max-width: 600px;
   margin-left: auto;
   margin-right: auto;
 }
@@ -487,6 +509,7 @@
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.2);
   min-width: 220px;
+  margin-top: 10rem;
 }
 
 .create-note-btn::before {
@@ -613,22 +636,38 @@
 
 /* Ultra professional note cards - DRAMATICALLY IMPROVED */
 .notes-container {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-2xl);
-  margin-top: var(--space-2xl);
-  padding: 0 var(--space-2xl);
-  justify-content: center;
-  max-width: 850px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 5rem;
+  margin-top: var(--space-lg);
+  padding: var(--space-md);
+  max-width: 1600px;
   margin-left: auto;
   margin-right: auto;
+  animation: fadeIn 0.8s ease-out;
+  scroll-behavior: smooth;
 }
+
+
+html, body { overflow-x: hidden; }
 
 @media (max-width: 768px) {
   .notes-container {
+    grid-template-columns: 1fr;
+    gap: var(--space-lg);
+    padding: var(--space-sm);
+    max-width: 100%;
+    margin-top: var(--space-md);
+  }
+}
+
+/* Medium screens - tablets */
+@media (max-width: 1024px) and (min-width: 769px) {
+  .notes-container {
+    grid-template-columns: repeat(2, 1fr);
     gap: var(--space-xl);
-    padding: 0 var(--space-lg);
-    max-width: 700px;
+    max-width: 1400px;
+    padding: var(--space-sm);
   }
 }
 
@@ -639,7 +678,7 @@
   border: 2px solid transparent;
   background-clip: padding-box;
   border-radius: var(--radius-2xl);
-  padding: var(--space-2xl);
+  padding: var(--space-xl);
   margin-bottom: 0;
   transition: all var(--transition-slow);
   position: relative;
@@ -649,11 +688,40 @@
   min-height: 400px;
   width: 100%;
   max-width: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   box-shadow: 
     0 25px 50px -12px rgba(0, 0, 0, 0.25),
     0 0 0 1px rgba(255, 255, 255, 0.05),
     inset 0 1px 0 rgba(255, 255, 255, 0.1);
   cursor: grab;
+}
+
+/* Dragging visual for todo items (applies when SortableTodo sets .dragging) */
+.todo-item.dragging {
+  z-index: 9999;
+  box-shadow: 
+    0 30px 60px rgba(0,0,0,0.5), 
+    0 0 0 3px rgba(59,130,246,0.3),
+    0 0 50px rgba(59,130,246,0.4);
+  transform: translateZ(0) scale(1.05) rotate(2deg) !important;
+  opacity: 0.95;
+  background: linear-gradient(145deg, 
+    rgba(59,130,246,0.15) 0%,
+    rgba(45, 55, 72, 0.95) 100%);
+  transition: none !important;
+}
+
+/* Drop animation */
+@keyframes dropAnimation {
+  0% { transform: scale(1.05) rotate(2deg); }
+  50% { transform: scale(1.1) rotate(0deg); }
+  100% { transform: scale(1) rotate(0deg); }
+}
+
+.todo-item.drop-animation {
+  animation: dropAnimation 0.3s ease-out;
 }
 
 .note-card.dragging {
@@ -884,17 +952,26 @@
   transform: translateY(-2px);
 }
 
-/* Professional todo input section */
+/* Ultra Professional Todo Input Section - Enhanced */
 .todo-input-section {
   display: flex;
-  gap: var(--space-md);
-  margin-bottom: var(--space-xl);
+  gap: var(--space-sm);
+  margin-bottom: var(--space-lg);
   align-items: stretch;
-  background: var(--bg-primary);
+  background: linear-gradient(145deg, 
+    rgba(30, 41, 59, 0.95) 0%,
+    rgba(45, 55, 72, 0.9) 100%);
   padding: var(--space-md);
   border-radius: var(--radius-xl);
   border: 1px solid var(--border-primary);
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(20px);
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
 }
+
 
 .todo-input {
   flex: 1;
@@ -902,10 +979,12 @@
   border: 2px solid transparent;
   border-radius: var(--radius-lg);
   color: var(--text-primary);
-  padding: var(--space-lg);
-  font-size: 1rem;
+  padding: var(--space-sm) var(--space-md);
+  font-size: 0.95rem;
+  min-height: 2rem;
   transition: all var(--transition-normal);
   font-family: inherit;
+  line-height: 1.3;
 }
 
 .todo-input:focus {
@@ -924,16 +1003,20 @@
   background: linear-gradient(135deg, var(--success-color) 0%, #059669 100%);
   color: white;
   border: none;
-  padding: var(--space-sm) var(--space-lg);
+  padding: var(--space-lg) var(--space-xl);
   border-radius: var(--radius-lg);
   font-weight: 600;
   cursor: pointer;
   transition: all var(--transition-normal);
   white-space: nowrap;
-  font-size: 0.85rem;
+  font-size: 1rem;
   text-transform: uppercase;
   letter-spacing: 0.025em;
   min-width: 140px;
+  min-height: 3.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .add-todo-btn:hover:not(:disabled) {
@@ -970,6 +1053,41 @@
   position: relative;
   overflow: hidden;
   animation: slideInUp 0.3s ease-out;
+  will-change: transform;
+}
+
+/* Smooth drag transitions */
+.todo-item:not(.dragging) {
+  transition: transform 0.2s cubic-bezier(0.18, 0.67, 0.6, 1.22);
+}
+
+/* Drag handle inside todo-item so inner controls (Eliminar) are clickable */
+.todo-drag-handle {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  margin-right: var(--space-sm);
+  cursor: grab;
+  flex-shrink: 0;
+  transition: all var(--transition-fast);
+  color: var(--text-muted);
+}
+.todo-drag-handle:hover { 
+  transform: scale(1.1); 
+  background: rgba(59,130,246,0.15); 
+  border-color: rgba(59,130,246,0.3);
+  color: var(--primary-light);
+  box-shadow: 0 4px 15px rgba(59,130,246,0.2);
+}
+.todo-drag-handle:active { 
+  cursor: grabbing; 
+  transform: scale(1.05);
+  background: rgba(59,130,246,0.25);
 }
 
 .todo-item::before {
@@ -1078,10 +1196,12 @@
 /* Professional todo actions */
 .todo-actions {
   display: flex;
-  gap: var(--space-xs);
+  gap: var(--space-sm);
   opacity: 0;
   transition: all var(--transition-normal);
   transform: translateX(10px);
+  margin-left: auto;
+  flex-shrink: 0;
 }
 
 .todo-item:hover .todo-actions {
@@ -1097,27 +1217,33 @@
   border: 1px solid var(--border-primary);
   color: var(--text-secondary);
   cursor: pointer;
-  padding: var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
   border-radius: var(--radius-md);
   transition: all var(--transition-normal);
-  font-size: 0.875rem;
-  width: 36px;
-  height: 36px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  min-width: 70px;
+  height: 32px;
   display: flex;
   align-items: center;
   justify-content: center;
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+  white-space: nowrap;
 }
 
 .edit-todo-btn:hover {
   background: var(--success-color);
   color: white;
-  transform: scale(1.1);
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);
 }
 
 .delete-todo-btn:hover {
   background: var(--error-color);
   color: white;
-  transform: scale(1.1);
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 8px 20px rgba(239, 68, 68, 0.3);
 }
 
 .save-todo-btn {
@@ -1128,13 +1254,14 @@
 
 .save-todo-btn:hover {
   background: #059669;
-  transform: scale(1.1);
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 8px 20px rgba(5, 150, 105, 0.3);
 }
 
 .cancel-todo-btn:hover {
   background: var(--bg-elevated);
   color: var(--text-primary);
-  transform: scale(1.1);
+  transform: translateY(-2px) scale(1.05);
 }
 
 /* Professional todo editing */
@@ -1175,7 +1302,13 @@
   padding: var(--space-2xl);
   color: var(--text-muted);
   font-size: 1.125rem;
-  animation: pulse 2s infinite;
+  grid-column: 1 / -1;
+  max-width: 600px;
+  margin: 0 auto;
+  min-height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .no-todos-message {
@@ -1210,7 +1343,13 @@
 /* Professional responsive design */
 @media (max-width: 768px) {
   .main-content-wrapper {
-    padding: var(--space-lg);
+    padding: var(--space-md) var(--space-sm);
+    max-width: 100%;
+  }
+  
+  .todo-header-section {
+    padding: var(--space-lg) var(--space-md);
+    margin-bottom: var(--space-lg);
   }
   
   .todo-title {
@@ -1221,11 +1360,41 @@
     flex-direction: column;
     align-items: stretch;
     gap: var(--space-md);
+    margin-bottom: var(--space-lg);
+  }
+  
+  .project-breadcrumb {
+    padding: var(--space-sm) var(--space-md);
+    gap: var(--space-xs);
+  }
+  
+  .breadcrumb-content {
+    gap: 2px;
+  }
+  
+  .breadcrumb-value {
+    font-size: 0.9rem;
+  }
+  
+  .breadcrumb-label {
+    font-size: 0.65rem;
+  }
+  
+  .create-note-section {
+    margin-bottom: var(--space-lg);
+    max-width: 100%;
+  }
+  
+  .create-note-btn {
+    min-width: 200px;
+    font-size: 0.9rem;
   }
   
   .note-card {
     padding: var(--space-lg);
+    min-height: 250px;
   }
+}
   
   .note-display-mode {
     flex-direction: column;
@@ -1252,19 +1421,45 @@
     transform: translateX(0);
     position: static;
   }
-}
 
 @media (max-width: 480px) {
+  .main-content-wrapper {
+    padding: var(--space-sm);
+  }
+  
   .todo-header-section {
-    padding: var(--space-lg);
+    padding: var(--space-md);
+    margin-bottom: var(--space-md);
   }
   
   .todo-title {
     font-size: 1.75rem;
   }
   
+  .todo-subtitle {
+    font-size: 1rem;
+  }
+  
+  .project-breadcrumb {
+    padding: var(--space-xs) var(--space-sm);
+    flex-direction: column;
+    text-align: center;
+    gap: var(--space-xs);
+  }
+  
+  .breadcrumb-separator {
+    display: none;
+  }
+  
+  .create-note-btn {
+    min-width: 180px;
+    font-size: 0.85rem;
+    padding: var(--space-sm);
+  }
+  
   .note-card {
     padding: var(--space-md);
+    min-height: 200px;
   }
   
   .todo-item {
@@ -1297,8 +1492,9 @@
     inset 0 1px 0 rgba(255, 255, 255, 0.1);
   position: relative;
   overflow: hidden;
-  max-width: 850px;
-  margin: 0 auto var(--space-2xl) auto;
+  max-width: 900px;
+  margin: 0 auto var(--space-xl) auto;
+  grid-column: 1 / -1;
 }
 
 .note-card-creating::before {
@@ -1605,54 +1801,71 @@
 /* Todo Input Section */
 .todo-input-section {
   display: flex;
-  gap: 0.75rem;
-  margin-bottom: 1.5rem;
-  align-items: center;
+  gap: var(--space-md);
+  margin-bottom: var(--space-xl);
+  align-items: stretch;
+  background: var(--bg-primary);
+  padding: var(--space-md);
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--border-primary);
 }
 
 .todo-input {
   flex: 1;
-  background: #0d1117;
-  border: 1px solid #30363d;
-  border-radius: 6px;
-  color: #f0f6fc;
-  padding: 0.75rem;
-  font-size: 0.875rem;
-  transition: border-color 0.15s ease;
+  background: transparent;
+  border: 2px solid transparent;
+  border-radius: var(--radius-lg);
+  color: var(--text-primary);
+  padding: var(--space-md) var(--space-lg);
+  font-size: 1rem;
+  min-height: 2.5rem;
+  transition: all var(--transition-normal);
   font-family: inherit;
+  line-height: 1.4;
 }
 
 .todo-input:focus {
   outline: none;
-  border-color: #1f6feb;
-  box-shadow: 0 0 0 3px rgba(31, 111, 235, 0.15);
+  border-color: var(--border-focus);
+  box-shadow: var(--shadow-glow);
+  background: var(--bg-elevated);
 }
 
 .todo-input::placeholder {
-  color: #8b949e;
+  color: var(--text-muted);
+  font-style: italic;
 }
 
 .add-todo-btn {
-  background: #238636;
-  color: #ffffff;
+  background: linear-gradient(135deg, var(--success-color) 0%, #059669 100%);
+  color: white;
   border: none;
-  padding: 0.75rem 1rem;
-  border-radius: 6px;
-  font-weight: 500;
+  padding: var(--space-md) var(--space-lg);
+  border-radius: var(--radius-lg);
+  font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.15s ease;
+  transition: all var(--transition-normal);
   white-space: nowrap;
-  font-size: 0.875rem;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+  min-width: 120px;
+  min-height: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .add-todo-btn:hover:not(:disabled) {
-  background: #2ea043;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(16, 185, 129, 0.3);
 }
 
 .add-todo-btn:disabled {
   opacity: 0.5;
   cursor: not-allowed;
-  background: #21262d;
+  background: var(--bg-tertiary);
+  transform: none;
 }
 
 /* Todo List */
@@ -1904,12 +2117,6 @@
   }
 }
 
-
-
-
-
-
-
 /* Clases para eliminar inline styles */
 .note-card-creating {
   margin-bottom: 2rem;
@@ -1938,24 +2145,12 @@
 
 /* Modal Styles for Delete Confirmation */
 .modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-  animation: modalFadeIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  overflow-y: auto;
+position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  display: none;
   box-sizing: border-box;
   margin: 0;
-  background: rgba(0, 0, 0, 0.75);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  padding-top: 5rem;
-  padding-bottom: 2rem;
+  background: rgba(0,0,0,0.75);
 }
 
 .modal-content {

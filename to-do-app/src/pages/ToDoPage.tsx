@@ -1,24 +1,25 @@
+/// <reference types="vite/client" />
+
+interface ImportMetaEnv {
+  readonly VITE_API_URL: string
+}
+
+interface ImportMeta {
+  readonly env: ImportMetaEnv
+}
+
 import React, { useEffect, useState } from 'react';
 import { useParams, useLocation } from 'react-router-dom';
-import {
-  DndContext,
-  closestCenter,
-  KeyboardSensor,
-  PointerSensor,
-  useSensor,
-  useSensors,
-  DragEndEvent,
-} from '@dnd-kit/core';
-import {
-  arrayMove,
-  SortableContext,
-  sortableKeyboardCoordinates,
-  verticalListSortingStrategy,
-} from '@dnd-kit/sortable';
-import {
-  useSortable,
-} from '@dnd-kit/sortable';
+import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
+import { DndContext, closestCenter, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
+import {
+  SortableContext,
+  arrayMove,
+  verticalListSortingStrategy,
+  sortableKeyboardCoordinates,
+} from '@dnd-kit/sortable';
+import { KeyboardSensor } from '@dnd-kit/core';
 import '../styles/ToDoPage.css';
 import NavBar from '../components/NavBar';
 
@@ -299,6 +300,98 @@ const SortableNote: React.FC<SortableNoteProps> = ({
   );
 };
 
+// Sortable Todo component
+interface SortableTodoProps {
+  todo: Todo;
+  index: number;
+  editingTodoId: number | null;
+  editingTodoContent: string;
+  setEditingTodoContent: (c: string) => void;
+  onStartEditingTodo: (id: number, content: string) => void;
+  onSaveEditingTodo: (id: number, isCompleted: boolean) => void;
+  onCancelEditingTodo: () => void;
+  onToggleTodo: (todoId: number, currentStatus: boolean, content: string) => void;
+  onDeleteTodo: (todoId: number, noteId: number) => void;
+}
+
+const SortableTodo: React.FC<SortableTodoProps & {noteId?: number}> = ({
+  todo,
+  index,
+  editingTodoId,
+  editingTodoContent,
+  setEditingTodoContent,
+  onStartEditingTodo,
+  onSaveEditingTodo,
+  onCancelEditingTodo,
+  onToggleTodo,
+  onDeleteTodo,
+  noteId,
+}) => {
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: todo.id });
+  const style = { transform: CSS.Transform.toString(transform), transition } as React.CSSProperties;
+
+  return (
+    <li ref={setNodeRef} style={style} className={`todo-item ${todo.is_completed ? 'completed' : ''} ${isDragging ? 'dragging' : ''}`}>
+      {/* Drag handle with DnD listeners moved here so inner controls are clickable */}
+      <div className="todo-drag-handle" {...attributes} {...listeners} aria-label="drag-handle" title="Arrastrar">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M10 6h2v2h-2zM10 10h2v2h-2zM10 14h2v2h-2zM14 6h2v2h-2zM14 10h2v2h-2zM14 14h2v2h-2z"/>
+        </svg>
+      </div>
+      <div className="todo-number">{index + 1}</div>
+      <input
+        type="checkbox"
+        checked={todo.is_completed}
+        onChange={() => onToggleTodo(todo.id, todo.is_completed, todo.content)}
+        className="todo-checkbox"
+      />
+      {editingTodoId === todo.id ? (
+        <div className="todo-edit-section">
+          <input
+            type="text"
+            className="todo-edit-input"
+            value={editingTodoContent}
+            onChange={(e) => setEditingTodoContent(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') onSaveEditingTodo(todo.id, todo.is_completed);
+              if (e.key === 'Escape') onCancelEditingTodo();
+            }}
+            autoFocus
+          />
+          <div className="todo-edit-actions">
+            <button className="save-todo-btn" onClick={() => onSaveEditingTodo(todo.id, todo.is_completed)}>Guardar</button>
+            <button className="cancel-todo-btn" onClick={onCancelEditingTodo}>Cancelar</button>
+          </div>
+        </div>
+      ) : (
+        <>
+          <span className="todo-content" onClick={() => onStartEditingTodo(todo.id, todo.content)}>{todo.content}</span>
+          <div className="todo-actions">
+            <button 
+              className="edit-todo-btn"
+              onClick={() => onStartEditingTodo(todo.id, todo.content)}
+              title="Editar tarea"
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
+              </svg>
+            </button>
+            <button 
+              className="delete-todo-btn"
+              onClick={() => noteId && onDeleteTodo(todo.id, noteId)}
+              title="Eliminar tarea"
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/>
+              </svg>
+            </button>
+          </div>
+        </>
+      )}
+    </li>
+  );
+};
+
 const ToDoPage: React.FC = () => {
   const { projectName, sectionId } = useParams<{ projectName: string; sectionId: string }>();
   const location = useLocation();
@@ -315,6 +408,19 @@ const ToDoPage: React.FC = () => {
   const [editingTodoContent, setEditingTodoContent] = useState('');
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [noteToDelete, setNoteToDelete] = useState<number | null>(null);
+
+  // DnD-kit sensors for todos
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates })
+  );
+
+  // Auto-clear error messages after a few seconds so UI doesn't stay cluttered
+  useEffect(() => {
+    if (!error) return;
+    const timer = setTimeout(() => setError(null), 4000); // 4 seconds
+    return () => clearTimeout(timer);
+  }, [error]);
 
   useEffect(() => {
     if (!sectionName) {
@@ -390,6 +496,13 @@ const ToDoPage: React.FC = () => {
   const addTodo = async (noteId: number, content: string) => {
     if (!content.trim()) return;
 
+    // Cliente: limitar a 8 todos por nota
+    const currentNote = notes.find(n => n.id === noteId);
+    if (currentNote && currentNote.todos && currentNote.todos.length >= 8) {
+      setError('No puedes añadir más de 8 tareas por nota.');
+      return;
+    }
+
     try {
       const response = await fetch(`${API_BASE_URL}/notes/${noteId}/todos`, {
         method: 'POST',
@@ -398,12 +511,20 @@ const ToDoPage: React.FC = () => {
       });
 
       if (!response.ok) {
-        throw new Error('Error al añadir el ToDo');
+        // intenta leer mensaje del servidor si existe
+        let msg = 'Error al añadir el ToDo';
+        try {
+          const body = await response.json();
+          if (body && body.message) msg = body.message;
+        } catch (e) {
+          // noop
+        }
+        throw new Error(msg);
       }
 
       // Refresh todos for this note
       const todosResponse = await fetch(`${API_BASE_URL}/notes/${noteId}/todos`);
-      const todos = await todosResponse.json();
+      const todos = todosResponse.ok ? await todosResponse.json() : [];
 
       setNotes(prevNotes =>
         prevNotes.map(note =>
@@ -411,8 +532,9 @@ const ToDoPage: React.FC = () => {
         )
       );
 
-      // Clear the input for this note
+      // Clear the input for this note and any previous error
       setNewTodoContent(prev => ({ ...prev, [noteId]: '' }));
+      setError(null);
     } catch (err: any) {
       setError(err.message);
     }
@@ -552,11 +674,14 @@ const ToDoPage: React.FC = () => {
   };
 
   const deleteNote = async (noteId: number) => {
+    console.log('deleteNote llamado con ID:', noteId);
     setNoteToDelete(noteId);
     setShowDeleteModal(true);
+    console.log('showDeleteModal debería ser true ahora');
   };
 
   const confirmDeleteNote = async () => {
+    console.log('confirmDeleteNote llamado con noteToDelete:', noteToDelete);
     if (!noteToDelete) return;
 
     try {
@@ -572,7 +697,9 @@ const ToDoPage: React.FC = () => {
       setNotes(prevNotes => prevNotes.filter(note => note.id !== noteToDelete));
       setShowDeleteModal(false);
       setNoteToDelete(null);
+      console.log('Nota eliminada exitosamente');
     } catch (err: any) {
+      console.error('Error al eliminar nota:', err);
       setError(err.message);
       setShowDeleteModal(false);
       setNoteToDelete(null);
@@ -691,104 +818,105 @@ const ToDoPage: React.FC = () => {
             <strong>⚠️ Error:</strong> {error}
           </div>
         )}
-      </div>
 
-      {/* Ultra Professional Create Note Form */}
-      {isCreatingNote && (
-        <div className="note-card note-card-creating">
-          <div className="note-header">
-            <h3 style={{ 
-              margin: 0, 
-              color: 'var(--text-primary)', 
-              fontSize: '1.5rem', 
-              fontWeight: 700,
-              background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-              backgroundClip: 'text',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              display: 'flex',
-              alignItems: 'center',
-              gap: 'var(--space-sm)'
-            }}>
-              <span style={{ fontSize: '1.2rem' }}>🌟</span>
-              Crear Nueva Nota
-            </h3>
-            <p style={{ 
-              margin: '0.5rem 0 0 0', 
-              color: 'var(--text-muted)', 
-              fontSize: '0.9rem',
-              fontStyle: 'italic'
-            }}>
-              Organiza tus ideas de manera profesional
-            </p>
-          </div>
-          <input
-            type="text"
-            placeholder="🎯 Ingresa el título de tu nota..."
-            value={newNoteTitle}
-            onChange={(e) => setNewNoteTitle(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter' && newNoteTitle.trim()) {
-                createNote();
-              } else if (e.key === 'Escape') {
-                setIsCreatingNote(false);
-                setNewNoteTitle('');
-              }
-            }}
-            className="note-input-field"
-            autoFocus
-          />
-          <div className="note-buttons-container">
-            <button 
-              className="add-todo-btn" 
-              onClick={createNote}
-              disabled={!newNoteTitle.trim()}
-              style={{
-                background: newNoteTitle.trim() 
-                  ? 'linear-gradient(135deg, #10b981 0%, #059669 100%)'
-                  : 'var(--bg-tertiary)',
-                transform: newNoteTitle.trim() ? 'scale(1)' : 'scale(0.95)',
-                transition: 'all 0.3s ease'
+        {/* Professional Notes Container */}
+        <div className="notes-container">
+        {/* Ultra Professional Create Note Form */}
+        {isCreatingNote && (
+          <div className="note-card note-card-creating">
+            <div className="note-header">
+              <h3 style={{ 
+                margin: 0, 
+                color: 'var(--text-primary)', 
+                fontSize: '1.5rem', 
+                fontWeight: 700,
+                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                backgroundClip: 'text',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                display: 'flex',
+                alignItems: 'center',
+                gap: 'var(--space-sm)'
+              }}>
+                <span style={{ fontSize: '1.2rem' }}>🌟</span>
+                Crear Nueva Nota
+              </h3>
+              <p style={{ 
+                margin: '0.5rem 0 0 0', 
+                color: 'var(--text-muted)', 
+                fontSize: '0.9rem',
+                fontStyle: 'italic'
+              }}>
+                Organiza tus ideas de manera profesional
+              </p>
+            </div>
+            <input
+              type="text"
+              placeholder="🎯 Ingresa el título de tu nota..."
+              value={newNoteTitle}
+              onChange={(e) => setNewNoteTitle(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' && newNoteTitle.trim()) {
+                  createNote();
+                } else if (e.key === 'Escape') {
+                  setIsCreatingNote(false);
+                  setNewNoteTitle('');
+                }
               }}
-            >
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
-              </svg>
-              {newNoteTitle.trim() ? 'Crear Nota' : 'Escribe un título'}
-            </button>
-            <button 
-              className="cancel-btn" 
-              onClick={() => {
-                setIsCreatingNote(false);
-                setNewNoteTitle('');
-              }}
-            >
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
-              </svg>
-              Cancelar
-            </button>
+              className="note-input-field"
+              autoFocus
+            />
+            <div className="note-buttons-container">
+              <button 
+                className="add-todo-btn" 
+                onClick={createNote}
+                disabled={!newNoteTitle.trim()}
+                style={{
+                  background: newNoteTitle.trim() 
+                    ? 'linear-gradient(135deg, #10b981 0%, #059669 100%)'
+                    : 'var(--bg-tertiary)',
+                  transform: newNoteTitle.trim() ? 'scale(1)' : 'scale(0.95)',
+                  transition: 'all 0.3s ease'
+                }}
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+                </svg>
+                {newNoteTitle.trim() ? 'Crear Nota' : 'Escribe un título'}
+              </button>
+              <button 
+                className="cancel-btn" 
+                onClick={() => {
+                  setIsCreatingNote(false);
+                  setNewNoteTitle('');
+                }}
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+                </svg>
+                Cancelar
+              </button>
+            </div>
           </div>
-        </div>
-      )}
+        )}
 
-      {/* Professional No Notes Message */}
-      {notes.length === 0 && !error && !isCreatingNote && (
-        <div className="no-notes-message">
-          <div className="empty-state">
-            <span className="empty-icon">📝</span>
-            <h3 style={{ margin: '0 0 0.5rem 0', color: 'var(--text-secondary)' }}>
-              No hay notas disponibles
-            </h3>
-            <p style={{ margin: 0, color: 'var(--text-muted)' }}>
-              Comienza creando tu primera nota para organizar tus tareas
-            </p>
+        {/* Professional No Notes Message */}
+        {notes.length === 0 && !error && !isCreatingNote && (
+          <div className="no-notes-message">
+            <div className="empty-state">
+              <span className="empty-icon">📝</span>
+              <h3 style={{ margin: '0 0 0.5rem 0', color: 'var(--text-secondary)' }}>
+                No hay notas disponibles
+              </h3>
+              <p style={{ margin: 0, color: 'var(--text-muted)' }}>
+                Comienza creando tu primera nota para organizar tus tareas
+              </p>
+            </div>
           </div>
-        </div>
-      )}
+        )}
 
-      {/* Professional Notes List */}
-      {notes.map(note => (
+        {/* Notes Grid */}
+        {notes.length > 0 && notes.map(note => (
         <div key={note.id} className="note-card">
           <div className="note-header">
             {editingNoteId === note.id ? (
@@ -895,7 +1023,7 @@ const ToDoPage: React.FC = () => {
             </button>
           </div>
 
-          {/* Professional Todo List */}
+          {/* Professional Todo List (draggable) */}
           {note.todos.length === 0 ? (
             <div className="no-todos-message">
               <div className="empty-state">
@@ -905,86 +1033,43 @@ const ToDoPage: React.FC = () => {
               </div>
             </div>
           ) : (
-            <ul className="todo-list">
-              {note.todos.map((todo, index) => (
-                <li key={todo.id} className={`todo-item ${todo.is_completed ? 'completed' : ''}`}>
-                  <div className="todo-number">{index + 1}</div>
-                  <input 
-                    type="checkbox" 
-                    checked={todo.is_completed}
-                    onChange={() => toggleTodo(todo.id, todo.is_completed, todo.content)}
-                    className="todo-checkbox"
-                  />
-                  {editingTodoId === todo.id ? (
-                    <div className="todo-edit-section">
-                      <input
-                        type="text"
-                        className="todo-edit-input"
-                        value={editingTodoContent}
-                        onChange={(e) => setEditingTodoContent(e.target.value)}
-                        onKeyDown={(e) => {
-                          if (e.key === 'Enter') {
-                            saveEditingTodo(todo.id, todo.is_completed);
-                          } else if (e.key === 'Escape') {
-                            cancelEditingTodo();
-                          }
-                        }}
-                        autoFocus
-                      />
-                      <div className="todo-edit-actions">
-                        <button
-                          className="save-todo-btn"
-                          onClick={() => saveEditingTodo(todo.id, todo.is_completed)}
-                          title="Guardar cambios"
-                        >
-                          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
-                          </svg>
-                        </button>
-                        <button
-                          className="cancel-todo-btn"
-                          onClick={cancelEditingTodo}
-                          title="Cancelar edición"
-                        >
-                          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
-                          </svg>
-                        </button>
-                      </div>
-                    </div>
-                  ) : (
-                    <>
-                      <span className="todo-content">
-                        {todo.content}
-                      </span>
-                      <div className="todo-actions">
-                        <button
-                          className="edit-todo-btn"
-                          onClick={() => startEditingTodo(todo.id, todo.content)}
-                          title="Editar tarea"
-                        >
-                          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
-                          </svg>
-                        </button>
-                        <button
-                          className="delete-todo-btn"
-                          onClick={() => deleteTodo(todo.id, note.id)}
-                          title="Eliminar tarea"
-                        >
-                          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/>
-                          </svg>
-                        </button>
-                      </div>
-                    </>
-                  )}
-                </li>
-              ))}
-            </ul>
+            <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={(event) => {
+              const { active, over } = event;
+              if (!over || active.id === over.id) return;
+              setNotes(prevNotes => prevNotes.map(n => {
+                if (n.id !== note.id) return n;
+                const oldIndex = n.todos.findIndex(t => t.id === active.id);
+                const newIndex = n.todos.findIndex(t => t.id === over.id);
+                if (oldIndex === -1 || newIndex === -1) return n;
+                const newTodos = arrayMove(n.todos, oldIndex, newIndex);
+                return { ...n, todos: newTodos };
+              }));
+            }}>
+              <SortableContext items={note.todos.map(t => t.id)} strategy={verticalListSortingStrategy}>
+                <ul className="todo-list">
+                  {note.todos.map((todo, index) => (
+                    <SortableTodo
+                      key={todo.id}
+                      noteId={note.id}
+                      todo={todo}
+                      index={index}
+                      editingTodoId={editingTodoId}
+                      editingTodoContent={editingTodoContent}
+                      setEditingTodoContent={setEditingTodoContent}
+                      onStartEditingTodo={startEditingTodo}
+                      onSaveEditingTodo={saveEditingTodo}
+                      onCancelEditingTodo={cancelEditingTodo}
+                      onToggleTodo={toggleTodo}
+                      onDeleteTodo={deleteTodo}
+                    />
+                  ))}
+                </ul>
+              </SortableContext>
+            </DndContext>
           )}
         </div>
       ))}
+      </div>
 
       {/* Modal de confirmación para eliminar nota */}
       {showDeleteModal && (
@@ -1024,6 +1109,7 @@ const ToDoPage: React.FC = () => {
           </div>
         </div>
       )}
+      </div>
     </div>
   );
 };
