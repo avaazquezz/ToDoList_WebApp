@@ -176,8 +176,6 @@
 .info-column-container {
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  margin-bottom: 6px;
 }
 
 /* Item de información */
@@ -1166,6 +1164,110 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   position: relative;
   overflow: hidden;
+}
+
+/* Estilo especial para la tarjeta del proyecto en modo de edición */
+.project-card-custom.editing {
+  min-height: auto;
+  max-height: none;
+  align-items: stretch;
+  justify-content: flex-start;
+  padding: 1.25rem;
+  cursor: default;
+  background: rgba(45, 55, 72, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  transform: none !important;
+  animation: editProjectSlideIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes editProjectSlideIn {
+  from {
+    opacity: 0.7;
+    transform: scale(0.98);
+    background: rgba(218, 230, 247, 1);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+    background: rgba(45, 55, 72, 0.95);
+  }
+}
+
+.project-card-custom.editing::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--project-color);
+  opacity: 0.8;
+}
+
+/* Evitar hover en modo edición para proyectos */
+.project-card-custom.editing:hover {
+  transform: none !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Estilos específicos para los labels en modo edición de proyectos */
+.project-card-custom.editing .inline-form-group label {
+  color: #ffffff !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+/* Mejorar contraste de los inputs en modo edición */
+.project-card-custom.editing .inline-edit-input,
+.project-card-custom.editing .inline-edit-textarea {
+  background: #ffffff;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  color: #1e293b;
+}
+
+.project-card-custom.editing .inline-edit-input:focus,
+.project-card-custom.editing .inline-edit-textarea:focus {
+  border-color: var(--project-color);
+  box-shadow: 
+    0 0 0 4px rgba(59, 130, 246, 0.1),
+    0 4px 20px rgba(59, 130, 246, 0.15);
+}
+
+/* Mejorar la paleta de colores en modo edición de proyectos */
+.project-card-custom.editing .inline-color-options {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.08) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  padding: 1rem;
+  border-radius: 12px;
+}
+
+.project-card-custom.editing .inline-color-option {
+  width: 40px;
+  height: 40px;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  border-radius: 10px;
+  transition: all 0.3s ease;
+  box-shadow: 
+    0 2px 8px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.project-card-custom.editing .inline-color-option:hover {
+  transform: translateY(-2px) scale(1.1);
+  border-color: rgba(255, 255, 255, 0.8);
+  box-shadow: 
+    0 6px 20px rgba(0, 0, 0, 0.3),
+    inset 0 2px 0 rgba(255, 255, 255, 0.4);
+}
+
+.project-card-custom.editing .inline-color-option.selected {
+  border-color: #ffffff;
+  transform: scale(1.05);
+  box-shadow: 
+    0 4px 15px rgba(0, 0, 0, 0.3),
+    0 0 0 3px rgba(255, 255, 255, 0.6),
+    inset 0 2px 0 rgba(255, 255, 255, 0.4);
 }
 
 .project-card-custom:hover {

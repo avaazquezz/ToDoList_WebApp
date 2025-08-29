@@ -10,12 +10,23 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import NavBar from '../components/NavBar';
 import { useNotification } from '../hooks/useNotification';
-import EditProjectModal from '../components/EditProjectModalNew';
 import '../styles/HomePage.css';
+import '../styles/ProjectSectionPage.css';
 
 const colorOptions = [
   '#4a90e2', '#50c878', '#f39c12', '#e74c3c', '#9b59b6',
   '#3498db', '#2ecc71', '#f1c40f', '#e67e22', '#c0392b'
+];
+
+const COLORS = [
+  { id: 'blue', value: '#3b82f6', name: 'Azul', gradient: 'linear-gradient(135deg, #176df8ff 0%, #255fddff 100%)' },
+  { id: 'green', value: '#10b981', name: 'Verde', gradient: 'linear-gradient(135deg, #71f7caff 0%, #1ae6a5ff 100%)' },
+  { id: 'red', value: '#f70b0bff', name: 'Rojo', gradient: 'linear-gradient(135deg, #f10e0eff 0%, #f10b0bff 100%)' },
+  { id: 'purple', value: '#8b5cf6', name: 'Morado', gradient: 'linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%)' },
+  { id: 'orange', value: '#ee914eff', name: 'Naranja', gradient: 'linear-gradient(135deg, #f1a46dff 0%, #e77537ff 100%)' },
+  { id: 'teal', value: '#14b8a6', name: 'Verde azulado', gradient: 'linear-gradient(135deg, #088b7cff 0%, #057a71ff 100%)' },
+  { id: 'pink', value: '#ec4899', name: 'Rosa', gradient: 'linear-gradient(135deg, #d32af5ff 0%, #ec5096ff 100%)' },
+  { id: 'indigo', value: '#696bebff', name: 'Índigo', gradient: 'linear-gradient(135deg, #6366f1 0%, #4f46e5 100%)' }
 ];
 
 // Define the Project type
@@ -37,6 +48,12 @@ const HomePage = () => {
   const [showColorPicker, setShowColorPicker] = useState(false);
   const [activeTooltip, setActiveTooltip] = useState<number | null>(null);
   const [editingProject, setEditingProject] = useState<Project | null>(null);
+  const [editingProjectId, setEditingProjectId] = useState<number | null>(null);
+  const [editingProjectData, setEditingProjectData] = useState<{
+    name: string;
+    description: string;
+    color: string;
+  }>({ name: '', description: '', color: '' });
   
   const { showSuccess, showError, showWarning } = useNotification();
 
@@ -78,10 +95,10 @@ const HomePage = () => {
     description: string;
     color: string;
   }) => {
-    if (!editingProject) return;
+    if (!editingProjectId) return;
 
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/projects/${editingProject.id}`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/projects/${editingProjectId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -95,17 +112,45 @@ const HomePage = () => {
 
       // Update the project in the local state
       setProjects(prev => prev.map(project => 
-        project.id === editingProject.id 
+        project.id === editingProjectId 
           ? { ...project, ...projectData }
           : project
       ));
 
-      setEditingProject(null);
+      setEditingProjectId(null);
+      setEditingProjectData({ name: '', description: '', color: '' });
       showSuccess('Proyecto actualizado exitosamente');
     } catch (error) {
       console.error('Error updating project:', error);
       showError('Ocurrió un error al actualizar el proyecto. Inténtalo de nuevo.');
     }
+  };
+
+  const startEditProject = (project: Project) => {
+    setEditingProjectId(project.id);
+    setEditingProjectData({
+      name: project.name,
+      description: project.description || '',
+      color: project.color
+    });
+  };
+
+  const cancelEditProject = () => {
+    setEditingProjectId(null);
+    setEditingProjectData({ name: '', description: '', color: '' });
+  };
+
+  const saveEditProject = async () => {
+    if (!editingProjectId || !editingProjectData.name.trim()) {
+      showError('El nombre del proyecto es obligatorio');
+      return;
+    }
+
+    await handleEditProject({
+      name: editingProjectData.name,
+      description: editingProjectData.description,
+      color: editingProjectData.color
+    });
   };
 
   const handleAddProject = async () => {
@@ -265,237 +310,297 @@ const HomePage = () => {
               projects.map((project) => (
                 <div 
                   key={project.id} 
-                  className="project-card project-card-custom"
-                  onClick={() => navigateToProjectTasks(project.name)}
+                  className={`project-card project-card-custom ${editingProjectId === project.id ? 'editing' : ''}`}
+                  onClick={() => editingProjectId !== project.id && navigateToProjectTasks(project.name)}
+                  style={{
+                    '--project-color': project.color
+                  } as React.CSSProperties}
                 >
                   <div 
                     className="project-color-bar" 
                     style={{ backgroundColor: project.color }}
                   ></div>
                   <div className="project-content">
-                    <div className="project-header-content">
-                      <div className="project-info-section">
-                        <h3 className={`project-title ${project.description ? 'project-title-with-description' : ''}`}>
-                          {project.name}
-                        </h3>
-                        {project.description && (
-                          <p className="project-description">
-                            {project.description}
-                          </p>
-                        )}
-                      </div>
-                      <div className="project-actions">
-                        <button
-                          className="info-button"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            setActiveTooltip(activeTooltip === project.id ? null : project.id);
-                          }}
-                          aria-label="Mostrar información del proyecto"
-                          onMouseOver={(e) => {
-                            e.currentTarget.style.background = 'rgba(34, 197, 94, 1)';
-                            // Crear tooltip si no existe
-                            if (!e.currentTarget.querySelector('.info-tooltip')) {
-                              const tooltip = document.createElement('div');
-                              tooltip.className = 'info-tooltip';
-                              tooltip.textContent = 'Ver información';
-                              tooltip.style.cssText = `
-                              position: absolute;
-                              top: -35px;
-                              left: 50%;
-                              transform: translateX(-50%);
-                              background: rgba(0, 0, 0, 0.8);
-                              color: white;
-                              padding: 6px 12px;
-                              border-radius: 6px;
-                              font-size: 12px;
-                              font-weight: 500;
-                              white-space: nowrap;
-                              z-index: 1000;
-                              pointer-events: none;
-                              opacity: 0;
-                              transition: opacity 0.2s ease;
-                              `;
-                              e.currentTarget.style.position = 'relative';
-                              e.currentTarget.appendChild(tooltip);
-                              setTimeout(() => {
-                              tooltip.style.opacity = '1';
-                              }, 50);
-                            }
-                            e.currentTarget.style.transform = 'scale(1.1)';
-                          }}
-                          onMouseOut={(e) => {
-                            e.currentTarget.style.background = 'rgba(34, 197, 94, 0.1)';
-                            e.currentTarget.style.transform = 'scale(1)';
-                            // Eliminar tooltip al quitar el mouse
-                            const tooltip = e.currentTarget.querySelector('.info-tooltip') as HTMLElement;
-                            if (tooltip) {
-                              tooltip.style.opacity = '0';
-                              setTimeout(() => {
-                                if (tooltip.parentNode) {
-                                  tooltip.parentNode.removeChild(tooltip);
-                                }
-                              }, 200);
-                            }
-                          }}
-                        >
-                          <svg 
-                            width="16" 
-                            height="16" 
-                            viewBox="0 0 24 24" 
-                            fill="none" 
-                            stroke="currentColor" 
-                            strokeWidth="2" 
-                            strokeLinecap="round" 
-                            strokeLinejoin="round"
-                          >
-                            <circle cx="12" cy="12" r="10" />
-                            <line x1="12" y1="16" x2="12" y2="12" />
-                            <line x1="12" y1="8" x2="12.01" y2="8" />
-                          </svg>
-                        </button>
-                        <button
-                          className="edit-button"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            setEditingProject(project);
-                          }}
-                          aria-label="Editar proyecto"
-                          onMouseOver={(e) => {
-                            e.currentTarget.style.background = 'rgba(74, 145, 226, 0.35)';
-                            // Crear tooltip si no existe
-                            if (!e.currentTarget.querySelector('.edit-tooltip')) {
-                              const tooltip = document.createElement('div');
-                              tooltip.className = 'edit-tooltip';
-                              tooltip.textContent = 'Editar proyecto';
-                              tooltip.style.cssText = `
-                              position: absolute;
-                              top: -35px;
-                              left: 50%;
-                              transform: translateX(-50%);
-                              background: rgba(0, 0, 0, 0.8);
-                              color: white;
-                              padding: 6px 12px;
-                              border-radius: 6px;
-                              font-size: 12px;
-                              font-weight: 500;
-                              white-space: nowrap;
-                              z-index: 1000;
-                              pointer-events: none;
-                              opacity: 0;
-                              transition: opacity 0.2s ease;
-                              `;
-                              e.currentTarget.style.position = 'relative';
-                              e.currentTarget.appendChild(tooltip);
-                              setTimeout(() => {
-                              tooltip.style.opacity = '1';
-                              }, 50);
-                            }
-                            e.currentTarget.style.transform = 'scale(1.1)';
-                          }}
-                          onMouseOut={(e) => {
-                            e.currentTarget.style.background = 'rgba(74, 144, 226, 0.1)';
-                            e.currentTarget.style.transform = 'scale(1)';
-                            // Eliminar tooltip al quitar el mouse
-                            const tooltip = e.currentTarget.querySelector('.edit-tooltip') as HTMLElement;
-                            if (tooltip) {
-                              tooltip.style.opacity = '0';
-                              setTimeout(() => {
-                                if (tooltip.parentNode) {
-                                  tooltip.parentNode.removeChild(tooltip);
-                                }
-                              }, 200);
-                            }
-                          }}
-                        >
-                          ✎
-                        </button>
-                      </div>
-                    </div>                    
-                    
-                    {activeTooltip === project.id && (
-                      <>
-                        {/* Overlay para cerrar al hacer clic fuera */}
-                        <div 
-                          className="modal-overlay-transparent"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            setActiveTooltip(null);
-                          }}
-                        />
+                    {editingProjectId === project.id ? (
+                      // Modo edición inline
+                      <div className="inline-edit-form" onClick={(e) => e.stopPropagation()}>
+                        <div className="inline-form-group">
+                          <label htmlFor={`edit-name-${project.id}`}>Título del proyecto</label>
+                          <input
+                            type="text"
+                            id={`edit-name-${project.id}`}
+                            value={editingProjectData.name}
+                            onChange={(e) => setEditingProjectData({...editingProjectData, name: e.target.value})}
+                            placeholder="Nombre del proyecto"
+                            maxLength={50}
+                            className="inline-edit-input"
+                          />
+                        </div>
                         
-                        <div className="project-info-tooltip">
-                          <button
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              setActiveTooltip(null);
-                            }}
-                            className="close-tooltip-button"
-                            aria-label="Cerrar información"
-                          >
-                            <svg 
-                              width="20" 
-                              height="20" 
-                              viewBox="0 0 24 24" 
-                              fill="none" 
-                              stroke="currentColor" 
-                              strokeWidth="2.5"
-                              strokeLinecap="round" 
-                              strokeLinejoin="round"
-                            >
-                              <line x1="18" y1="6" x2="6" y2="18" />
-                              <line x1="6" y1="6" x2="18" y2="18" />
-                            </svg>
-                          </button>
-                          
-                          <div className="info-container-with-margin">
-                            <h4 className="info-title">
-                              Información del Proyecto
-                            </h4>
+                        <div className="inline-form-group">
+                          <label htmlFor={`edit-description-${project.id}`}>Descripción del proyecto</label>
+                          <textarea
+                            id={`edit-description-${project.id}`}
+                            value={editingProjectData.description}
+                            onChange={(e) => setEditingProjectData({...editingProjectData, description: e.target.value})}
+                            placeholder="Descripción del proyecto (opcional)"
+                            rows={3}
+                            maxLength={200}
+                            className="inline-edit-textarea"
+                          />
+                        </div>
+                        
+                        <div className="inline-form-group">
+                          <label>Color del proyecto</label>
+                          <div className="inline-color-options">
+                            {COLORS.map(color => (
+                              <button
+                                key={color.id}
+                                type="button"
+                                className={`inline-color-option ${editingProjectData.color === color.value ? 'selected' : ''}`}
+                                style={{ background: color.gradient }}
+                                onClick={() => setEditingProjectData({...editingProjectData, color: color.value})}
+                                aria-label={`Color ${color.name}`}
+                                aria-pressed={editingProjectData.color === color.value}
+                              />
+                            ))}
                           </div>
-                          
-                          <div className="info-column-container">
-                            <div className="info-item">
-                              <div className="user-avatar">
-                                {project.createdBy.charAt(0).toUpperCase()}
-                              </div>
-                              <div className="flex-1">
-                                <p className="info-label">
-                                  Creado por
-                                </p>
-                                <p className="info-value-creator">
-                                  {project.createdBy}
-                                </p>
-                              </div>
-                            </div>
+                        </div>
+                        
+                        <div className="inline-edit-actions">
+                          <button
+                            type="button"
+                            className="inline-btn cancel-btn"
+                            onClick={cancelEditProject}
+                          >
+                            Cancelar
+                          </button>
+                          <button
+                            type="button"
+                            className="inline-btn save-btn"
+                            onClick={saveEditProject}
+                            style={{
+                              background: `linear-gradient(135deg, ${editingProjectData.color}, ${editingProjectData.color}dd)`
+                            }}
+                          >
+                            Guardar
+                          </button>
+                        </div>
+                      </div>
+                    ) : (
+                      // Modo vista normal
+                      <>
+                        <div className="project-header-content">
+                          <div className="project-info-section">
+                            <h3 className={`project-title ${project.description ? 'project-title-with-description' : ''}`}>
+                              {project.name}
+                            </h3>
+                            {project.description && (
+                              <p className="project-description">
+                                {project.description}
+                              </p>
+                            )}
+                          </div>
+                          <div className="project-actions">
+                            <button
+                              className="info-button"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setActiveTooltip(activeTooltip === project.id ? null : project.id);
+                              }}
+                              aria-label="Mostrar información del proyecto"
+                              onMouseOver={(e) => {
+                                e.currentTarget.style.background = 'rgba(34, 197, 94, 1)';
+                                // Crear tooltip si no existe
+                                if (!e.currentTarget.querySelector('.info-tooltip')) {
+                                  const tooltip = document.createElement('div');
+                                  tooltip.className = 'info-tooltip';
+                                  tooltip.textContent = 'Ver información';
+                                  tooltip.style.cssText = `
+                                  position: absolute;
+                                  top: -35px;
+                                  left: 50%;
+                                  transform: translateX(-50%);
+                                  background: rgba(0, 0, 0, 0.8);
+                                  color: white;
+                                  padding: 6px 12px;
+                                  border-radius: 6px;
+                                  font-size: 12px;
+                                  font-weight: 500;
+                                  white-space: nowrap;
+                                  z-index: 1000;
+                                  pointer-events: none;
+                                  opacity: 0;
+                                  transition: opacity 0.2s ease;
+                                  `;
+                                  e.currentTarget.style.position = 'relative';
+                                  e.currentTarget.appendChild(tooltip);
+                                  setTimeout(() => {
+                                  tooltip.style.opacity = '1';
+                                  }, 50);
+                                }
+                                e.currentTarget.style.transform = 'scale(1.1)';
+                              }}
+                              onMouseOut={(e) => {
+                                e.currentTarget.style.background = 'rgba(34, 197, 94, 0.1)';
+                                e.currentTarget.style.transform = 'scale(1)';
+                                // Eliminar tooltip al quitar el mouse
+                                const tooltip = e.currentTarget.querySelector('.info-tooltip') as HTMLElement;
+                                if (tooltip) {
+                                  tooltip.style.opacity = '0';
+                                  setTimeout(() => {
+                                    if (tooltip.parentNode) {
+                                      tooltip.parentNode.removeChild(tooltip);
+                                    }
+                                  }, 200);
+                                }
+                              }}
+                            >
+                              <svg 
+                                width="16" 
+                                height="16" 
+                                viewBox="0 0 24 24" 
+                                fill="none" 
+                                stroke="currentColor" 
+                                strokeWidth="2" 
+                                strokeLinecap="round" 
+                                strokeLinejoin="round"
+                              >
+                                <circle cx="12" cy="12" r="10" />
+                                <line x1="12" y1="16" x2="12" y2="12" />
+                                <line x1="12" y1="8" x2="12.01" y2="8" />
+                              </svg>
+                            </button>
+                            <button
+                              className="edit-button"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                startEditProject(project);
+                              }}
+                              aria-label="Editar proyecto"
+                              onMouseOver={(e) => {
+                                e.currentTarget.style.background = 'rgba(74, 145, 226, 0.35)';
+                                // Crear tooltip si no existe
+                                if (!e.currentTarget.querySelector('.edit-tooltip')) {
+                                  const tooltip = document.createElement('div');
+                                  tooltip.className = 'edit-tooltip';
+                                  tooltip.textContent = 'Editar proyecto';
+                                  tooltip.style.cssText = `
+                                  position: absolute;
+                                  top: -35px;
+                                  left: 50%;
+                                  transform: translateX(-50%);
+                                  background: rgba(0, 0, 0, 0.8);
+                                  color: white;
+                                  padding: 6px 12px;
+                                  border-radius: 6px;
+                                  font-size: 12px;
+                                  font-weight: 500;
+                                  white-space: nowrap;
+                                  z-index: 1000;
+                                  pointer-events: none;
+                                  opacity: 0;
+                                  transition: opacity 0.2s ease;
+                                  `;
+                                  e.currentTarget.style.position = 'relative';
+                                  e.currentTarget.appendChild(tooltip);
+                                  setTimeout(() => {
+                                  tooltip.style.opacity = '1';
+                                  }, 50);
+                                }
+                                e.currentTarget.style.transform = 'scale(1.1)';
+                              }}
+                              onMouseOut={(e) => {
+                                e.currentTarget.style.background = 'rgba(74, 144, 226, 0.1)';
+                                e.currentTarget.style.transform = 'scale(1)';
+                                // Eliminar tooltip al quitar el mouse
+                                const tooltip = e.currentTarget.querySelector('.edit-tooltip') as HTMLElement;
+                                if (tooltip) {
+                                  tooltip.style.opacity = '0';
+                                  setTimeout(() => {
+                                    if (tooltip.parentNode) {
+                                      tooltip.parentNode.removeChild(tooltip);
+                                    }
+                                  }, 200);
+                                }
+                              }}
+                            >
+                              ✎
+                            </button>
+                          </div>
+                        </div>                    
+                        
+                        {activeTooltip === project.id && (
+                          <>
+                            {/* Overlay para cerrar al hacer clic fuera */}
+                            <div 
+                              className="modal-overlay-transparent"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setActiveTooltip(null);
+                              }}
+                            />
                             
-                            <div className="info-item">
-                              <div className="date-icon-container">
+                            <div className="project-info-tooltip">
+                              <button
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  setActiveTooltip(null);
+                                }}
+                                className="close-tooltip-button"
+                                aria-label="Cerrar información"
+                              >
                                 <svg 
-                                  width="16" 
-                                  height="16" 
+                                  width="20" 
+                                  height="20" 
                                   viewBox="0 0 24 24" 
                                   fill="none" 
                                   stroke="currentColor" 
-                                  strokeWidth="2"
+                                  strokeWidth="2.5"
+                                  strokeLinecap="round" 
+                                  strokeLinejoin="round"
                                 >
-                                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
-                                  <line x1="16" y1="2" x2="16" y2="6" />
-                                  <line x1="8" y1="2" x2="8" y2="6" />
-                                  <line x1="3" y1="10" x2="21" y2="10" />
+                                  <line x1="18" y1="6" x2="6" y2="18" />
+                                  <line x1="6" y1="6" x2="18" y2="18" />
                                 </svg>
+                              </button>
+                              
+                              <div className="info-container-with-margin">
+                                <h4 className="info-title">
+                                  Información del Proyecto
+                                </h4>
                               </div>
-                              <div className="flex-1">
-                                <p className="date-label">
-                                  Fecha de creación
-                                </p>
-                                <p className="date-value">
-                                  {formatDate(project.createdAt)}
-                                </p>
+                              
+                              <div className="info-column-container">
+                                <div className="info-item">
+                                  <div className="date-icon-container">
+                                    <svg 
+                                      width="16" 
+                                      height="16" 
+                                      viewBox="0 0 24 24" 
+                                      fill="none" 
+                                      stroke="currentColor" 
+                                      strokeWidth="2"
+                                    >
+                                      <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                                      <line x1="16" y1="2" x2="16" y2="6" />
+                                      <line x1="8" y1="2" x2="8" y2="6" />
+                                      <line x1="3" y1="10" x2="21" y2="10" />
+                                    </svg>
+                                  </div>
+                                  <div className="flex-1">
+                                    <p className="date-label">
+                                      Fecha de creación
+                                    </p>
+                                    <p className="date-value">
+                                      {formatDate(project.createdAt)}
+                                    </p>
+                                  </div>
+                                </div>
                               </div>
                             </div>
-                          </div>
-                        </div>
+                          </>
+                        )}
                       </>
                     )}
                   </div>
@@ -509,14 +614,6 @@ const HomePage = () => {
             )}
           </div>
         </div>
-
-        {/* Nuevo Modal Profesional */}
-        <EditProjectModal
-          isOpen={editingProject !== null}
-          project={editingProject}
-          onClose={() => setEditingProject(null)}
-          onSave={handleEditProject}
-        />
       </div>
     </div>
   );

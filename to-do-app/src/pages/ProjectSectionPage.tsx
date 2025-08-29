@@ -50,6 +50,12 @@ const ProjectSectionsPage = () => {
   const [selectedColor, setSelectedColor] = useState(COLORS[0].value);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingSection, setEditingSection] = useState<Section | null>(null);
+  const [editingSectionId, setEditingSectionId] = useState<number | null>(null);
+  const [editingSectionData, setEditingSectionData] = useState<{
+    title: string;
+    text: string;
+    color: string;
+  }>({ title: '', text: '', color: '' });
   const [projectColor, setProjectColor] = useState('');
   const [confirmDialog, setConfirmDialog] = useState<{
     isOpen: boolean;
@@ -146,6 +152,69 @@ const ProjectSectionsPage = () => {
     setSelectedColor(COLORS[0].value);
   };
 
+  const startInlineEdit = (section: Section) => {
+    setEditingSectionId(section.idSection);
+    setEditingSectionData({
+      title: section.title,
+      text: section.text,
+      color: section.color
+    });
+  };
+
+  const cancelInlineEdit = () => {
+    setEditingSectionId(null);
+    setEditingSectionData({ title: '', text: '', color: '' });
+  };
+
+  const saveInlineEdit = async () => {
+    if (!editingSectionId || !editingSectionData.title.trim() || !editingSectionData.text.trim()) {
+      showWarning('Por favor, completa todos los campos');
+      return;
+    }
+
+    try {
+      const storedProjects: Project[] = JSON.parse(localStorage.getItem('projects') || '[]');
+      const currentProject = storedProjects.find(p => p.name === decodedProjectName);
+      
+      if (!currentProject) {
+        showError('No se encontró el proyecto');
+        return;
+      }
+
+      const response = await fetch(`${API_BASE_URL}/project/${currentProject.id}/sections/${editingSectionId}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          title: editingSectionData.title,
+          description: editingSectionData.text,
+          color: editingSectionData.color
+        })
+      });
+
+      if (!response.ok) throw new Error('Error al actualizar la sección');
+
+      // Actualizar el estado local
+      setSections(prevSections => 
+        prevSections.map(section => 
+          section.idSection === editingSectionId 
+            ? {
+                ...section,
+                title: editingSectionData.title,
+                text: editingSectionData.text,
+                color: editingSectionData.color,
+                gradient: COLORS.find(c => c.value === editingSectionData.color)?.gradient || ''
+              }
+            : section
+        )
+      );
+
+      showSuccess('Sección actualizada correctamente');
+      cancelInlineEdit();
+    } catch (error) {
+      showError('Error al actualizar la sección');
+    }
+  };
+
   const addOrUpdateSection = async () => {
     if (newSectionTitle.trim() === '' || newSectionText.trim() === '') {
       showWarning('Por favor completa todos los campos requeridos');
@@ -240,11 +309,7 @@ const ProjectSectionsPage = () => {
   };
 
   const editSection = (section: Section) => {
-    setEditingSection(section); // Pass section directly without spreading
-    setNewSectionTitle(section.title || ''); // Ensure title is set
-    setNewSectionText(section.text || ''); // Ensure text is set
-    setSelectedColor(section.color || COLORS[0].value); // Default to first color if undefined
-    setIsDialogOpen(true); // Open the modal
+    startInlineEdit(section);
   };
 
   const deleteSection = async (sectionId: number) => {
@@ -337,7 +402,7 @@ const ProjectSectionsPage = () => {
               {sections.map(section => (
                 <div
                   key={section.idSection}
-                  className="section-card"
+                  className={`section-card ${editingSectionId === section.idSection ? 'editing' : ''}`}
                   style={{
                     background: `linear-gradient(to bottom right, ${section.color}15, ${section.color}08)`,
                     borderColor: `${section.color}30`,
@@ -345,28 +410,96 @@ const ProjectSectionsPage = () => {
                   } as React.CSSProperties}
                   role="article"
                   aria-labelledby={"section-title-" + section.idSection}
-                  onClick={() => navigate(`/project/${decodedProjectName}/sections/${section.idSection}/todos`, { state: { sectionName: section.title } })}
+                  onClick={() => editingSectionId !== section.idSection && navigate(`/project/${decodedProjectName}/sections/${section.idSection}/todos`, { state: { sectionName: section.title } })}
                 >
-                  <h3 className="section-title" id={"section-title-" + section.idSection}>
-                    {section.title}
-                  </h3>
-                  <p className="section-text">{section.text}</p>
-                  <div className="section-actions">
-                    <button
-                      className="action-btn edit-btn"
-                      onClick={(e) => { e.stopPropagation(); editSection(section); }}
-                      aria-label={"Editar sección " + section.title}
-                    >
-                      Editar
-                    </button>
-                    <button
-                      className="action-btn delete-btn"
-                      onClick={(e) => { e.stopPropagation(); deleteSection(section.idSection); }}
-                      aria-label={"Eliminar sección " + section.title}
-                    >
-                      Eliminar
-                    </button>
-                  </div>
+                  {editingSectionId === section.idSection ? (
+                    // Modo edición inline
+                    <div className="inline-edit-form" onClick={(e) => e.stopPropagation()}>
+                      <div className="inline-form-group">
+                        <label htmlFor={`edit-title-${section.idSection}`}>Título</label>
+                        <input
+                          type="text"
+                          id={`edit-title-${section.idSection}`}
+                          value={editingSectionData.title}
+                          onChange={(e) => setEditingSectionData({...editingSectionData, title: e.target.value})}
+                          placeholder="Título de la sección"
+                          maxLength={50}
+                          className="inline-edit-input"
+                        />
+                      </div>
+                      
+                      <div className="inline-form-group">
+                        <label htmlFor={`edit-text-${section.idSection}`}>Descripción</label>
+                        <textarea
+                          id={`edit-text-${section.idSection}`}
+                          value={editingSectionData.text}
+                          onChange={(e) => setEditingSectionData({...editingSectionData, text: e.target.value})}
+                          placeholder="Descripción de la sección"
+                          rows={3}
+                          maxLength={200}
+                          className="inline-edit-textarea"
+                        />
+                      </div>
+                      
+                      <div className="inline-form-group">
+                        <label>Color de la sección</label>
+                        <div className="inline-color-options">
+                          {COLORS.map(color => (
+                            <button
+                              key={color.id}
+                              type="button"
+                              className={`inline-color-option ${editingSectionData.color === color.value ? 'selected' : ''}`}
+                              style={{ background: color.gradient }}
+                              onClick={() => setEditingSectionData({...editingSectionData, color: color.value})}
+                              aria-label={`Color ${color.name}`}
+                              aria-pressed={editingSectionData.color === color.value}
+                            />
+                          ))}
+                        </div>
+                      </div>
+                      
+                      <div className="inline-edit-actions">
+                        <button
+                          type="button"
+                          className="inline-btn cancel-btn"
+                          onClick={cancelInlineEdit}
+                        >
+                          Cancelar
+                        </button>
+                        <button
+                          type="button"
+                          className="inline-btn save-btn"
+                          onClick={saveInlineEdit}
+                        >
+                          Guardar
+                        </button>
+                      </div>
+                    </div>
+                  ) : (
+                    // Modo vista normal
+                    <>
+                      <h3 className="section-title" id={"section-title-" + section.idSection}>
+                        {section.title}
+                      </h3>
+                      <p className="section-text">{section.text}</p>
+                      <div className="section-actions">
+                        <button
+                          className="action-btn edit-btn"
+                          onClick={(e) => { e.stopPropagation(); editSection(section); }}
+                          aria-label={"Editar sección " + section.title}
+                        >
+                          Editar
+                        </button>
+                        <button
+                          className="action-btn delete-btn"
+                          onClick={(e) => { e.stopPropagation(); deleteSection(section.idSection); }}
+                          aria-label={"Eliminar sección " + section.title}
+                        >
+                          Eliminar
+                        </button>
+                      </div>
+                    </>
+                  )}
                 </div>
               ))}
             </div>
@@ -398,7 +531,7 @@ const ProjectSectionsPage = () => {
           </button>
         </div>
 
-        {isDialogOpen && (
+        {isDialogOpen && !editingSection && (
           <div
             className="modal-overlay"
             onClick={closeModal}
@@ -409,13 +542,10 @@ const ProjectSectionsPage = () => {
             <div className="modal-content" onClick={e => e.stopPropagation()}>
               <div className="modal-header">
                 <h2 id="modal-title" className="modal-title">
-                  {editingSection ? 'Editar Sección' : 'Nueva Sección'}
+                  Nueva Sección
                 </h2>
                 <p className="modal-subtitle">
-                  {editingSection
-                    ? 'Modifica los detalles de la sección'
-                    : 'Crea una nueva sección para organizar tus tareas'
-                  }
+                  Crea una nueva sección para organizar tus tareas
                 </p>
               </div>
 
@@ -469,7 +599,7 @@ const ProjectSectionsPage = () => {
                   onClick={addOrUpdateSection}
                   disabled={!newSectionTitle.trim() || !newSectionText.trim()}
                 >
-                  {editingSection ? 'Guardar Cambios' : 'Crear Sección'}
+                  Crear Sección
                 </button>
               </div>
             </div>
