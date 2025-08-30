@@ -6,10 +6,11 @@ interface ImportMeta {
   };
 }
 
-import { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import NavBar from '../components/NavBar';
-import { useNotification } from '../hooks/useNotification';
+import useNotification from '../hooks/useNotification';
+import { useTranslation } from 'react-i18next';
 import '../styles/HomePage.css';
 import '../styles/ProjectSectionPage.css';
 
@@ -40,6 +41,7 @@ interface Project {
 }
 
 const HomePage = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [projects, setProjects] = useState<Project[]>([]);
   const [newProjectName, setNewProjectName] = useState('');
@@ -117,12 +119,12 @@ const HomePage = () => {
           : project
       ));
 
-      setEditingProjectId(null);
-      setEditingProjectData({ name: '', description: '', color: '' });
-      showSuccess('Proyecto actualizado exitosamente');
+  setEditingProjectId(null);
+  setEditingProjectData({ name: '', description: '', color: '' });
+  showSuccess(t('home.projectUpdated'));
     } catch (error) {
-      console.error('Error updating project:', error);
-      showError('Ocurrió un error al actualizar el proyecto. Inténtalo de nuevo.');
+  console.error('Error updating project:', error);
+  showError(t('home.projectUpdateError'));
     }
   };
 
@@ -142,7 +144,7 @@ const HomePage = () => {
 
   const saveEditProject = async () => {
     if (!editingProjectId || !editingProjectData.name.trim()) {
-      showError('El nombre del proyecto es obligatorio');
+      showError(t('home.projectNameRequired'));
       return;
     }
 
@@ -155,13 +157,13 @@ const HomePage = () => {
 
   const handleAddProject = async () => {
     if (newProjectName.trim() === '') {
-      showError('El nombre del proyecto no puede estar vacío.');
+      showError(t('home.projectNameCannotBeEmpty'));
       return;
     }
 
     const userId = localStorage.getItem('userId');
     if (!userId) {
-      showError('No se encontró el ID del usuario. Por favor, inicia sesión nuevamente.');
+      showError(t('home.userIdNotFound'));
       navigate('/login');
       return;
     }
@@ -201,11 +203,11 @@ const HomePage = () => {
       setNewProjectName('');
       setNewProjectDescription('');
       setSelectedColor(colorOptions[0]);
-      setShowColorPicker(false);
-      showSuccess('¡Proyecto creado exitosamente!');
+  setShowColorPicker(false);
+  showSuccess(t('home.projectCreated'));
     } catch (error) {
-      console.error('Error al crear el proyecto:', error);
-      showError('Ocurrió un error al crear el proyecto. Inténtalo de nuevo.');
+  console.error('Error al crear el proyecto:', error);
+  showError(t('home.projectCreateError'));
     }
   };
 
@@ -235,13 +237,13 @@ const HomePage = () => {
       <NavBar />
       <div className="home-page">
         <div className="welcome-section">
-          <h2>Panel de Control</h2>
-          <p>Organiza y gestiona todos tus proyectos desde un solo lugar.</p>
+          <h2>{t('home.dashboard')}</h2>
+          <p>{t('home.description')}</p>
           
           <div className="stats-container">
             <div className="stat-card">
               <span className="stat-number">{projects.length}</span>
-              <span className="stat-label">Proyectos Activos</span>
+              <span className="stat-label">{t('home.activeProjects')}</span>
             </div>
           </div>
         </div>
@@ -249,7 +251,7 @@ const HomePage = () => {
         <div className="projects">
           <div className="projects-header">
             <h2 className="projects-header-title">
-              Mis Proyectos
+              {t('home.myProjects')}
             </h2>
           </div>
 
@@ -257,7 +259,7 @@ const HomePage = () => {
             <div className="add-project add-project-wrapper">
               <input
                 type="text"
-                placeholder="Nombre del nuevo proyecto"
+                placeholder={t('home.newProjectName')}
                 value={newProjectName}
                 onChange={(e) => setNewProjectName(e.target.value)}
                 onKeyPress={handleKeyPress}
@@ -266,7 +268,7 @@ const HomePage = () => {
               
               <input
                 type="text"
-                placeholder="Descripción del proyecto (opcional)"
+                placeholder={t('home.newProjectDescription')}
                 value={newProjectDescription}
                 onChange={(e) => setNewProjectDescription(e.target.value)}
                 className="project-description-input"
@@ -300,7 +302,7 @@ const HomePage = () => {
                 onClick={handleAddProject}
                 className="add-project-button"
               >
-                Crear Proyecto
+                {t('home.createProject')}
               </button>
             </div>
           </div>
@@ -325,25 +327,25 @@ const HomePage = () => {
                       // Modo edición inline
                       <div className="inline-edit-form" onClick={(e) => e.stopPropagation()}>
                         <div className="inline-form-group">
-                          <label htmlFor={`edit-name-${project.id}`}>Título del proyecto</label>
+                          <label htmlFor={`edit-name-${project.id}`}>{t('home.editTitle')}</label>
                           <input
                             type="text"
                             id={`edit-name-${project.id}`}
                             value={editingProjectData.name}
                             onChange={(e) => setEditingProjectData({...editingProjectData, name: e.target.value})}
-                            placeholder="Nombre del proyecto"
+                            placeholder={t('home.projectNamePlaceholder')}
                             maxLength={50}
                             className="inline-edit-input"
                           />
                         </div>
                         
                         <div className="inline-form-group">
-                          <label htmlFor={`edit-description-${project.id}`}>Descripción del proyecto</label>
+                          <label htmlFor={`edit-description-${project.id}`}>{t('home.editDescription')}</label>
                           <textarea
                             id={`edit-description-${project.id}`}
                             value={editingProjectData.description}
                             onChange={(e) => setEditingProjectData({...editingProjectData, description: e.target.value})}
-                            placeholder="Descripción del proyecto (opcional)"
+                            placeholder={t('home.projectDescriptionPlaceholder')}
                             rows={3}
                             maxLength={200}
                             className="inline-edit-textarea"
@@ -351,7 +353,7 @@ const HomePage = () => {
                         </div>
                         
                         <div className="inline-form-group">
-                          <label>Color del proyecto</label>
+                          <label>{t('home.projectColor')}</label>
                           <div className="inline-color-options">
                             {COLORS.map(color => (
                               <button
@@ -373,7 +375,7 @@ const HomePage = () => {
                             className="inline-btn cancel-btn"
                             onClick={cancelEditProject}
                           >
-                            Cancelar
+                            {t('home.cancel')}
                           </button>
                           <button
                             type="button"
@@ -383,7 +385,7 @@ const HomePage = () => {
                               background: `linear-gradient(135deg, ${editingProjectData.color}, ${editingProjectData.color}dd)`
                             }}
                           >
-                            Guardar
+                            {t('home.save')}
                           </button>
                         </div>
                       </div>
@@ -408,14 +410,14 @@ const HomePage = () => {
                                 e.stopPropagation();
                                 setActiveTooltip(activeTooltip === project.id ? null : project.id);
                               }}
-                              aria-label="Mostrar información del proyecto"
+                              aria-label={t('home.showProjectInfo')}
                               onMouseOver={(e) => {
                                 e.currentTarget.style.background = 'rgba(34, 197, 94, 1)';
                                 // Crear tooltip si no existe
                                 if (!e.currentTarget.querySelector('.info-tooltip')) {
                                   const tooltip = document.createElement('div');
                                   tooltip.className = 'info-tooltip';
-                                  tooltip.textContent = 'Ver información';
+                                  tooltip.textContent = t('home.viewInfo');
                                   tooltip.style.cssText = `
                                   position: absolute;
                                   top: -35px;
@@ -477,14 +479,14 @@ const HomePage = () => {
                                 e.stopPropagation();
                                 startEditProject(project);
                               }}
-                              aria-label="Editar proyecto"
+                              aria-label={t('home.editProject')}
                               onMouseOver={(e) => {
                                 e.currentTarget.style.background = 'rgba(74, 145, 226, 0.35)';
                                 // Crear tooltip si no existe
                                 if (!e.currentTarget.querySelector('.edit-tooltip')) {
                                   const tooltip = document.createElement('div');
                                   tooltip.className = 'edit-tooltip';
-                                  tooltip.textContent = 'Editar proyecto';
+                                  tooltip.textContent = t('home.editProject');
                                   tooltip.style.cssText = `
                                   position: absolute;
                                   top: -35px;
@@ -548,7 +550,7 @@ const HomePage = () => {
                                   setActiveTooltip(null);
                                 }}
                                 className="close-tooltip-button"
-                                aria-label="Cerrar información"
+                                aria-label={t('home.closeInfo')}
                               >
                                 <svg 
                                   width="20" 
@@ -567,7 +569,7 @@ const HomePage = () => {
                               
                               <div className="info-container-with-margin">
                                 <h4 className="info-title">
-                                  Información del Proyecto
+                                  {t('home.projectInfo')}
                                 </h4>
                               </div>
                               
@@ -590,7 +592,7 @@ const HomePage = () => {
                                   </div>
                                   <div className="flex-1">
                                     <p className="date-label">
-                                      Fecha de creación
+                                      {t('home.createdAt')}
                                     </p>
                                     <p className="date-value">
                                       {formatDate(project.createdAt)}
@@ -607,9 +609,9 @@ const HomePage = () => {
                 </div>
               ))
             ) : (
-              <div className="empty-projects">
-                <h3>No hay proyectos</h3>
-                <p>¡Comienza creando tu primer proyecto!</p>
+                <div className="empty-projects">
+                <h3>{t('home.noProjectsTitle')}</h3>
+                <p>{t('home.noProjectsText')}</p>
               </div>
             )}
           </div>

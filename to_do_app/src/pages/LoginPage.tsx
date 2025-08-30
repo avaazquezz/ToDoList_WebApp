@@ -8,14 +8,18 @@ interface ImportMeta {
   readonly env: ImportMetaEnv;
 }
 
+
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useNotification } from '../hooks/useNotification';
 import '../styles/LoginPage.css';
+import { useTranslation } from 'react-i18next';
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
+
 const LoginPage = () => {
+  const { t, i18n } = useTranslation();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -76,28 +80,33 @@ const LoginPage = () => {
 
   return (
     <div className="login-container">
+      {/* Selector de idioma arriba a la derecha solo en LoginPage */}
+      <div style={{ position: 'absolute', top: 10, right: 10, zIndex: 1000 }}>
+        <select value={i18n.language} onChange={e => i18n.changeLanguage(e.target.value)}>
+          <option value="es">Español</option>
+          <option value="en">English</option>
+        </select>
+      </div>
       <div className="login-card">
         <div className="login-header">
-          <h1>Iniciar Sesión</h1>
-          <p>Accede a tu cuenta para continuar</p>
+          <h1>{t('login.header')}</h1>
+          <p>{t('login.subheader')}</p>
         </div>
-        
         <form onSubmit={handleLogin}>
           <div className="form-group">
-            <label htmlFor="email">Correo Electrónico</label>
+            <label htmlFor="email">{t('login.email')}</label>
             <input
               className="form-input"
               type="email"
               id="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="Ingresa tu correo electrónico"
+              placeholder={t('login.emailPlaceholder')}
               required
             />
           </div>
-          
           <div className="form-group">
-            <label htmlFor="password">Contraseña</label>
+            <label htmlFor="password">{t('login.password')}</label>
             <div className="password-container">
               <input
                 className="form-input"
@@ -105,7 +114,7 @@ const LoginPage = () => {
                 id="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                placeholder="Ingresa tu contraseña"
+                placeholder={t('login.passwordPlaceholder')}
                 required
               />
               <button
@@ -113,23 +122,21 @@ const LoginPage = () => {
                 className="password-toggle"
                 onClick={() => setShowPassword(!showPassword)}
               >
-                {showPassword ? 'Ocultar' : 'Mostrar'}
+                {showPassword ? t('login.hide') : t('login.show')}
               </button>
             </div>
             <div className="forgot-password">
-              <a href="/forgot-password">¿Olvidaste tu contraseña?</a>
+              <a href="/forgot-password">{t('login.forgot')}</a>
             </div>
           </div>
-          
           <button type="submit" className="login-button" disabled={loading}>
             {loading && <span className="spinner"></span>}
-            {loading ? 'Iniciando sesión...' : 'Iniciar Sesión'}
+            {loading ? t('login.loading') : t('login.button')}
           </button>
         </form>
-        
         <div className="signup-prompt">
-          ¿No tienes cuenta?
-          <Link to="/register">Crear cuenta</Link>
+          {t('login.signupPrompt')}
+          <Link to="/register">{t('login.signupLink')}</Link>
         </div>
       </div>
     </div>

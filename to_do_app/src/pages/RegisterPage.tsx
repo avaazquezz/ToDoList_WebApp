@@ -15,6 +15,8 @@ import '../styles/RegisterPage.css';
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
+import { useTranslation } from 'react-i18next';
+
 const RegisterPage = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -23,6 +25,8 @@ const RegisterPage = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { showSuccess, showError, showLoading, dismissAll } = useNotification();
+
+  const { i18n } = useTranslation();
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -74,6 +78,13 @@ const RegisterPage = () => {
 
   return (
     <div className="register-container">
+      {/* Selector de idioma arriba a la derecha solo en RegisterPage */}
+      <div style={{ position: 'absolute', top: 10, right: 10, zIndex: 1000 }}>
+        <select value={i18n.language} onChange={e => i18n.changeLanguage(e.target.value)}>
+          <option value="es">Español</option>
+          <option value="en">English</option>
+        </select>
+      </div>
       <div className="register-card">
         <div className="register-header">
           <h1>Crear Cuenta</h1>
