@@ -1,8 +1,13 @@
+<<<<<<< HEAD
 # WorkToDo Web App
+=======
+# WorkToDo_WebApp
+>>>>>>> 955ec6db6b5a2e725b52259c191c2bf567858a32
 
 > **There's a lot of work to do:** turn the chaos of tasks into a clear, actionable roadmap with WorkToDo.
 
 <!--ts-->
+<<<<<<< HEAD
 
 * [Project Description](#project-description)
 * [Key Features](#key-features)
@@ -19,6 +24,20 @@
 * [Contributions](#contributions)
 * [License](#license)
 
+=======
+  - [Project Description](#project-description)
+  - [Key Features](#key-features)
+  - [Technologies Used](#technologies-used)
+  - [Environment Setup](#environment-setup)
+    - [Prerequisites](#prerequisites)
+    - [Installation and Execution](#installation-and-execution)
+      - [Using Docker](#using-docker)
+      - [Using npm](#using-npm)
+  - [Project Structure](#project-structure)
+  - [🎥 Demo](#-demo)
+  - [Contributions](#contributions)
+  - [License](#license)
+>>>>>>> 955ec6db6b5a2e725b52259c191c2bf567858a32
 <!--te-->
 
 ## Project Description
