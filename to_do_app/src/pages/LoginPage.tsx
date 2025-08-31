@@ -14,6 +14,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useNotification } from '../hooks/useNotification';
 import '../styles/LoginPage.css';
 import { useTranslation } from 'react-i18next';
+import LanguageSelector from '../components/LanguageSelector';
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
@@ -82,10 +83,7 @@ const LoginPage = () => {
     <div className="login-container">
       {/* Selector de idioma arriba a la derecha solo en LoginPage */}
       <div style={{ position: 'absolute', top: 10, right: 10, zIndex: 1000 }}>
-        <select value={i18n.language} onChange={e => i18n.changeLanguage(e.target.value)}>
-          <option value="es">Español</option>
-          <option value="en">English</option>
-        </select>
+        <LanguageSelector />
       </div>
       <div className="login-card">
         <div className="login-header">

@@ -12,6 +12,8 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useNotification } from '../hooks/useNotification';
 import '../styles/RegisterPage.css';
+import LanguageSelector from '../components/LanguageSelector';
+import { t } from 'i18next';
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
@@ -80,46 +82,43 @@ const RegisterPage = () => {
     <div className="register-container">
       {/* Selector de idioma arriba a la derecha solo en RegisterPage */}
       <div style={{ position: 'absolute', top: 10, right: 10, zIndex: 1000 }}>
-        <select value={i18n.language} onChange={e => i18n.changeLanguage(e.target.value)}>
-          <option value="es">Español</option>
-          <option value="en">English</option>
-        </select>
+        <LanguageSelector />
       </div>
       <div className="register-card">
         <div className="register-header">
-          <h1>Crear Cuenta</h1>
-          <p>Regístrate para comenzar</p>
+          <h1>{t('register.header')}</h1>
+          <p>{t('register.subheader')}</p>
         </div>
         
         <form onSubmit={handleRegister}>
           <div className="form-group">
-            <label htmlFor="name">Nombre</label>
+            <label htmlFor="name">{t('register.name')}</label>
             <input
               className="form-input"
               type="text"
               id="name"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              placeholder="Ingresa tu nombre"
+              placeholder={t('register.namePlaceholder')}
               required
             />
           </div>
           
           <div className="form-group">
-            <label htmlFor="email">Correo Electrónico</label>
+            <label htmlFor="email">{t('register.email')}</label>
             <input
               className="form-input"
               type="email"
               id="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="Ingresa tu correo electrónico"
+              placeholder={t('register.emailPlaceholder')}
               required
             />
           </div>
           
           <div className="form-group">
-            <label htmlFor="password">Contraseña</label>
+            <label htmlFor="password">{t('register.password')}</label>
             <div className="password-container">
               <input
                 className="form-input"
@@ -127,7 +126,7 @@ const RegisterPage = () => {
                 id="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                placeholder="Ingresa tu contraseña"
+                placeholder={t('register.passwordPlaceholder')}
                 required
               />
               <button
@@ -135,20 +134,20 @@ const RegisterPage = () => {
                 className="password-toggle"
                 onClick={() => setShowPassword(!showPassword)}
               >
-                {showPassword ? 'Ocultar' : 'Mostrar'}
+                {showPassword ? t('register.hide') : t('register.show')}
               </button>
             </div>
           </div>
           
           <button type="submit" className="register-button" disabled={loading}>
             {loading && <span className="spinner"></span>}
-            {loading ? 'Registrando...' : 'Registrarse'}
+            {loading ? t('register.loading') : t('register.button')}
           </button>
         </form>
         
         <div className="login-prompt">
-          ¿Ya tienes cuenta? <br />
-          <Link to="/login">Inicia sesión</Link>
+          {t('register.loginPrompt')} <br />
+          <Link to="/login">{t('register.loginLink')}</Link>
         </div>
       </div>
     </div>

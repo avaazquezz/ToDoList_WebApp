@@ -23,4 +23,9 @@ i18n
     },
   });
 
+i18n.on('initialized', () => {
+  const detectedLanguage = localStorage.getItem('i18nextLng') || (navigator.language.startsWith('es') ? 'es' : 'en');
+  i18n.changeLanguage(detectedLanguage);
+});
+
 export default i18n;

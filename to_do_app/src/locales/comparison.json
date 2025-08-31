@@ -1,0 +1,16 @@
+{
+  "missingInSpanish": ["mainpage.ready", "mainpage.cta"],
+  "missingInEnglish": ["mainpage.subtitle", "mainpage.text"],
+  "mismatchedValues": [
+    {
+      "key": "mainpage.subtitle",
+      "english": "Maybe there's a lot of",
+      "spanish": "Quizá hay mucho"
+    },
+    {
+      "key": "mainpage.text",
+      "english": "Transform the way you organize your life.",
+      "spanish": "Transforma la manera en que organizas tu vida."
+    }
+  ]
+}

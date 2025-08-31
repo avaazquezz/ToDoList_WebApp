@@ -47,6 +47,8 @@
   "register.success": "¡Bienvenido {{name}}! Tu cuenta ha sido creada exitosamente.",
   "register.error": "Error al registrarse. Inténtalo de nuevo.",
   "register.emailExists": "El correo electrónico ya está registrado.",
+  "register.loginPrompt": "¿Ya tienes cuenta?",
+  "register.loginLink": "Inicia sesión",
   "mainpage.subtitle": "Quizá hay mucho",
   "mainpage.text": "Transforma la manera en que organizas tu vida.",
   "mainpage.why": "¿Por qué elegir WorkToDo?",

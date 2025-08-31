@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import '../styles/MainPage.css';
 import { useTranslation } from 'react-i18next';
+import LanguageSelector from '../components/LanguageSelector';
 
 const MainPage = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -15,10 +16,7 @@ const MainPage = () => {
     <div className="main-container">
       {/* Selector de idioma arriba a la derecha solo en MainPage */}
       <div style={{ position: 'absolute', top: 10, right: 10, zIndex: 1000 }}>
-        <select value={i18n.language} onChange={e => i18n.changeLanguage(e.target.value)}>
-          <option value="es">Español</option>
-          <option value="en">English</option>
-        </select>
+        <LanguageSelector />
       </div>
       {/* Animated background particles */}
       <div className="floating-shapes">

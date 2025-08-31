@@ -50,7 +50,9 @@
     "loading": "Registering...",
     "success": "Welcome {{name}}! Your account has been created successfully.",
     "error": "Error registering. Please try again.",
-    "emailExists": "Email is already registered."
+    "emailExists": "Email is already registered.",
+    "loginPrompt": "Already have an account?",
+    "loginLink": "Log in"
   },
   "mainpage": {
     "subtitle": "Maybe there's a lot of",
