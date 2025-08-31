@@ -2,7 +2,6 @@
 
 
 <!--ts-->
-- [ToDoList_WebApp](#todolist_webapp)
   - [Project Description](#project-description)
   - [Key Features](#key-features)
   - [Technologies Used](#technologies-used)
