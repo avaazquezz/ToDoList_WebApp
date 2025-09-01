@@ -13,13 +13,12 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useNotification } from '../hooks/useNotification';
 import '../styles/RegisterPage.css';
 import LanguageSelector from '../components/LanguageSelector';
-import { t } from 'i18next';
+import { useTranslation } from 'react-i18next';
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
-import { useTranslation } from 'react-i18next';
-
 const RegisterPage = () => {
+  const { t } = useTranslation();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -28,14 +27,12 @@ const RegisterPage = () => {
   const navigate = useNavigate();
   const { showSuccess, showError, showLoading, dismissAll } = useNotification();
 
-  const { i18n } = useTranslation();
-
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
 
     // Mostrar notificación de carga
-    const toastId = showLoading('Creando tu cuenta...');
+    const toastId = showLoading(t('register.loading'));
 
     try {
       const response = await fetch(`${apiUrl}/auth/register`, {
@@ -49,9 +46,9 @@ const RegisterPage = () => {
       if (!response.ok) {
         if (response.status === 409) {
           dismissAll();
-          showError('El correo electrónico ya está registrado.');
+          showError(t('register.emailExists'));
         } else {
-          throw new Error(data.error || 'Error al registrarse.');
+          throw new Error(data.error || t('register.error'));
         }
         return;
       }
@@ -62,7 +59,7 @@ const RegisterPage = () => {
 
       // Cerrar toast de loading y mostrar éxito
       dismissAll();
-      showSuccess(`¡Bienvenido ${name}! Tu cuenta ha sido creada exitosamente`);
+      showSuccess(t('register.success', { name }));
 
       // Pequeña pausa para que se vea la notificación antes de navegar
       setTimeout(() => {
@@ -72,7 +69,7 @@ const RegisterPage = () => {
     } catch (err: any) {
       // Cerrar toast de loading y mostrar error
       dismissAll();
-      showError(err.message || 'Error al registrarse. Inténtalo de nuevo.');
+      showError(err.message || t('register.error'));
     } finally {
       setLoading(false);
     }

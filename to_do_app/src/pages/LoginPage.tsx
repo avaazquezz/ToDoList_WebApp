@@ -39,7 +39,7 @@ const LoginPage = () => {
     setLoading(true);
 
     // Mostrar notificación de carga
-    const toastId = showLoading('Iniciando sesión...');
+    const toastId = showLoading(t('login.loading'));
 
     try {
       const response = await fetch(`${apiUrl}/auth/login`, {
@@ -51,7 +51,7 @@ const LoginPage = () => {
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.error || 'Error al iniciar sesión.');
+        throw new Error(data.error || t('login.error'));
       }
 
       localStorage.setItem('authToken', data.token);
@@ -59,7 +59,7 @@ const LoginPage = () => {
 
       // Cerrar toast de loading y mostrar éxito
       dismissAll();
-      showSuccess('¡Bienvenido! Sesión iniciada correctamente');
+      showSuccess(t('login.success'));
       
       // Pequeña pausa para que se vea la notificación antes de navegar
       setTimeout(() => {
@@ -67,7 +67,7 @@ const LoginPage = () => {
       }, 1000);
 
     } catch (err: any) {
-      const errorMessage = err.message || 'Error al iniciar sesión. Inténtalo de nuevo.';
+      const errorMessage = err.message || t('login.error');
       
       // Cerrar toast de loading y mostrar error
       dismissAll();
