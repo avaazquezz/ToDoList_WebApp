@@ -265,5 +265,28 @@
       "updateTodo": "Error updating the ToDo",
       "deleteNote": "Error deleting the note"
     }
+  },
+  "footer": {
+    "brand": "WorkToDo",
+    "description": "The ultimate platform to organize your projects and maximize your productivity intelligently and efficiently.",
+    "developer": {
+      "title": "Developer",
+      "name": "Adrián Vázquez",
+      "role": "Full Stack Developer",
+      "description": "Specialized in creating innovative digital experiences that transform the way you work and organize yourself."
+    },
+    "links": {
+      "portfolio": "Portfolio",
+      "github": "GitHub",
+      "linkedin": "LinkedIn"
+    },
+    "copyright": "© 2024 WorkToDo. All rights reserved.",
+    "madeWith": "Made with passion to improve your productivity",
+    "technologies": {
+      "react": "React",
+      "typescript": "TypeScript",
+      "vite": "Vite",
+      "css": "CSS"
+    }
   }
 }
