@@ -9,6 +9,7 @@ interface ImportMeta {
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import NavBar from '../components/NavBar';
+import Footer from '../components/Footer';
 import useNotification from '../hooks/useNotification';
 import { useTranslation } from 'react-i18next';
 import '../styles/HomePage.css';
@@ -617,6 +618,7 @@ const HomePage = () => {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 };

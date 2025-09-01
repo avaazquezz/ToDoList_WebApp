@@ -23,6 +23,7 @@ import {
 import { KeyboardSensor } from '@dnd-kit/core';
 import '../styles/ToDoPage.css';
 import NavBar from '../components/NavBar';
+import Footer from '../components/Footer';
 
 const API_BASE_URL = import.meta.env.VITE_API_URL;
 
@@ -1159,6 +1160,7 @@ const ToDoPage: React.FC = () => {
       </div>
 
       </div>
+      <Footer />
     </div>
   );
 };

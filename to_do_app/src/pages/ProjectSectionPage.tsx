@@ -1,6 +1,7 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import NavBar from '../components/NavBar';
+import Footer from '../components/Footer';
 import { useNotification } from '../hooks/useNotification';
 import { useTranslation } from 'react-i18next';
 import '../styles/ProjectSectionPage.css';
@@ -666,6 +667,7 @@ const ProjectSectionsPage = () => {
           </button>
         </div>
       </div>
+      <Footer />
     </div>
   );
 };
