@@ -1,0 +1,269 @@
+{
+  "global": {
+    "welcome": "Welcome to your To-Do List!",
+    "login": "Login",
+    "register": "Register",
+    "logout": "Logout",
+    "about": "About",
+  "language": "Language",
+  "english": "English",
+  "spanish": "Spanish",
+    "home": "Home",
+    "project": "Project",
+    "section": "Section",
+    "todo": "To-Do",
+    "add": "Add",
+    "edit": "Edit",
+    "delete": "Delete",
+    "save": "Save",
+    "cancel": "Cancel"
+  },
+  "login": {
+    "header": "Login",
+    "subheader": "Access your account to continue",
+    "email": "Email",
+    "emailPlaceholder": "Enter your email",
+    "password": "Password",
+    "passwordPlaceholder": "Enter your password",
+    "show": "Show",
+    "hide": "Hide",
+    "forgot": "Forgot your password?",
+    "button": "Login",
+    "loading": "Logging in...",
+    "success": "Welcome! Successfully logged in",
+    "error": "Error logging in. Please try again.",
+    "signupPrompt": "Don't have an account?",
+    "signupLink": "Create account"
+  },
+  "register": {
+    "header": "Create Account",
+    "subheader": "Sign up to get started",
+    "name": "Name",
+    "namePlaceholder": "Enter your name",
+    "email": "Email",
+    "emailPlaceholder": "Enter your email",
+    "password": "Password",
+    "passwordPlaceholder": "Enter your password",
+    "show": "Show",
+    "hide": "Hide",
+    "button": "Register",
+    "loading": "Registering...",
+    "success": "Welcome {{name}}! Your account has been created successfully.",
+    "error": "Error registering. Please try again.",
+    "emailExists": "Email is already registered.",
+    "loginPrompt": "Already have an account?",
+    "loginLink": "Log in"
+  },
+  "mainpage": {
+    "subtitle": "Maybe there's a lot of",
+    "text": "Transform the way you organize your life.",
+    "why": "Why choose WorkToDo?",
+    "whyDesc": "Discover the features that make WorkToDo the perfect tool to maximize your productivity and organize your life smartly.",
+    "feature1": {
+      "title": "Smart Organization",
+      "desc": "Intuitive management system that adapts to your workflow. Organize complex projects with elegant simplicity."
+    },
+    "feature2": {
+      "title": "Instant Sync",
+      "desc": "Real-time access from any device. Your data always up to date, wherever you are."
+    },
+    "feature3": {
+      "title": "Maximized Productivity",
+      "desc": "Advanced prioritization and tracking tools that boost your efficiency to new levels."
+    },
+    "feature4": {
+      "title": "Advanced Analytics",
+      "desc": "Detailed insights into your performance. Visualize patterns, identify improvements, and celebrate your achievements."
+    },
+    "feature5": {
+      "title": "Premium Security",
+      "desc": "Enterprise-level data protection. Your personal information and projects are completely safe."
+    },
+    "feature6": {
+      "title": "Exceptional Design",
+      "desc": "Modern, minimalist interface designed to inspire creativity and keep focus on what matters."
+    },
+    "how": "How It Works",
+    "howDesc": "In just 4 simple steps, you'll be on your way to extraordinary productivity",
+    "step1": {
+      "title": "Instant Registration",
+      "strong": "30 seconds to start.",
+      "desc": "You only need your email to access all the tools that will transform your productivity.",
+      "highlight": "No credit cards • No commitments"
+    },
+    "step2": {
+      "title": "Smart Setup",
+      "strong": "Customize your space.",
+      "desc": "Create projects, define categories, and set up the workflow that best suits your style.",
+      "highlight": "Automatic setup • Templates included"
+    },
+    "step3": {
+      "title": "Efficient Management",
+      "strong": "Organize smartly.",
+      "desc": "Add tasks, set priorities and deadlines. Our system guides you step by step.",
+      "highlight": "Automatic prioritization • Smart reminders"
+    },
+    "step4": {
+      "title": "Extraordinary Results",
+      "strong": "Measure your progress.",
+      "desc": "See your productivity soar as you build habits that transform your life.",
+      "highlight": "Real-time analytics • Celebrate your achievements"
+    },
+    "ready": "Ready to get started?",
+    "cta": "Join for free and transform your productivity today."
+  }
+  ,
+  "home": {
+    "dashboard": "Dashboard",
+    "description": "Organize and manage all your projects from one place.",
+    "activeProjects": "Active Projects",
+    "myProjects": "My Projects",
+    "newProjectName": "New project name",
+    "newProjectDescription": "Project description (optional)",
+    "createProject": "Create Project",
+    "noProjectsTitle": "No projects",
+    "noProjectsText": "Start by creating your first project!",
+    "editTitle": "Project title",
+    "projectNamePlaceholder": "Project name",
+    "editDescription": "Project description",
+    "projectDescriptionPlaceholder": "Project description (optional)",
+    "projectColor": "Project color",
+    "cancel": "Cancel",
+    "save": "Save",
+    "showProjectInfo": "Show project information",
+    "editProject": "Edit project",
+    "viewInfo": "View info",
+    "closeInfo": "Close info",
+    "projectInfo": "Project Information",
+    "createdAt": "Created at",
+    "projectUpdated": "Project updated successfully",
+    "projectUpdateError": "An error occurred while updating the project. Please try again.",
+    "projectCreated": "Project created successfully!",
+    "projectCreateError": "An error occurred while creating the project. Please try again.",
+    "projectNameRequired": "Project name is required",
+    "projectNameCannotBeEmpty": "Project name cannot be empty.",
+    "userIdNotFound": "User ID not found. Please log in again."
+  }
+  ,
+  "projectSections": {
+    "loadConfigError": "Error loading project configuration",
+    "projectNotFoundLocalStorage": "Project not found in local storage",
+    "loadSectionsError": "Error loading project sections",
+    "fillAllFields": "Please fill in all fields",
+    "userIdNotFound": "User ID not found. Please log in again.",
+    "projectNotFound": "Project not found",
+    "createSuccess": "Section created successfully",
+    "createError": "An error occurred while creating the section. Please try again.",
+    "updateSuccess": "Section updated successfully",
+    "updateError": "An error occurred while updating the section. Please try again.",
+    "deleteSuccess": "Section deleted successfully",
+    "deleteError": "An error occurred while deleting the section. Please try again.",
+    "deleteProjectSuccess": "Project deleted successfully",
+    "deleteProjectError": "An error occurred while deleting the project. Please try again."
+    ,
+    "deleteProjectTitle": "Delete Project",
+    "deleteProjectQuestion": "Are you sure you want to delete the project \"{{name}}\"?",
+    "deleteList": {
+      "project": "The entire project",
+      "sections": "All sections",
+      "data": "All associated data"
+    },
+    "deleteIrreversible": "This action cannot be undone.",
+    "cancel": "Cancel",
+    "deleteProject": "Delete Project",
+    "headerDescription": "Organize your project into sections for better task management",
+    "createSectionAria": "Create new section",
+    "createSection": "New Section",
+    "createTitle": "Title",
+    "createDescription": "Description",
+    "sectionTitlePlaceholder": "Section title",
+    "sectionDescriptionPlaceholder": "Section description",
+    "sectionColor": "Section color",
+    "color": "Color",
+    "save": "Save",
+  "create": "Create",
+    "noSectionsTitle": "No sections in this project.",
+    "noSectionsText": "Start by creating your first section!",
+  "deleteProjectAria": "Delete project",
+    "deleteSectionTitle": "Delete Section",
+    "deleteSectionQuestion": "Are you sure you want to delete the section \"{{name}}\"?",
+    "deleteSectionWarning": "This action cannot be undone and all associated data will be lost.",
+    "deleteSection": "Delete Section",
+    "editTitle": "Title",
+    "editDescription": "Description",
+    "edit": "Edit",
+    "delete": "Delete"
+  }
+  ,
+  "todoPage": {
+    "title": "Task Management",
+    "subtitle": "Organize and manage your ideas professionally",
+    "breadcrumb": {
+      "project": "Project",
+      "section": "Section",
+      "notes": "Notes",
+      "note": "note",
+      "notes_plural": "notes",
+      "tasks": "Tasks",
+      "total": "total"
+    },
+    "createNote": {
+      "button": "Create New Note",
+      "titlePlaceholder": "🎯 Enter the title of your note...",
+      "create": "Create Note",
+      "writeTitle": "Write a title",
+      "cancel": "Cancel"
+    },
+    "noNotes": {
+      "title": "No notes available",
+      "subtitle": "Start by creating your first note to organize your tasks"
+    },
+    "addTodo": {
+      "placeholder": "Type a new task and press Enter...",
+      "add": "Add",
+      "limitError": "You can't add more than 8 tasks per note."
+    },
+    "todo": {
+      "actions": {
+        "edit": "Edit task",
+        "delete": "Delete task",
+        "save": "Save",
+        "cancel": "Cancel"
+      }
+    },
+    "note": {
+      "noTodosTitle": "No tasks in this note",
+      "noTodosHint": "Type above to add your first task",
+      "actions": {
+        "save": "Save",
+        "cancel": "Cancel",
+        "edit": "Edit",
+        "delete": "Delete"
+      },
+      "deleteSuccess": "Note deleted successfully",
+      "deleteWarning": {
+        "title": "ATTENTION",
+        "text": "Are you sure you want to delete this note? This action cannot be undone and all associated tasks will be deleted.",
+        "cannotUndo": "This action cannot be undone. All associated tasks will be deleted.",
+        "confirm": "DELETE NOTE",
+        "cancel": "CANCEL"
+      }
+    },
+    "modal": {
+      "confirmTitle": "⚠️ ATTENTION",
+      "confirmText": "Are you sure you want to delete this note? This action cannot be undone and all associated tasks will be deleted.",
+      "cancel": "Cancel",
+      "delete": "Delete Note"
+    },
+    "errors": {
+      "noSectionName": "Could not get the section name from state.",
+      "userIdNotFound": "User ID not found. Please log in again.",
+      "fetchNotes": "Error fetching notes",
+      "createNote": "Error creating the note",
+      "addTodo": "Error adding the ToDo",
+      "deleteTodo": "Error deleting the ToDo",
+      "updateTodo": "Error updating the ToDo",
+      "deleteNote": "Error deleting the note"
+    }
+  }
+}

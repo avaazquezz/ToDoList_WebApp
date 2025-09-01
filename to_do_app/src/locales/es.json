@@ -1,0 +1,266 @@
+{
+  "global": {
+    "welcome": "¡Bienvenido a tu lista de tareas!",
+    "login": "Iniciar sesión",
+    "register": "Registrarse",
+    "logout": "Cerrar sesión",
+    "about": "Ajustes",
+    "language": "Idioma",
+    "english": "Inglés",
+    "spanish": "Español",
+    "home": "Inicio",
+    "project": "Proyecto",
+    "section": "Sección",
+    "todo": "Tarea",
+    "add": "Agregar",
+    "edit": "Editar",
+    "delete": "Eliminar",
+    "save": "Guardar",
+    "cancel": "Cancelar"
+  },
+  "login": {
+    "header": "Iniciar Sesión",
+    "subheader": "Accede a tu cuenta para continuar",
+    "email": "Correo Electrónico",
+    "emailPlaceholder": "Ingresa tu correo electrónico",
+    "password": "Contraseña",
+    "passwordPlaceholder": "Ingresa tu contraseña",
+    "show": "Mostrar",
+    "hide": "Ocultar",
+    "forgot": "¿Olvidaste tu contraseña?",
+    "button": "Iniciar Sesión",
+    "loading": "Iniciando sesión...",
+    "success": "¡Bienvenido! Sesión iniciada correctamente",
+    "error": "Error al iniciar sesión. Inténtalo de nuevo.",
+    "signupPrompt": "¿No tienes cuenta?",
+    "signupLink": "Crear cuenta"
+  },
+  "register": {
+    "header": "Crear Cuenta",
+    "subheader": "Regístrate para comenzar",
+    "name": "Nombre",
+    "namePlaceholder": "Ingresa tu nombre",
+    "email": "Correo Electrónico",
+    "emailPlaceholder": "Ingresa tu correo electrónico",
+    "password": "Contraseña",
+    "passwordPlaceholder": "Ingresa tu contraseña",
+    "show": "Mostrar",
+    "hide": "Ocultar",
+    "button": "Registrarse",
+    "loading": "Registrando...",
+    "success": "¡Bienvenido {{name}}! Tu cuenta ha sido creada exitosamente.",
+    "error": "Error al registrarse. Inténtalo de nuevo.",
+    "emailExists": "El correo electrónico ya está registrado.",
+    "loginPrompt": "¿Ya tienes cuenta?",
+    "loginLink": "Inicia sesión"
+  },
+  "mainpage": {
+    "subtitle": "Quizá hay mucho",
+    "text": "Transforma la manera en que organizas tu vida.",
+    "why": "¿Por qué elegir WorkToDo?",
+    "whyDesc": "Descubre las características que hacen de WorkToDo la herramienta perfecta para maximizar tu productividad y organizar tu vida de manera inteligente.",
+    "feature1": {
+      "title": "Organización Inteligente",
+      "desc": "Sistema de gestión intuitivo que se adapta a tu flujo de trabajo. Organiza proyectos complejos con simplicidad elegante."
+    },
+    "feature2": {
+      "title": "Sincronización Instantánea",
+      "desc": "Acceso en tiempo real desde cualquier dispositivo. Tus datos siempre actualizados, sin importar dónde estés."
+    },
+    "feature3": {
+      "title": "Productividad Maximizada",
+      "desc": "Herramientas avanzadas de priorización y seguimiento que impulsan tu eficiencia hacia nuevos niveles."
+    },
+    "feature4": {
+      "title": "Analytics Avanzados",
+      "desc": "Insights detallados sobre tu rendimiento. Visualiza patrones, identifica mejoras y celebra tus logros."
+    },
+    "feature5": {
+      "title": "Seguridad Premium",
+      "desc": "Protección de datos de nivel empresarial. Tu información personal y proyectos completamente seguros."
+    },
+    "feature6": {
+      "title": "Diseño Excepcional",
+      "desc": "Interfaz moderna y minimalista diseñada para inspirar creatividad y mantener el foco en lo importante."
+    },
+    "how": "Cómo Funciona",
+    "howDesc": "En solo 4 pasos simples, estarás en el camino hacia una productividad extraordinaria",
+    "step1": {
+      "title": "Registro Instantáneo",
+      "strong": "30 segundos para empezar.",
+      "desc": "Solo necesitas tu email para acceder a todas las herramientas que transformarán tu productividad.",
+      "highlight": "Sin tarjetas de crédito • Sin compromisos"
+    },
+    "step2": {
+      "title": "Configuración Inteligente",
+      "strong": "Personaliza tu espacio.",
+      "desc": "Crea proyectos, define categorías y establece el flujo de trabajo que mejor se adapte a tu estilo.",
+      "highlight": "Setup automático • Templates incluidos"
+    },
+    "step3": {
+      "title": "Gestión Eficiente",
+      "strong": "Organiza con inteligencia.",
+      "desc": "Añade tareas, establece prioridades y fechas límite. Nuestro sistema te guía paso a paso.",
+      "highlight": "Priorización automática • Recordatorios inteligentes"
+    },
+    "step4": {
+      "title": "Resultados Extraordinarios",
+      "strong": "Mide tu progreso.",
+      "desc": "Observa cómo tu productividad se dispara mientras construyes hábitos que transforman tu vida.",
+      "highlight": "Analytics en tiempo real • Celebra tus logros"
+    },
+    "ready": "¿Listo para comenzar?",
+    "cta": "Únete gratis y transforma tu productividad hoy mismo."
+  },
+  "home": {
+    "dashboard": "Panel de Control",
+    "description": "Organiza y gestiona todos tus proyectos desde un solo lugar.",
+    "activeProjects": "Proyectos Activos",
+    "myProjects": "Mis Proyectos",
+    "newProjectName": "Nombre del nuevo proyecto",
+    "newProjectDescription": "Descripción del proyecto (opcional)",
+    "createProject": "Crear Proyecto",
+    "noProjectsTitle": "No hay proyectos",
+    "noProjectsText": "¡Comienza creando tu primer proyecto!",
+    "editTitle": "Título del proyecto",
+    "projectNamePlaceholder": "Nombre del proyecto",
+    "editDescription": "Descripción del proyecto",
+    "projectDescriptionPlaceholder": "Descripción del proyecto (opcional)",
+    "projectColor": "Color del proyecto",
+    "cancel": "Cancelar",
+    "save": "Guardar",
+    "showProjectInfo": "Mostrar información del proyecto",
+    "editProject": "Editar proyecto",
+    "viewInfo": "Ver información",
+    "closeInfo": "Cerrar información",
+    "projectInfo": "Información del Proyecto",
+    "createdAt": "Fecha de creación",
+    "projectUpdated": "Proyecto actualizado exitosamente",
+    "projectUpdateError": "Ocurrió un error al actualizar el proyecto. Inténtalo de nuevo.",
+    "projectCreated": "¡Proyecto creado exitosamente!",
+    "projectCreateError": "Ocurrió un error al crear el proyecto. Inténtalo de nuevo.",
+    "projectNameRequired": "El nombre del proyecto es obligatorio",
+    "projectNameCannotBeEmpty": "El nombre del proyecto no puede estar vacío.",
+    "userIdNotFound": "No se encontró el ID del usuario. Por favor, inicia sesión nuevamente."
+  },
+
+  "projectSections": {
+    "loadConfigError": "Error al cargar la configuración del proyecto",
+    "projectNotFoundLocalStorage": "No se encontró el proyecto en localStorage",
+    "loadSectionsError": "Error al cargar las secciones del proyecto",
+    "fillAllFields": "Por favor, completa todos los campos",
+    "userIdNotFound": "No se encontró el ID del usuario. Por favor, inicia sesión nuevamente",
+    "projectNotFound": "No se encontró el proyecto",
+    "createSuccess": "Sección creada correctamente",
+    "createError": "Ocurrió un error al crear la sección. Inténtalo de nuevo.",
+    "updateSuccess": "Sección actualizada correctamente",
+    "updateError": "Ocurrió un error al actualizar la sección. Inténtalo de nuevo.",
+    "deleteSuccess": "Sección eliminada correctamente",
+    "deleteError": "Ocurrió un error al eliminar la sección. Inténtalo de nuevo.",
+    "deleteProjectSuccess": "Proyecto eliminado correctamente",
+    "deleteProjectError": "Ocurrió un error al eliminar el proyecto. Inténtalo de nuevo.",
+    "deleteProjectTitle": "Eliminar Proyecto",
+    "deleteProjectQuestion": "¿Estás seguro que deseas eliminar el proyecto \"{{name}}\"?",
+    "deleteList": {
+      "project": "El proyecto completo",
+      "sections": "Todas las secciones",
+      "data": "Todos los datos asociados"
+    },
+    "deleteIrreversible": "Esta acción no se puede deshacer.",
+    "cancel": "Cancelar",
+    "deleteProject": "Eliminar Proyecto",
+    "headerDescription": "Organiza tu proyecto en secciones para una mejor gestión de tareas",
+    "createSectionAria": "Crear nueva sección",
+    "createSection": "Nueva Sección",
+    "createTitle": "Título",
+    "createDescription": "Descripción",
+    "sectionTitlePlaceholder": "Título de la sección",
+    "sectionDescriptionPlaceholder": "Descripción de la sección",
+    "sectionColor": "Color de la sección",
+    "color": "Color",
+    "save": "Guardar",
+    "create": "Crear",
+    "noSectionsTitle": "No hay secciones en este proyecto.",
+    "noSectionsText": "¡Comienza creando tu primera sección!",
+    "deleteProjectAria": "Eliminar proyecto",
+    "deleteSectionTitle": "Eliminar Sección",
+    "deleteSectionQuestion": "¿Estás seguro que deseas eliminar la sección \"{{name}}\"?",
+    "deleteSectionWarning": "Esta acción no se puede deshacer y se perderán todos los datos asociados.",
+    "deleteSection": "Eliminar Sección",
+    "editTitle": "Título",
+    "editDescription": "Descripción",
+    "edit": "Editar",
+    "delete": "Eliminar"
+  },
+  "todoPage": {
+    "title": "Gestión de Tareas",
+    "subtitle": "Organiza y gestiona tus ideas de manera profesional",
+    "breadcrumb": {
+      "project": "Proyecto",
+      "section": "Sección",
+      "notes": "Notas",
+      "note": "nota",
+      "notes_plural": "notas",
+      "tasks": "Tareas",
+      "total": "total"
+    },
+    "createNote": {
+      "button": "Crear Nueva Nota",
+      "titlePlaceholder": "🎯 Ingresa el título de tu nota...",
+      "create": "Crear Nota",
+      "writeTitle": "Escribe un título",
+      "cancel": "Cancelar"
+    },
+    "noNotes": {
+      "title": "No hay notas disponibles",
+      "subtitle": "Comienza creando tu primera nota para organizar tus tareas"
+    },
+    "addTodo": {
+      "placeholder": "Escribe una nueva tarea y presiona Enter...",
+      "add": "Agregar",
+      "limitError": "No puedes añadir más de 8 tareas por nota."
+    },
+    "todo": {
+      "actions": {
+        "edit": "Editar tarea",
+        "delete": "Eliminar tarea",
+        "save": "Guardar",
+        "cancel": "Cancelar"
+      }
+    },
+    "note": {
+      "noTodosTitle": "No hay tareas en esta nota",
+      "noTodosHint": "Escribe arriba para agregar tu primera tarea",
+      "actions": {
+        "save": "Guardar",
+        "cancel": "Cancelar",
+        "edit": "Editar",
+        "delete": "Eliminar"
+      },
+      "deleteSuccess": "Nota eliminada correctamente",
+      "deleteWarning": {
+        "title": "ATENCIÓN",
+        "text": "¿Estás seguro de que deseas eliminar esta nota? Esta acción no se puede deshacer y se eliminarán todas las tareas asociadas.",
+        "cannotUndo": "Esta acción no se puede deshacer. Se eliminarán todas las tareas asociadas.",
+        "confirm": "ELIMINAR NOTA",
+        "cancel": "CANCELAR"
+      }
+    },
+    "modal": {
+      "confirmTitle": "⚠️ ATENCIÓN",
+      "confirmText": "¿Estás seguro de que deseas eliminar esta nota? Esta acción no se puede deshacer y se eliminarán todas las tareas asociadas.",
+      "cancel": "Cancelar",
+      "delete": "Eliminar Nota"
+    },
+    "errors": {
+      "noSectionName": "No se pudo obtener el nombre de la sección desde el estado.",
+      "userIdNotFound": "No se encontró el ID del usuario. Por favor, inicia sesión nuevamente.",
+      "fetchNotes": "Error al obtener las notas",
+      "createNote": "Error al crear la nota",
+      "addTodo": "Error al añadir el ToDo",
+      "deleteTodo": "Error al eliminar el ToDo",
+      "updateTodo": "Error al actualizar el ToDo",
+      "deleteNote": "Error al eliminar la nota"
+    }
+  }
+}

@@ -10,6 +10,7 @@ interface ImportMeta {
 
 import React, { useEffect, useState } from 'react';
 import { useParams, useLocation } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { DndContext, closestCenter, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
@@ -87,6 +88,7 @@ const SortableNote: React.FC<SortableNoteProps> = ({
   onSetNotes,
   notes,
 }) => {
+  const { t } = useTranslation();
   const {
     attributes,
     listeners,
@@ -150,7 +152,7 @@ const SortableNote: React.FC<SortableNoteProps> = ({
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
                 </svg>
-                Guardar
+                {t('todoPage.note.actions.save')}
               </button>
               <button
                 className="cancel-note-btn"
@@ -159,7 +161,7 @@ const SortableNote: React.FC<SortableNoteProps> = ({
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
                 </svg>
-                Cancelar
+                {t('todoPage.note.actions.cancel')}
               </button>
             </div>
           </div>
@@ -183,7 +185,7 @@ const SortableNote: React.FC<SortableNoteProps> = ({
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/>
                 </svg>
-                Eliminar
+                {t('todoPage.note.actions.delete')}
               </button>
             </div>
           </div>
@@ -195,7 +197,7 @@ const SortableNote: React.FC<SortableNoteProps> = ({
         <input
           type="text"
           className="todo-input"
-          placeholder="Escribe una nueva tarea y presiona Enter..."
+          placeholder={t('todoPage.addTodo.placeholder')}
           value={newTodoContent[note.id] || ''}
           onChange={(e) => onHandleTodoChange(note.id, e.target.value)}
           onKeyDown={(e) => onHandleTodoKeyPress(e, note.id)}
@@ -215,7 +217,7 @@ const SortableNote: React.FC<SortableNoteProps> = ({
           <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
             <path d="M12 2C13.1 2 14 2.9 14 4V10H20C21.1 10 22 10.9 22 12S21.1 14 20 14H14V20C14 21.1 13.1 22 12 22S10 21.1 10 20V14H4C2.9 14 2 13.1 2 12S2.9 10 4 10H10V4C10 2.9 10.9 2 12 2Z"/>
           </svg>
-          Agregar
+          {t('todoPage.addTodo.add')}
         </button>
       </div>
 
@@ -224,8 +226,8 @@ const SortableNote: React.FC<SortableNoteProps> = ({
         <div className="no-todos-message">
           <div className="empty-state">
             <span className="empty-icon">📋</span>
-            <p style={{ margin: '0 0 0.5rem 0', fontWeight: 600 }}>No hay tareas en esta nota</p>
-            <span className="empty-hint">Escribe arriba para agregar tu primera tarea</span>
+            <p style={{ margin: '0 0 0.5rem 0', fontWeight: 600 }}>{t('todoPage.note.noTodosTitle')}</p>
+            <span className="empty-hint">{t('todoPage.note.noTodosHint')}</span>
           </div>
         </div>
       ) : (
@@ -327,6 +329,7 @@ const SortableTodo: React.FC<SortableTodoProps & {noteId?: number}> = ({
   onDeleteTodo,
   noteId,
 }) => {
+  const { t } = useTranslation();
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: todo.id });
   const style = { transform: CSS.Transform.toString(transform), transition } as React.CSSProperties;
 
@@ -359,8 +362,8 @@ const SortableTodo: React.FC<SortableTodoProps & {noteId?: number}> = ({
             autoFocus
           />
           <div className="todo-edit-actions">
-            <button className="save-todo-btn" onClick={() => onSaveEditingTodo(todo.id, todo.is_completed)}>Guardar</button>
-            <button className="cancel-todo-btn" onClick={onCancelEditingTodo}>Cancelar</button>
+            <button className="save-todo-btn" onClick={() => onSaveEditingTodo(todo.id, todo.is_completed)}>{t('todoPage.todo.actions.save')}</button>
+            <button className="cancel-todo-btn" onClick={onCancelEditingTodo}>{t('todoPage.todo.actions.cancel')}</button>
           </div>
         </div>
       ) : (
@@ -370,7 +373,7 @@ const SortableTodo: React.FC<SortableTodoProps & {noteId?: number}> = ({
             <button 
               className="edit-todo-btn"
               onClick={() => onStartEditingTodo(todo.id, todo.content)}
-              title="Editar tarea"
+              title={t('todoPage.todo.actions.edit')}
             >
               <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
@@ -379,7 +382,7 @@ const SortableTodo: React.FC<SortableTodoProps & {noteId?: number}> = ({
             <button 
               className="delete-todo-btn"
               onClick={() => noteId && onDeleteTodo(todo.id, noteId)}
-              title="Eliminar tarea"
+              title={t('todoPage.todo.actions.delete')}
             >
               <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/>
@@ -393,6 +396,7 @@ const SortableTodo: React.FC<SortableTodoProps & {noteId?: number}> = ({
 };
 
 const ToDoPage: React.FC = () => {
+  const { t } = useTranslation();
   const { projectName, sectionId } = useParams<{ projectName: string; sectionId: string }>();
   const location = useLocation();
   const sectionName = location.state?.sectionName || ''; // Use section name from state
@@ -406,8 +410,7 @@ const ToDoPage: React.FC = () => {
   const [focusedNoteId, setFocusedNoteId] = useState<number | null>(null);
   const [editingTodoId, setEditingTodoId] = useState<number | null>(null);
   const [editingTodoContent, setEditingTodoContent] = useState('');
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [noteToDelete, setNoteToDelete] = useState<number | null>(null);
+  const [deletingNoteId, setDeletingNoteId] = useState<number | null>(null);
 
   // DnD-kit sensors for todos
   const sensors = useSensors(
@@ -424,7 +427,7 @@ const ToDoPage: React.FC = () => {
 
   useEffect(() => {
     if (!sectionName) {
-      setError('No se pudo obtener el nombre de la sección desde el estado.');
+      setError(t('todoPage.errors.noSectionName'));
       return;
     }
 
@@ -432,7 +435,7 @@ const ToDoPage: React.FC = () => {
       try {
         const response = await fetch(`${API_BASE_URL}/notes/section/${sectionId}`);
         if (!response.ok) {
-          throw new Error('Error al obtener las notas');
+          throw new Error(t('todoPage.errors.fetchNotes'));
         }
         const data = await response.json();
         
@@ -459,7 +462,7 @@ const ToDoPage: React.FC = () => {
     
     const userId = localStorage.getItem('userId');
     if (!userId) {
-      setError('No se encontró el ID del usuario. Por favor, inicia sesión nuevamente.');
+      setError(t('todoPage.errors.userIdNotFound'));
       return;
     }
 
@@ -475,7 +478,7 @@ const ToDoPage: React.FC = () => {
       });
 
       if (!response.ok) {
-        throw new Error('Error al crear la nota');
+        throw new Error(t('todoPage.errors.createNote'));
       }
 
       const data = await response.json();
@@ -499,7 +502,7 @@ const ToDoPage: React.FC = () => {
     // Cliente: limitar a 8 todos por nota
     const currentNote = notes.find(n => n.id === noteId);
     if (currentNote && currentNote.todos && currentNote.todos.length >= 8) {
-      setError('No puedes añadir más de 8 tareas por nota.');
+      setError(t('todoPage.addTodo.limitError'));
       return;
     }
 
@@ -512,7 +515,7 @@ const ToDoPage: React.FC = () => {
 
       if (!response.ok) {
         // intenta leer mensaje del servidor si existe
-        let msg = 'Error al añadir el ToDo';
+        let msg = t('todoPage.errors.addTodo');
         try {
           const body = await response.json();
           if (body && body.message) msg = body.message;
@@ -561,7 +564,7 @@ const ToDoPage: React.FC = () => {
       });
 
       if (!response.ok) {
-        throw new Error('Error al eliminar el ToDo');
+        throw new Error(t('todoPage.errors.deleteTodo'));
       }
 
       setNotes(prevNotes =>
@@ -589,16 +592,14 @@ const ToDoPage: React.FC = () => {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 
-          content: editingTodoContent, 
-          is_completed: isCompleted 
-        }),
-      });
+        content: editingTodoContent, 
+        is_completed: isCompleted 
+      }),
+    });
 
-      if (!response.ok) {
-        throw new Error('Error al actualizar el ToDo');
-      }
-
-      setNotes(prevNotes =>
+    if (!response.ok) {
+      throw new Error(t('todoPage.errors.updateTodo'));
+    }      setNotes(prevNotes =>
         prevNotes.map(note => ({
           ...note,
           todos: note.todos.map(todo =>
@@ -633,7 +634,7 @@ const ToDoPage: React.FC = () => {
       });
 
       if (!response.ok) {
-        throw new Error('Error al actualizar el ToDo');
+        throw new Error(t('todoPage.errors.updateTodo'));
       }
 
       setNotes(prevNotes =>
@@ -660,7 +661,7 @@ const ToDoPage: React.FC = () => {
       });
 
       if (!response.ok) {
-        throw new Error('Error al guardar la nota');
+        throw new Error(t('todoPage.errors.updateTodo'));
       }
 
       setNotes(prevNotes =>
@@ -674,41 +675,77 @@ const ToDoPage: React.FC = () => {
   };
 
   const deleteNote = async (noteId: number) => {
+    console.log('=== INICIO DELETE NOTE ===');
     console.log('deleteNote llamado con ID:', noteId);
-    setNoteToDelete(noteId);
-    setShowDeleteModal(true);
-    console.log('showDeleteModal debería ser true ahora');
+    console.log('Tipo de ID:', typeof noteId);
+    console.log('Lista actual de notas:', notes.map(n => ({ id: n.id, title: n.title })));
+    setDeletingNoteId(noteId);
+    console.log('deletingNoteId establecido a:', noteId);
   };
 
-  const confirmDeleteNote = async () => {
-    console.log('confirmDeleteNote llamado con noteToDelete:', noteToDelete);
-    if (!noteToDelete) return;
+  const cancelDeleteNote = () => {
+    setDeletingNoteId(null);
+  };
+
+  const confirmDeleteNote = async (noteId: number) => {
+    console.log('🔴 FUNCIÓN confirmDeleteNote LLAMADA con ID:', noteId);
+    console.log('=== INICIO CONFIRM DELETE ===');
+    console.log('API_BASE_URL:', API_BASE_URL);
 
     try {
-      const response = await fetch(`${API_BASE_URL}/notes/${noteToDelete}`, {
+      // Probar primero con /todos/
+      let deleteUrl = `${API_BASE_URL}/todos/${noteId}`;
+      console.log('🔄 Intentando eliminar con URL todos:', deleteUrl);
+      
+      let response = await fetch(deleteUrl, {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' },
       });
 
+      console.log('Respuesta del servidor (todos):', response.status, response.statusText);
+
+      // Si falla con /todos/, probar con /notes/
       if (!response.ok) {
-        throw new Error('Error al eliminar la nota');
+        console.log('❌ Falló con /todos/, intentando con /notes/');
+        deleteUrl = `${API_BASE_URL}/notes/${noteId}`;
+        console.log('🔄 Intentando eliminar con URL notes:', deleteUrl);
+        
+        response = await fetch(deleteUrl, {
+          method: 'DELETE',
+          headers: { 'Content-Type': 'application/json' },
+        });
+        
+        console.log('Respuesta del servidor (notes):', response.status, response.statusText);
       }
 
-      setNotes(prevNotes => prevNotes.filter(note => note.id !== noteToDelete));
-      setShowDeleteModal(false);
-      setNoteToDelete(null);
-      console.log('Nota eliminada exitosamente');
-    } catch (err: any) {
-      console.error('Error al eliminar nota:', err);
-      setError(err.message);
-      setShowDeleteModal(false);
-      setNoteToDelete(null);
-    }
-  };
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error('❌ Error del servidor:', errorText);
+        throw new Error(`${t('todoPage.errors.deleteNote')}: ${response.status} - ${errorText}`);
+      }
 
-  const cancelDeleteNote = () => {
-    setShowDeleteModal(false);
-    setNoteToDelete(null);
+      const responseData = await response.json();
+      console.log('✅ Respuesta exitosa del servidor:', responseData);
+
+      console.log('🔄 Eliminación exitosa, actualizando estado local...');
+      setNotes(prevNotes => {
+        const newNotes = prevNotes.filter(note => note.id !== noteId);
+        console.log('📊 Notas antes del filtro:', prevNotes.length);
+        console.log('📊 Notas después del filtro:', newNotes.length);
+        console.log('🔍 Nota eliminada con ID:', noteId);
+        console.log('📝 IDs de notas restantes:', newNotes.map(n => n.id));
+        return newNotes;
+      });
+      
+      setDeletingNoteId(null);
+      console.log('✅ Nota eliminada exitosamente de la interfaz');
+      
+    } catch (err: any) {
+      console.error('❌ Error completo al eliminar nota:', err);
+      setError(err.message);
+      setDeletingNoteId(null);
+    }
+    console.log('=== FIN CONFIRM DELETE ===');
   };
 
   const startEditingNote = (noteId: number) => {
@@ -725,8 +762,8 @@ const ToDoPage: React.FC = () => {
       <div className="main-content-wrapper">
         {/* Professional Header Section */}
         <div className="todo-header-section">
-          <h1 className="todo-title">Gestión de Tareas</h1>
-          <p className="todo-subtitle">Organiza y gestiona tus ideas de manera profesional</p>
+          <h1 className="todo-title">{t('todoPage.title')}</h1>
+          <p className="todo-subtitle">{t('todoPage.subtitle')}</p>
         </div>
 
         {/* Ultra Professional Project Breadcrumb */}
@@ -739,7 +776,7 @@ const ToDoPage: React.FC = () => {
                 </svg>
               </div>
               <div className="breadcrumb-content">
-                <span className="breadcrumb-label">Proyecto</span>
+                <span className="breadcrumb-label">{t('todoPage.breadcrumb.project')}</span>
                 <span className="breadcrumb-value">{projectName}</span>
               </div>
             </div>
@@ -754,7 +791,7 @@ const ToDoPage: React.FC = () => {
                     </svg>
                   </div>
                   <div className="breadcrumb-content">
-                    <span className="breadcrumb-label">Sección</span>
+                    <span className="breadcrumb-label">{t('todoPage.breadcrumb.section')}</span>
                     <span className="breadcrumb-value">{sectionName}</span>
                   </div>
                 </div>
@@ -769,9 +806,9 @@ const ToDoPage: React.FC = () => {
                 </svg>
               </div>
               <div className="breadcrumb-content">
-                <span className="breadcrumb-label">Notas</span>
+                <span className="breadcrumb-label">{t('todoPage.breadcrumb.notes')}</span>
                 <span className="breadcrumb-value">
-                  {notes.length} {notes.length === 1 ? 'nota' : 'notas'}
+                  {notes.length} {notes.length === 1 ? t('todoPage.breadcrumb.note') : t('todoPage.breadcrumb.notes_plural')}
                 </span>
               </div>
             </div>
@@ -786,9 +823,9 @@ const ToDoPage: React.FC = () => {
                     </svg>
                   </div>
                   <div className="breadcrumb-content">
-                    <span className="breadcrumb-label">Tareas</span>
+                    <span className="breadcrumb-label">{t('todoPage.breadcrumb.tasks')}</span>
                     <span className="breadcrumb-value">
-                      {notes.reduce((total, note) => total + note.todos.length, 0)} total
+                      {notes.reduce((total, note) => total + note.todos.length, 0)} {t('todoPage.breadcrumb.total')}
                     </span>
                   </div>
                 </div>
@@ -807,7 +844,7 @@ const ToDoPage: React.FC = () => {
               <svg className="btn-icon" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
               </svg>
-              <span className="btn-text">Crear Nueva Nota</span>
+              <span className="btn-text">{t('todoPage.createNote.button')}</span>
             </button>
           </div>
         )}
@@ -839,7 +876,7 @@ const ToDoPage: React.FC = () => {
                 gap: 'var(--space-sm)'
               }}>
                 <span style={{ fontSize: '1.2rem' }}>🌟</span>
-                Crear Nueva Nota
+                {t('todoPage.createNote.button')}
               </h3>
               <p style={{ 
                 margin: '0.5rem 0 0 0', 
@@ -847,12 +884,12 @@ const ToDoPage: React.FC = () => {
                 fontSize: '0.9rem',
                 fontStyle: 'italic'
               }}>
-                Organiza tus ideas de manera profesional
+                {t('todoPage.subtitle')}
               </p>
             </div>
             <input
               type="text"
-              placeholder="🎯 Ingresa el título de tu nota..."
+              placeholder={t('todoPage.createNote.titlePlaceholder')}
               value={newNoteTitle}
               onChange={(e) => setNewNoteTitle(e.target.value)}
               onKeyDown={(e) => {
@@ -882,7 +919,7 @@ const ToDoPage: React.FC = () => {
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
                 </svg>
-                {newNoteTitle.trim() ? 'Crear Nota' : 'Escribe un título'}
+                {newNoteTitle.trim() ? t('todoPage.createNote.create') : t('todoPage.createNote.writeTitle')}
               </button>
               <button 
                 className="cancel-btn" 
@@ -894,7 +931,7 @@ const ToDoPage: React.FC = () => {
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
                 </svg>
-                Cancelar
+                {t('todoPage.createNote.cancel')}
               </button>
             </div>
           </div>
@@ -906,10 +943,10 @@ const ToDoPage: React.FC = () => {
             <div className="empty-state">
               <span className="empty-icon">📝</span>
               <h3 style={{ margin: '0 0 0.5rem 0', color: 'var(--text-secondary)' }}>
-                No hay notas disponibles
+                {t('todoPage.noNotes.title')}
               </h3>
               <p style={{ margin: 0, color: 'var(--text-muted)' }}>
-                Comienza creando tu primera nota para organizar tus tareas
+                {t('todoPage.noNotes.subtitle')}
               </p>
             </div>
           </div>
@@ -917,7 +954,55 @@ const ToDoPage: React.FC = () => {
 
         {/* Notes Grid */}
         {notes.length > 0 && notes.map(note => (
-        <div key={note.id} className="note-card">
+        <div key={note.id} className={`note-card ${deletingNoteId === note.id ? 'deleting' : ''}`}>
+          {deletingNoteId === note.id ? (
+            // Modo eliminación inline
+            <div className="inline-delete-form" onClick={(e) => e.stopPropagation()}>
+              <div className="inline-delete-header">
+                <div className="inline-delete-icon">
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor" className="warning-icon">
+                    <path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/>
+                  </svg>
+                </div>
+                <h4 className="inline-delete-title">{t('todoPage.note.deleteWarning.title')}</h4>
+              </div>
+              
+              <div className="inline-delete-content">
+                <p className="inline-delete-question">
+                  {t('todoPage.note.deleteWarning.text')}
+                </p>
+                <div className="inline-delete-warning">
+                  <div className="inline-delete-warning-icon">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M12 9V13M12 17H12.01M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                  </div>
+                  <div className="inline-delete-warning-text">
+                    {t('todoPage.note.deleteWarning.cannotUndo')}
+                  </div>
+                </div>
+              </div>
+
+              <div className="inline-delete-actions">
+                <button
+                  type="button"
+                  className="inline-btn cancel-btn"
+                  onClick={cancelDeleteNote}
+                >
+                  {t('todoPage.note.deleteWarning.cancel')}
+                </button>
+                <button
+                  type="button"
+                  className="inline-btn delete-btn-confirm"
+                  onClick={() => confirmDeleteNote(note.id)}
+                >
+                  {t('todoPage.note.deleteWarning.confirm')}
+                </button>
+              </div>
+            </div>
+          ) : (
+            // Modo vista normal
+            <>
           <div className="note-header">
             {editingNoteId === note.id ? (
               <div className="note-edit-mode">
@@ -954,7 +1039,7 @@ const ToDoPage: React.FC = () => {
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
                       <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
                     </svg>
-                    Guardar
+                    {t('todoPage.note.actions.save')}
                   </button>
                   <button
                     className="cancel-edit-btn"
@@ -963,7 +1048,7 @@ const ToDoPage: React.FC = () => {
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
                       <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
                     </svg>
-                    Cancelar
+                    {t('todoPage.note.actions.cancel')}
                   </button>
                 </div>
               </div>
@@ -978,7 +1063,7 @@ const ToDoPage: React.FC = () => {
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
                       <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
                     </svg>
-                    Editar
+                    {t('todoPage.note.actions.edit')}
                   </button>
                   <button
                     className="delete-note-btn"
@@ -987,7 +1072,7 @@ const ToDoPage: React.FC = () => {
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
                       <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/>
                     </svg>
-                    Eliminar
+                    {t('todoPage.note.actions.delete')}
                   </button>
                 </div>
               </div>
@@ -999,7 +1084,7 @@ const ToDoPage: React.FC = () => {
             <input
               type="text"
               className="todo-input"
-              placeholder="Escribe una nueva tarea y presiona Enter..."
+              placeholder={t('todoPage.addTodo.placeholder')}
               value={newTodoContent[note.id] || ''}
               onChange={(e) => handleTodoChange(note.id, e.target.value)}
               onKeyDown={(e) => handleTodoKeyPress(e, note.id)}
@@ -1019,7 +1104,7 @@ const ToDoPage: React.FC = () => {
               <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M12 2C13.1 2 14 2.9 14 4V10H20C21.1 10 22 10.9 22 12S21.1 14 20 14H14V20C14 21.1 13.1 22 12 22S10 21.1 10 20V14H4C2.9 14 2 13.1 2 12S2.9 10 4 10H10V4C10 2.9 10.9 2 12 2Z"/>
               </svg>
-              Agregar
+              {t('todoPage.addTodo.add')}
             </button>
           </div>
 
@@ -1028,8 +1113,8 @@ const ToDoPage: React.FC = () => {
             <div className="no-todos-message">
               <div className="empty-state">
                 <span className="empty-icon">📋</span>
-                <p style={{ margin: '0 0 0.5rem 0', fontWeight: 600 }}>No hay tareas en esta nota</p>
-                <span className="empty-hint">Escribe arriba para agregar tu primera tarea</span>
+                <p style={{ margin: '0 0 0.5rem 0', fontWeight: 600 }}>{t('todoPage.note.noTodosTitle')}</p>
+                <span className="empty-hint">{t('todoPage.note.noTodosHint')}</span>
               </div>
             </div>
           ) : (
@@ -1067,48 +1152,12 @@ const ToDoPage: React.FC = () => {
               </SortableContext>
             </DndContext>
           )}
+          </>
+          )}
         </div>
       ))}
       </div>
 
-      {/* Modal de confirmación para eliminar nota */}
-      {showDeleteModal && (
-        <div className="modal-overlay confirm-modal" onClick={cancelDeleteNote}>
-          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-            <div className="confirm-modal-content">
-              <div className="confirm-modal-icon-container">
-                <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor" className="warning-icon">
-                  <path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/>
-                </svg>
-              </div>
-              <div className="confirm-modal-warning-box">
-                <div className="confirm-modal-warning-badge">⚠️ ATENCIÓN</div>
-                <p className="confirm-modal-text">
-                  ¿Estás seguro de que deseas eliminar esta nota?
-                  
-                  Esta acción no se puede deshacer y se eliminarán todas las tareas asociadas.
-                </p>
-              </div>
-              <div className="modal-actions confirm-modal-actions">
-                <button
-                  type="button"
-                  className="modal-btn confirm-cancel-button"
-                  onClick={cancelDeleteNote}
-                >
-                  Cancelar
-                </button>
-                <button
-                  type="button"
-                  className="modal-btn confirm-delete-button"
-                  onClick={confirmDeleteNote}
-                >
-                  Eliminar Nota
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
       </div>
     </div>
   );
