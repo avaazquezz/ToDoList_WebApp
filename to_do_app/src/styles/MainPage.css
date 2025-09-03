@@ -17,6 +17,8 @@
   padding: 0;
   margin: 0;
   min-height: 100vh;
+  height: 100vh;
+  width: 100vw;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -1562,4 +1564,631 @@
 
 .cta-section {
   scroll-margin-top: 100px;
+}
+
+/* ===============================================
+   RESPONSIVE MEDIA QUERIES - PROFESSIONAL UI/UX
+   =============================================== */
+
+/* Large tablets y laptops pequeñas (769px - 1023px) */
+@media screen and (max-width: 1023px) {
+  .hero-section {
+    padding: clamp(80px, 12vh, 120px) clamp(1rem, 4vw, 2rem) clamp(60px, 10vh, 100px);
+    min-height: clamp(500px, 70vh, 600px);
+  }
+
+  .hero-section h1 {
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    line-height: 1.2;
+    margin-bottom: clamp(1.5rem, 4vh, 2.5rem);
+  }
+
+  .features-section {
+    padding: clamp(60px, 10vh, 80px) clamp(1rem, 4vw, 2rem);
+  }
+
+  .features-section h2 {
+    font-size: clamp(2rem, 5vw, 3rem);
+    margin-bottom: clamp(1rem, 3vh, 1.5rem);
+  }
+
+  .features-grid {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: clamp(1.5rem, 4vw, 2rem);
+  }
+
+  .feature-card {
+    padding: clamp(1.5rem, 4vw, 2rem);
+  }
+
+  .feature-card h3 {
+    font-size: clamp(1.1rem, 3vw, 1.3rem);
+  }
+
+  .how-it-works {
+    padding: clamp(60px, 10vh, 80px) clamp(1rem, 4vw, 2rem);
+  }
+
+  .how-it-works h2 {
+    font-size: clamp(2rem, 5vw, 3rem);
+  }
+
+  .steps-container {
+    gap: clamp(2rem, 5vw, 3rem);
+  }
+
+  .step {
+    padding: clamp(1.5rem, 4vw, 2rem);
+  }
+
+  .step-number {
+    width: clamp(50px, 8vw, 60px);
+    height: clamp(50px, 8vw, 60px);
+    font-size: clamp(1.2rem, 3vw, 1.5rem);
+  }
+
+  .cta-section {
+    padding: clamp(60px, 10vh, 80px) clamp(1rem, 4vw, 2rem);
+  }
+
+  .cta-section h2 {
+    font-size: clamp(2rem, 5vw, 3rem);
+  }
+
+  .cta-buttons {
+    gap: clamp(1rem, 3vw, 1.5rem);
+  }
+
+  .btn-primary, .btn-secondary {
+    padding: clamp(0.8rem, 2.5vw, 1rem) clamp(1.5rem, 4vw, 2rem);
+    font-size: clamp(0.9rem, 2.5vw, 1.1rem);
+  }
+}
+
+/* Medium tablets (601px - 768px) */
+@media screen and (max-width: 768px) {
+  .hero-section {
+    padding: clamp(80px, 10vh, 120px) clamp(1rem, 5vw, 2rem) clamp(60px, 8vh, 100px);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .hero-section h1 {
+    font-size: clamp(2.2rem, 8vw, 4rem);
+    line-height: 1.1;
+    margin-bottom: clamp(1.5rem, 3vh, 2.5rem);
+  }
+
+  .hero-subtitle {
+    font-size: clamp(1.3rem, 4vw, 1.8rem);
+    margin-bottom: clamp(1.2rem, 2vh, 1.8rem);
+  }
+
+  .hero-text {
+    font-size: clamp(1.1rem, 3.5vw, 1.4rem);
+    margin: clamp(2rem, 4vh, 3rem) auto clamp(2.5rem, 5vh, 4rem);
+    max-width: 85%;
+  }
+
+  .hero-buttons {
+    gap: clamp(1.2rem, 3vw, 2rem);
+    width: 100%;
+    padding: 0 clamp(1rem, 3vw, 2rem);
+  }
+
+  .primary-button, .secondary-button {
+    padding: clamp(1rem, 2.5vw, 1.3rem) clamp(1.8rem, 4vw, 2.5rem);
+    font-size: clamp(1rem, 2.8vw, 1.2rem);
+    min-width: clamp(160px, 28vw, 220px);
+    border-radius: clamp(20px, 4vw, 30px);
+  }
+
+  .title-work, .title-to, .title-do {
+    transform: perspective(500px) rotateY(0deg) rotateX(0deg) scale(1);
+  }
+
+  .features-section {
+    padding: clamp(60px, 8vh, 100px) clamp(1rem, 5vw, 2rem);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .features-section h2 {
+    font-size: clamp(2rem, 6vw, 3rem);
+    margin-bottom: clamp(1rem, 2vh, 1.5rem);
+  }
+
+  .features-grid {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: clamp(1.5rem, 4vw, 2.5rem);
+  }
+
+  .feature-card {
+    padding: clamp(1.5rem, 4vw, 2.2rem);
+  }
+
+  .feature-card h3 {
+    font-size: clamp(1.1rem, 3.5vw, 1.4rem);
+    margin-bottom: clamp(0.8rem, 2vh, 1.2rem);
+  }
+
+  .feature-card p {
+    font-size: clamp(0.95rem, 2.8vw, 1.1rem);
+  }
+
+  .how-it-works {
+    padding: clamp(60px, 8vh, 100px) clamp(1rem, 5vw, 2rem);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .how-it-works h2 {
+    font-size: clamp(2rem, 6vw, 3rem);
+  }
+
+  .steps-container {
+    gap: clamp(2rem, 4vw, 3rem);
+  }
+
+  .step {
+    padding: clamp(1.5rem, 4vw, 2.2rem);
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .step-number {
+    width: clamp(50px, 10vw, 65px);
+    height: clamp(50px, 10vw, 65px);
+    font-size: clamp(1.3rem, 4vw, 1.6rem);
+    margin-bottom: 1.5rem;
+  }
+
+  .step-content h3 {
+    font-size: clamp(1.2rem, 4vw, 1.5rem);
+  }
+
+  .step-content p {
+    font-size: clamp(0.95rem, 2.8vw, 1.1rem);
+  }
+
+  .cta-section {
+    padding: clamp(60px, 8vh, 100px) clamp(1rem, 5vw, 2rem);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .cta-section h2 {
+    font-size: clamp(2rem, 6vw, 3rem);
+    margin-bottom: clamp(1.2rem, 3vh, 2rem);
+  }
+
+  .cta-section p {
+    font-size: clamp(1.1rem, 3.2vw, 1.4rem);
+    margin-bottom: clamp(2rem, 4vh, 3rem);
+  }
+
+  .cta-buttons {
+    flex-direction: column;
+    align-items: center;
+    gap: clamp(1.2rem, 2.5vw, 1.8rem);
+  }
+
+  .btn-primary, .btn-secondary {
+    width: 100%;
+    max-width: clamp(240px, 50vw, 320px);
+    padding: clamp(1rem, 2.5vw, 1.3rem) clamp(1.8rem, 4vw, 2.5rem);
+    font-size: clamp(1rem, 2.8vw, 1.2rem);
+  }
+}
+
+/* Mobile horizontal y small tablets (481px - 600px) */
+@media screen and (max-width: 600px) {
+  .hero-section {
+    padding: clamp(60px, 8vh, 90px) clamp(1rem, 6vw, 1.2rem) clamp(40px, 6vh, 70px);
+    min-height: clamp(400px, 60vh, 500px);
+  }
+
+  .hero-section h1 {
+    font-size: clamp(1.8rem, 8vw, 3rem);
+    margin-bottom: clamp(1rem, 2vh, 1.5rem);
+  }
+
+  .features-section {
+    padding: clamp(40px, 6vh, 60px) clamp(1rem, 6vw, 1.2rem);
+  }
+
+  .features-section h2 {
+    font-size: clamp(1.6rem, 7vw, 2.2rem);
+    margin-bottom: clamp(0.6rem, 1.5vh, 1rem);
+  }
+
+  .features-grid {
+    grid-template-columns: 1fr;
+    gap: clamp(1rem, 3vw, 1.5rem);
+  }
+
+  .feature-card {
+    padding: clamp(1rem, 4vw, 1.5rem);
+    margin: 0 auto;
+    max-width: 400px;
+  }
+
+  .feature-card h3 {
+    font-size: clamp(0.95rem, 4vw, 1.15rem);
+    margin-bottom: clamp(0.6rem, 1.5vh, 0.8rem);
+  }
+
+  .feature-card p {
+    font-size: clamp(0.8rem, 3vw, 0.95rem);
+  }
+
+  .how-it-works {
+    padding: clamp(40px, 6vh, 60px) clamp(1rem, 6vw, 1.2rem);
+  }
+
+  .how-it-works h2 {
+    font-size: clamp(1.6rem, 7vw, 2.2rem);
+    margin-bottom: clamp(1rem, 2vh, 1.5rem);
+  }
+
+  .steps-container {
+    gap: clamp(1.2rem, 3vw, 2rem);
+  }
+
+  .step {
+    padding: clamp(1rem, 4vw, 1.5rem);
+    max-width: 350px;
+    margin: 0 auto;
+  }
+
+  .step-number {
+    width: clamp(40px, 12vw, 50px);
+    height: clamp(40px, 12vw, 50px);
+    font-size: clamp(1rem, 5vw, 1.3rem);
+  }
+
+  .step-content h3 {
+    font-size: clamp(1rem, 4.5vw, 1.2rem);
+    margin-bottom: clamp(0.5rem, 1vh, 0.8rem);
+  }
+
+  .step-content p {
+    font-size: clamp(0.8rem, 3vw, 0.95rem);
+  }
+
+  .cta-section {
+    padding: clamp(40px, 6vh, 60px) clamp(1rem, 6vw, 1.2rem);
+  }
+
+  .cta-section h2 {
+    font-size: clamp(1.6rem, 7vw, 2.2rem);
+    margin-bottom: clamp(0.8rem, 2vh, 1.2rem);
+  }
+
+  .cta-section p {
+    font-size: clamp(0.9rem, 3.5vw, 1.1rem);
+    margin-bottom: clamp(1.2rem, 3vh, 1.8rem);
+  }
+
+  .btn-primary, .btn-secondary {
+    width: 100%;
+    max-width: 260px;
+    padding: clamp(0.6rem, 2vw, 0.8rem) clamp(1rem, 3vw, 1.5rem);
+    font-size: clamp(0.8rem, 3vw, 0.95rem);
+  }
+}
+
+/* Mobile vertical (320px - 480px) */
+@media screen and (max-width: 480px) {
+  .main-page {
+    font-size: 18px;
+    line-height: 1.4;
+  }
+
+  .hero-section {
+    padding: clamp(40px, 6vh, 80px) clamp(2rem, 8vw, 3rem) clamp(40px, 6vh, 80px);
+    min-height: 100vh;
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transform: scale(1.15);
+    transform-origin: center center;
+    overflow: hidden;
+  }
+
+  .hero-content {
+    max-width: 100%;
+    width: 100%;
+    padding: clamp(1.5rem, 6vw, 2.5rem);
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: clamp(20px, 5vw, 30px);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
+  }
+
+  .hero-section h1 {
+    font-size: clamp(3.5rem, 18vw, 5.5rem);
+    margin-bottom: clamp(1.8rem, 5vh, 3rem);
+    line-height: 0.95;
+    font-weight: 900;
+    text-align: center;
+  }
+
+  .hero-subtitle {
+    font-size: clamp(1.6rem, 7vw, 2.5rem);
+    margin-bottom: clamp(1.2rem, 3vh, 2rem);
+    font-weight: 600;
+  }
+
+  .hero-text {
+    font-size: clamp(1.3rem, 6vw, 1.8rem);
+    margin: clamp(1.8rem, 4vh, 3rem) auto clamp(2.5rem, 5vh, 4rem);
+    max-width: 85%;
+    line-height: 1.4;
+    font-weight: 500;
+  }
+
+  .hero-buttons {
+    gap: clamp(1.5rem, 4vw, 2rem);
+    width: 100%;
+    padding: 0 clamp(1.5rem, 6vw, 2.5rem);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .primary-button, .secondary-button {
+    padding: clamp(1.4rem, 4vh, 2rem) clamp(2.5rem, 8vw, 4rem);
+    font-size: clamp(1.3rem, 5vw, 1.8rem);
+    min-width: clamp(200px, 50vw, 280px);
+    width: clamp(200px, 50vw, 280px);
+    border-radius: clamp(30px, 8vw, 45px);
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  }
+
+  .features-section {
+    padding: clamp(40px, 6vh, 80px) clamp(1rem, 5vw, 1.5rem);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .features-section h2 {
+    font-size: clamp(1.8rem, 8vw, 2.5rem);
+    margin-bottom: clamp(0.8rem, 2vh, 1.2rem);
+  }
+
+  .features-section .section-description {
+    font-size: clamp(1rem, 4vw, 1.3rem);
+    margin-bottom: clamp(2rem, 4vh, 3rem);
+    max-width: 95%;
+  }
+
+  .features-grid {
+    gap: clamp(1.2rem, 3vw, 2rem);
+  }
+
+  .feature-card {
+    padding: clamp(1.2rem, 5vw, 2rem);
+    border-radius: clamp(12px, 3vw, 18px);
+  }
+
+  .feature-card .feature-icon {
+    width: clamp(50px, 15vw, 70px);
+    height: clamp(50px, 15vw, 70px);
+    font-size: clamp(1.5rem, 8vw, 2.2rem);
+    margin-bottom: clamp(1rem, 3vh, 1.5rem);
+  }
+
+  .feature-card h3 {
+    font-size: clamp(1.1rem, 5vw, 1.4rem);
+    margin-bottom: clamp(0.8rem, 2vh, 1rem);
+  }
+
+  .feature-card p {
+    font-size: clamp(0.9rem, 4vw, 1.1rem);
+    line-height: 1.5;
+  }
+
+  .how-it-works {
+    padding: clamp(40px, 6vh, 80px) clamp(1rem, 5vw, 1.5rem);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .how-it-works h2 {
+    font-size: clamp(1.8rem, 8vw, 2.5rem);
+    margin-bottom: clamp(1rem, 2vh, 1.5rem);
+  }
+
+  .how-it-works .section-description {
+    font-size: clamp(1rem, 4vw, 1.3rem);
+    margin-bottom: clamp(2rem, 4vh, 3rem);
+    max-width: 95%;
+  }
+
+  .steps-container {
+    gap: clamp(1.5rem, 4vw, 2.5rem);
+  }
+
+  .step {
+    padding: clamp(1.2rem, 5vw, 2rem);
+    border-radius: clamp(12px, 3vw, 18px);
+  }
+
+  .step-number {
+    width: clamp(50px, 18vw, 70px);
+    height: clamp(50px, 18vw, 70px);
+    font-size: clamp(1.2rem, 8vw, 1.8rem);
+    margin-bottom: clamp(1rem, 2vh, 1.5rem);
+  }
+
+  .step-content h3 {
+    font-size: clamp(1.1rem, 5vw, 1.4rem);
+    margin-bottom: clamp(0.6rem, 1.5vh, 1rem);
+  }
+
+  .step-content p {
+    font-size: clamp(0.9rem, 4vw, 1.1rem);
+    line-height: 1.5;
+  }
+
+  .cta-section {
+    padding: clamp(40px, 6vh, 80px) clamp(1rem, 5vw, 1.5rem);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .cta-section h2 {
+    font-size: clamp(1.8rem, 8vw, 2.5rem);
+    margin-bottom: clamp(1rem, 2vh, 1.5rem);
+  }
+
+  .cta-section p {
+    font-size: clamp(1rem, 4vw, 1.3rem);
+    margin-bottom: clamp(1.5rem, 3vh, 2.5rem);
+    line-height: 1.5;
+    max-width: 95%;
+  }
+
+  .cta-buttons {
+    gap: clamp(1rem, 3vw, 1.5rem);
+    width: 100%;
+    padding: 0 clamp(1rem, 4vw, 1.5rem);
+  }
+
+  .btn-primary, .btn-secondary {
+    width: 100%;
+    max-width: clamp(200px, 60vw, 280px);
+    padding: clamp(1rem, 3vw, 1.4rem) clamp(1.5rem, 5vw, 2.5rem);
+    font-size: clamp(1rem, 4vw, 1.2rem);
+    border-radius: clamp(25px, 6vw, 35px);
+  }
+}
+
+/* Extra small devices (max-width: 360px) */
+@media screen and (max-width: 360px) {
+  .hero-section {
+    padding: clamp(50px, 8vh, 90px) clamp(0.8rem, 5vw, 1.2rem) clamp(30px, 5vh, 70px);
+    min-height: 100vh;
+  }
+
+  .hero-section h1 {
+    font-size: clamp(1.6rem, 10vw, 2.8rem);
+    margin-bottom: clamp(1rem, 2vh, 1.5rem);
+  }
+
+  .hero-subtitle {
+    font-size: clamp(1rem, 4vw, 1.5rem);
+  }
+
+  .hero-text {
+    font-size: clamp(0.9rem, 3.8vw, 1.2rem);
+    max-width: 95%;
+  }
+
+  .primary-button, .secondary-button {
+    padding: clamp(0.9rem, 3vw, 1.2rem) clamp(1.3rem, 5vw, 2rem);
+    font-size: clamp(0.9rem, 3.8vw, 1.1rem);
+    min-width: clamp(130px, 32vw, 180px);
+  }
+
+  .features-section, .how-it-works, .cta-section {
+    padding: clamp(30px, 5vh, 60px) clamp(0.8rem, 5vw, 1.2rem);
+    min-height: 100vh;
+  }
+
+  .features-section h2, .how-it-works h2, .cta-section h2 {
+    font-size: clamp(1.6rem, 8vw, 2.2rem);
+    margin-bottom: clamp(0.8rem, 2vh, 1.2rem);
+  }
+
+  .features-section .section-description, .how-it-works .section-description {
+    font-size: clamp(0.9rem, 3.8vw, 1.2rem);
+  }
+
+  .feature-card {
+    padding: clamp(1rem, 5vw, 1.8rem);
+  }
+
+  .feature-card .feature-icon {
+    width: clamp(45px, 14vw, 60px);
+    height: clamp(45px, 14vw, 60px);
+    font-size: clamp(1.3rem, 7vw, 1.8rem);
+  }
+
+  .feature-card h3 {
+    font-size: clamp(1rem, 5vw, 1.3rem);
+  }
+
+  .feature-card p {
+    font-size: clamp(0.85rem, 4vw, 1rem);
+  }
+
+  .step {
+    padding: clamp(1rem, 5vw, 1.8rem);
+  }
+
+  .step-number {
+    width: clamp(45px, 16vw, 60px);
+    height: clamp(45px, 16vw, 60px);
+    font-size: clamp(1.1rem, 7vw, 1.5rem);
+  }
+
+  .step-content h3 {
+    font-size: clamp(1rem, 5vw, 1.3rem);
+  }
+
+  .step-content p {
+    font-size: clamp(0.85rem, 4vw, 1rem);
+  }
+
+  .cta-section p {
+    font-size: clamp(0.9rem, 3.8vw, 1.2rem);
+  }
+
+  .btn-primary, .btn-secondary {
+    max-width: clamp(180px, 55vw, 240px);
+    padding: clamp(0.9rem, 3vw, 1.2rem) clamp(1.3rem, 5vw, 2rem);
+    font-size: clamp(0.9rem, 3.8vw, 1.1rem);
+  }
+}
+
+/* Landscape orientation adjustments */
+@media screen and (max-height: 500px) and (orientation: landscape) {
+  .hero-section {
+    padding: clamp(30px, 5vh, 50px) clamp(1rem, 4vw, 2rem);
+    min-height: clamp(250px, 40vh, 350px);
+  }
+
+  .hero-section h1 {
+    font-size: clamp(1.5rem, 6vw, 2.5rem);
+    margin-bottom: clamp(0.5rem, 2vh, 1rem);
+  }
+
+  .features-section, .how-it-works, .cta-section {
+    padding: clamp(20px, 4vh, 40px) clamp(1rem, 4vw, 2rem);
+  }
 }

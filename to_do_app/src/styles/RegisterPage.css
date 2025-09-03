@@ -531,3 +531,375 @@
     color: #94a3b8;
   }
 }
+
+/* ===============================================
+   RESPONSIVE MEDIA QUERIES - REGISTER PAGE
+   =============================================== */
+
+/* Tablets y dispositivos medianos (769px - 1023px) */
+@media screen and (max-width: 1023px) {
+  .register-container {
+    padding: clamp(15px, 3vh, 20px);
+  }
+
+  .register-card {
+    max-width: clamp(350px, 60vw, 420px);
+    padding: clamp(1.2rem, 4vh, 2rem) clamp(1rem, 4vw, 2rem);
+    border-radius: clamp(16px, 3vw, 20px);
+  }
+
+  .register-header h1 {
+    font-size: clamp(1.5rem, 5vh, 2rem);
+  }
+
+  .register-header p {
+    font-size: clamp(0.9rem, 2.5vh, 1.1rem);
+  }
+
+  .form-group {
+    margin-bottom: clamp(1rem, 3vh, 1.5rem);
+  }
+
+  .form-group label {
+    font-size: clamp(0.85rem, 2.5vh, 1rem);
+  }
+
+  .form-input {
+    padding: clamp(0.8rem, 2.5vh, 1rem) clamp(1rem, 3vw, 1.2rem);
+    font-size: clamp(0.9rem, 2.5vh, 1rem);
+    border-radius: clamp(10px, 2vw, 12px);
+  }
+
+  .register-button {
+    padding: clamp(0.8rem, 2.5vh, 1rem) clamp(1.5rem, 4vw, 2rem);
+    font-size: clamp(0.9rem, 2.5vh, 1.1rem);
+    border-radius: clamp(10px, 2vw, 12px);
+  }
+
+  .divider {
+    margin: clamp(1rem, 3vh, 1.5rem) 0;
+  }
+
+  .google-button {
+    padding: clamp(0.7rem, 2vh, 0.9rem) clamp(1.2rem, 3vw, 1.5rem);
+    font-size: clamp(0.85rem, 2.5vh, 1rem);
+    border-radius: clamp(10px, 2vw, 12px);
+  }
+
+  .login-prompt {
+    font-size: clamp(0.85rem, 2vh, 1rem);
+    margin-top: clamp(1rem, 3vh, 1.5rem);
+  }
+
+  .alternative-actions p {
+    font-size: clamp(0.8rem, 2vh, 0.95rem);
+  }
+}
+
+/* Medium tablets (601px - 768px) */
+@media screen and (max-width: 768px) {
+  .register-container {
+    padding: clamp(10px, 2vh, 15px);
+  }
+
+  .register-card {
+    max-width: clamp(320px, 70vw, 380px);
+    padding: clamp(1rem, 3vh, 1.8rem) clamp(0.8rem, 4vw, 1.5rem);
+    border-radius: clamp(14px, 2.5vw, 18px);
+    max-height: 85vh;
+    overflow-y: auto;
+  }
+
+  .register-header {
+    margin-bottom: clamp(1rem, 2vh, 1.5rem);
+  }
+
+  .register-header h1 {
+    font-size: clamp(1.3rem, 4vh, 1.8rem);
+    margin-bottom: clamp(0.3rem, 1vh, 0.5rem);
+  }
+
+  .register-header p {
+    font-size: clamp(0.8rem, 2vh, 1rem);
+  }
+
+  .form-group {
+    margin-bottom: clamp(0.8rem, 2vh, 1.2rem);
+  }
+
+  .form-group label {
+    font-size: clamp(0.8rem, 2vh, 0.95rem);
+    margin-bottom: clamp(0.4rem, 1vh, 0.6rem);
+  }
+
+  .form-input {
+    padding: clamp(0.7rem, 2vh, 0.9rem) clamp(0.8rem, 3vw, 1rem);
+    font-size: clamp(0.85rem, 2vh, 0.95rem);
+    border-radius: clamp(8px, 1.5vw, 10px);
+  }
+
+  .register-button {
+    padding: clamp(0.7rem, 2vh, 0.9rem) clamp(1.2rem, 3vw, 1.8rem);
+    font-size: clamp(0.85rem, 2vh, 1rem);
+    border-radius: clamp(8px, 1.5vw, 10px);
+    margin-top: clamp(0.8rem, 2vh, 1.2rem);
+  }
+
+  .divider {
+    margin: clamp(0.8rem, 2vh, 1.2rem) 0;
+  }
+
+  .divider span {
+    font-size: clamp(0.75rem, 1.8vh, 0.9rem);
+    padding: 0 clamp(0.8rem, 2vw, 1rem);
+  }
+
+  .google-button {
+    padding: clamp(0.6rem, 1.8vh, 0.8rem) clamp(1rem, 2.5vw, 1.3rem);
+    font-size: clamp(0.8rem, 2vh, 0.95rem);
+    border-radius: clamp(8px, 1.5vw, 10px);
+  }
+
+  .login-prompt {
+    font-size: clamp(0.8rem, 1.8vh, 0.95rem);
+    margin-top: clamp(0.8rem, 2vh, 1.2rem);
+  }
+
+  .alternative-actions p {
+    font-size: clamp(0.75rem, 1.8vh, 0.9rem);
+    margin-top: clamp(0.6rem, 1.5vh, 0.8rem);
+  }
+}
+
+/* Mobile horizontal y small tablets (481px - 600px) */
+@media screen and (max-width: 600px) {
+  .register-container {
+    padding: clamp(8px, 1.5vh, 12px);
+    min-height: 100vh;
+    justify-content: flex-start;
+    padding-top: clamp(20px, 4vh, 30px);
+  }
+
+  .register-card {
+    max-width: clamp(300px, 85vw, 350px);
+    padding: clamp(0.8rem, 2.5vh, 1.5rem) clamp(0.6rem, 5vw, 1.2rem);
+    border-radius: clamp(12px, 2vw, 16px);
+    max-height: 80vh;
+  }
+
+  .register-header h1 {
+    font-size: clamp(1.2rem, 3.5vh, 1.6rem);
+  }
+
+  .register-header p {
+    font-size: clamp(0.75rem, 1.8vh, 0.9rem);
+  }
+
+  .form-group {
+    margin-bottom: clamp(0.6rem, 1.5vh, 1rem);
+  }
+
+  .form-group label {
+    font-size: clamp(0.75rem, 1.8vh, 0.9rem);
+  }
+
+  .form-input {
+    padding: clamp(0.6rem, 1.8vh, 0.8rem) clamp(0.6rem, 2.5vw, 0.8rem);
+    font-size: clamp(0.8rem, 1.8vh, 0.9rem);
+    border-radius: clamp(6px, 1vw, 8px);
+  }
+
+  .register-button {
+    padding: clamp(0.6rem, 1.8vh, 0.8rem) clamp(1rem, 2.5vw, 1.5rem);
+    font-size: clamp(0.8rem, 1.8vh, 0.95rem);
+    border-radius: clamp(6px, 1vw, 8px);
+    margin-top: clamp(0.6rem, 1.5vh, 1rem);
+  }
+
+  .divider {
+    margin: clamp(0.6rem, 1.5vh, 1rem) 0;
+  }
+
+  .google-button {
+    padding: clamp(0.5rem, 1.5vh, 0.7rem) clamp(0.8rem, 2vw, 1.1rem);
+    font-size: clamp(0.75rem, 1.8vh, 0.9rem);
+    border-radius: clamp(6px, 1vw, 8px);
+  }
+
+  .login-prompt, .alternative-actions p {
+    font-size: clamp(0.7rem, 1.5vh, 0.85rem);
+    margin-top: clamp(0.6rem, 1.5vh, 1rem);
+  }
+}
+
+/* Mobile vertical (320px - 480px) */
+@media screen and (max-width: 480px) {
+  .register-container {
+    padding: clamp(20px, 4vh, 40px);
+    justify-content: center;
+    min-height: 100vh;
+  }
+
+  .register-card {
+    max-width: clamp(350px, 95vw, 450px);
+    width: 95vw;
+    padding: clamp(2rem, 6vh, 3.5rem) clamp(1.8rem, 8vw, 3rem);
+    border-radius: clamp(20px, 4vw, 28px);
+    max-height: 95vh;
+    margin: 0 auto;
+  }
+
+  .register-header {
+    margin-bottom: clamp(2rem, 5vh, 3rem);
+  }
+
+  .register-header h1 {
+    font-size: clamp(2.2rem, 8vh, 3.5rem);
+    margin-bottom: clamp(0.8rem, 2vh, 1.2rem);
+  }
+
+  .register-header p {
+    font-size: clamp(1.2rem, 3.5vh, 1.8rem);
+  }
+
+  .form-group {
+    margin-bottom: clamp(1.8rem, 4vh, 2.5rem);
+  }
+
+  .form-group label {
+    font-size: clamp(1.2rem, 3.5vh, 1.6rem);
+    margin-bottom: clamp(0.8rem, 2vh, 1.2rem);
+    font-weight: 600;
+  }
+
+  .form-input {
+    padding: clamp(1.2rem, 3.5vh, 1.8rem) clamp(1.4rem, 4vw, 2rem);
+    font-size: clamp(1.2rem, 3.5vh, 1.6rem);
+    border-radius: clamp(12px, 3vw, 18px);
+    border-width: 2px;
+  }
+
+  .register-button {
+    padding: clamp(1.2rem, 3.5vh, 1.8rem) clamp(2rem, 6vw, 3rem);
+    font-size: clamp(1.2rem, 3.5vh, 1.8rem);
+    border-radius: clamp(12px, 3vw, 18px);
+    margin-top: clamp(1.5rem, 3vh, 2rem);
+    font-weight: 700;
+  }
+
+  .divider {
+    margin: clamp(2rem, 4vh, 3rem) 0;
+  }
+
+  .divider span {
+    font-size: clamp(1rem, 2.5vh, 1.4rem);
+    padding: 0 clamp(1.2rem, 4vw, 2rem);
+    font-weight: 600;
+  }
+
+  .google-button {
+    padding: clamp(1rem, 3vh, 1.5rem) clamp(1.8rem, 5vw, 2.5rem);
+    font-size: clamp(1.1rem, 3vh, 1.5rem);
+    border-radius: clamp(12px, 3vw, 18px);
+    font-weight: 600;
+  }
+
+  .google-logo {
+    width: clamp(24px, 6vw, 32px);
+    height: clamp(24px, 6vw, 32px);
+  }
+
+  .login-prompt, .alternative-actions p {
+    font-size: clamp(1rem, 2.5vh, 1.3rem);
+    margin-top: clamp(1.5rem, 3vh, 2rem);
+    font-weight: 500;
+  }
+}
+
+/* Extra small devices (max-width: 360px) */
+@media screen and (max-width: 360px) {
+  .register-container {
+    padding: clamp(3px, 0.8vh, 8px);
+    padding-top: clamp(10px, 2vh, 20px);
+  }
+
+  .register-card {
+    max-width: clamp(260px, 98vw, 300px);
+    padding: clamp(0.5rem, 1.5vh, 1rem) clamp(0.4rem, 8vw, 0.8rem);
+    border-radius: clamp(8px, 1vw, 12px);
+    max-height: 70vh;
+  }
+
+  .register-header h1 {
+    font-size: clamp(1rem, 2.5vh, 1.3rem);
+  }
+
+  .register-header p {
+    font-size: clamp(0.65rem, 1.2vh, 0.8rem);
+  }
+
+  .form-group {
+    margin-bottom: clamp(0.4rem, 1vh, 0.6rem);
+  }
+
+  .form-group label {
+    font-size: clamp(0.65rem, 1.2vh, 0.8rem);
+  }
+
+  .form-input {
+    padding: clamp(0.4rem, 1.2vh, 0.6rem) clamp(0.4rem, 1.5vw, 0.6rem);
+    font-size: clamp(0.7rem, 1.2vh, 0.8rem);
+    border-radius: clamp(4px, 0.6vw, 6px);
+  }
+
+  .register-button {
+    padding: clamp(0.4rem, 1.2vh, 0.6rem) clamp(0.6rem, 1.5vw, 1rem);
+    font-size: clamp(0.7rem, 1.2vh, 0.85rem);
+    border-radius: clamp(4px, 0.6vw, 6px);
+  }
+
+  .google-button {
+    padding: clamp(0.35rem, 1vh, 0.5rem) clamp(0.5rem, 1.2vw, 0.7rem);
+    font-size: clamp(0.65rem, 1.2vh, 0.8rem);
+    border-radius: clamp(4px, 0.6vw, 6px);
+  }
+
+  .google-logo {
+    width: clamp(14px, 5vw, 18px);
+    height: clamp(14px, 5vw, 18px);
+  }
+
+  .login-prompt, .alternative-actions p {
+    font-size: clamp(0.6rem, 1vh, 0.75rem);
+  }
+}
+
+/* Landscape orientation adjustments for mobile */
+@media screen and (max-height: 500px) and (orientation: landscape) {
+  .register-container {
+    padding: clamp(5px, 1vh, 10px);
+    justify-content: center;
+    padding-top: clamp(10px, 2vh, 20px);
+  }
+
+  .register-card {
+    max-height: 85vh;
+    padding: clamp(0.5rem, 1.5vh, 1rem) clamp(0.8rem, 3vw, 1.5rem);
+  }
+
+  .register-header h1 {
+    font-size: clamp(1.2rem, 4vh, 1.6rem);
+  }
+
+  .register-header {
+    margin-bottom: clamp(0.8rem, 2vh, 1.2rem);
+  }
+
+  .form-group {
+    margin-bottom: clamp(0.6rem, 1.5vh, 0.8rem);
+  }
+
+  .login-prompt, .alternative-actions p {
+    margin-top: clamp(0.6rem, 1.5vh, 0.8rem);
+  }
+}
