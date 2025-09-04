@@ -118,7 +118,7 @@ html, body {
   90% { transform: translate3d(0, -2px, 0); }
 }
 
-/* Main container with gradient background */
+/* Main container with gradient background - ESTRUCTURA MOBILE FIRST CON FOOTER FIJO */
 .todo-page-container {
   min-height: 100vh;
   background: linear-gradient(135deg, 
@@ -202,26 +202,28 @@ html, body {
   min-height: auto;
   display: flex;
   flex-direction: column;
+  flex: 1;
+  padding-bottom: clamp(2rem, 5vh, 4rem);
 }
 
-/* Professional header section */
+/* Professional header section - RESPONSIVE MOBILE FIRST */
 .todo-header-section {
   text-align: center;
-  margin-bottom: 5rem;
-  margin-top: 5rem;
-  padding: var(--space-md) var(--space-md);
+  margin-bottom: clamp(3rem, 8vw, 5rem);
+  margin-top: clamp(3rem, 8vw, 5rem);
+  padding: clamp(1.5rem, 4vw, 2rem);
   background: linear-gradient(135deg, 
     rgba(59, 130, 246, 0.1) 0%, 
     rgba(6, 182, 212, 0.1) 100%);
-  border-radius: var(--radius-2xl);
+  border-radius: clamp(1rem, 3vw, 1.5rem);
   border: 1px solid rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(20px);
   position: relative;
   overflow: hidden;
-  max-width: 800px;
+  max-width: clamp(350px, 90vw, 800px);
   margin-left: auto;
   margin-right: auto;
-  margin-bottom: var(--space-sm);
+  margin-bottom: clamp(2rem, 5vw, 3rem);
 }
 
 .todo-header-section::before {
@@ -239,7 +241,7 @@ html, body {
 }
 
 .todo-title {
-  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-size: clamp(2.25rem, 6vw, 3.5rem);
   font-weight: 800;
   background: linear-gradient(135deg, 
     #3b82f6 0%, 
@@ -255,10 +257,11 @@ html, body {
 }
 
 .todo-subtitle {
-  font-size: 1.25rem;
+  font-size: clamp(1.1rem, 3vw, 1.25rem);
   color: var(--text-secondary);
-  margin-bottom: var(--space-lg);
+  margin-bottom: clamp(1rem, 3vw, 1.5rem);
   font-weight: 500;
+  line-height: 1.4;
 }
 
 /* Ultra professional project info navigation breadcrumb */
@@ -466,14 +469,14 @@ html, body {
   z-index: 2;
 }
 
-/* Ultra professional create note button with floating action */
+/* Ultra professional create note button with floating action - RESPONSIVE */
 .create-note-section {
   display: flex;
   justify-content: center;
-  margin-top: 3rem;
-  margin-bottom: 3rem;
+  margin-top: clamp(2rem, 6vw, 3rem);
+  margin-bottom: clamp(2rem, 6vw, 3rem);
   position: relative;
-  max-width: 600px;
+  max-width: clamp(350px, 90vw, 600px);
   margin-left: auto;
   margin-right: auto;
 }
@@ -482,7 +485,7 @@ html, body {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: var(--space-sm);
+  gap: clamp(0.5rem, 2vw, 0.75rem);
   background: linear-gradient(135deg, 
     #667eea 0%, 
     #764ba2 50%, 
@@ -490,10 +493,10 @@ html, body {
   background-size: 300% 300%;
   color: white;
   border: none;
-  padding: var(--space-sm) var(--space-md);
-  border-radius: var(--radius-xl);
+  padding: clamp(1rem, 3vw, 1.25rem) clamp(1.5rem, 4vw, 2rem);
+  border-radius: clamp(0.75rem, 2vw, 1rem);
   font-weight: 700;
-  font-size: 0.95rem;
+  font-size: clamp(1rem, 2.5vw, 1.05rem);
   cursor: pointer;
   transition: all var(--transition-slow);
   box-shadow: 
@@ -507,8 +510,11 @@ html, body {
   animation: gradientShift 4s ease infinite;
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.2);
-  min-width: 220px;
-  margin-top: 10rem;
+  min-width: clamp(240px, 60vw, 280px);
+  margin-top: clamp(6rem, 15vw, 10rem);
+  min-height: 52px;
+  width: 100%;
+  max-width: 320px;
 }
 
 .create-note-btn::before {
@@ -633,40 +639,61 @@ html, body {
   animation: slideInUp 0.3s ease-out;
 }
 
-/* Ultra professional note cards - DRAMATICALLY IMPROVED */
+/* Ultra professional note cards - RESPONSIVE MOBILE FIRST */
 .notes-container {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 5rem;
-  margin-top: var(--space-lg);
-  padding: var(--space-md);
-  max-width: 1600px;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: clamp(2rem, 6vw, 3rem);
+  margin-top: clamp(1.5rem, 4vw, 2rem);
+  padding: clamp(1rem, 3vw, 1.5rem);
+  max-width: clamp(350px, 95vw, 1600px);
   margin-left: auto;
   margin-right: auto;
   animation: fadeIn 0.8s ease-out;
   scroll-behavior: smooth;
+  width: 100%;
 }
-
 
 html, body { overflow-x: hidden; }
 
-@media (max-width: 768px) {
+/* Tablets pequeños */
+@media (min-width: 576px) {
   .notes-container {
-    grid-template-columns: 1fr;
-    gap: var(--space-lg);
-    padding: var(--space-sm);
-    max-width: 100%;
-    margin-top: var(--space-md);
+    display: flex !important;
+    flex-direction: column !important; /* Mantener columna única hasta tablet */
+    gap: clamp(2.5rem, 5vw, 3.5rem);
+    padding: clamp(1.25rem, 3vw, 2rem);
   }
 }
 
-/* Medium screens - tablets */
-@media (max-width: 1024px) and (min-width: 769px) {
+/* FORZAR UNA SOLA COLUMNA EN TODOS LOS MÓVILES */
+@media (max-width: 767px) {
   .notes-container {
-    grid-template-columns: repeat(2, 1fr);
-    gap: var(--space-xl);
+    display: flex !important;
+    flex-direction: column !important;
+    gap: clamp(1.5rem, 4vw, 2.5rem) !important;
+    width: 100% !important;
+  }
+}
+
+/* Tablets medianos - AQUÍ SÍ CAMBIAMOS A GRID */
+@media (min-width: 768px) {
+  .notes-container {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important; /* 2 columnas en tablet */
+    gap: clamp(2.5rem, 4vw, 4rem);
     max-width: 1400px;
-    padding: var(--space-sm);
+  }
+}
+
+/* Desktop */
+@media (min-width: 1024px) {
+  .notes-container {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 5rem;
+    max-width: 1600px;
+    padding: var(--space-md);
   }
 }
 
@@ -676,15 +703,15 @@ html, body { overflow-x: hidden; }
     rgba(45, 55, 72, 0.9) 100%);
   border: 2px solid transparent;
   background-clip: padding-box;
-  border-radius: var(--radius-2xl);
-  padding: var(--space-xl);
+  border-radius: clamp(1rem, 3vw, 1.5rem);
+  padding: clamp(1.5rem, 4vw, 2.5rem);
   margin-bottom: 0;
   transition: all var(--transition-slow);
   position: relative;
   overflow: hidden;
   backdrop-filter: blur(20px);
   animation: slideInUp 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-  min-height: 400px;
+  min-height: clamp(350px, 50vh, 450px);
   width: 100%;
   max-width: none;
   display: flex;
@@ -827,9 +854,9 @@ html, body { overflow-x: hidden; }
     12px 12px 0 currentColor;
 }
 
-/* Professional note header */
+/* Professional note header - RESPONSIVE */
 .note-header {
-  margin-bottom: var(--space-xl);
+  margin-bottom: clamp(1.5rem, 4vw, 2.5rem);
   position: relative;
 }
 
@@ -837,18 +864,18 @@ html, body { overflow-x: hidden; }
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  gap: var(--space-lg);
+  gap: clamp(1rem, 3vw, 1.5rem);
   flex-wrap: wrap;
 }
 
 .note-edit-mode {
   display: flex;
   flex-direction: column;
-  gap: var(--space-lg);
+  gap: clamp(1rem, 3vw, 1.5rem);
 }
 
 .note-display-title {
-  font-size: 1.5rem;
+  font-size: clamp(1.25rem, 4vw, 1.5rem);
   font-weight: 700;
   color: var(--text-primary);
   margin: 0;
@@ -881,32 +908,37 @@ html, body { overflow-x: hidden; }
   background: var(--bg-elevated);
 }
 
-/* Professional action buttons */
+/* Professional action buttons - RESPONSIVE MOBILE FIRST */
 .note-actions {
   display: flex;
-  gap: var(--space-sm);
+  gap: clamp(0.5rem, 2vw, 0.75rem);
   align-items: center;
   flex-wrap: wrap;
+  justify-content: flex-start;
 }
 
 .edit-note-btn,
 .delete-note-btn,
 .save-note-btn,
 .cancel-edit-btn {
-  padding: var(--space-sm) var(--space-md);
+  padding: clamp(0.75rem, 2vw, 0.875rem) clamp(1rem, 3vw, 1.25rem);
   border: 2px solid transparent;
-  border-radius: var(--radius-md);
+  border-radius: clamp(0.375rem, 1.5vw, 0.5rem);
   font-weight: 600;
   cursor: pointer;
   transition: all var(--transition-normal);
-  font-size: 0.875rem;
+  font-size: clamp(0.85rem, 2.2vw, 0.925rem);
   display: flex;
   align-items: center;
-  gap: var(--space-xs);
+  gap: clamp(0.25rem, 1vw, 0.375rem);
   position: relative;
   overflow: hidden;
   text-transform: uppercase;
   letter-spacing: 0.025em;
+  min-height: 44px; /* Tamaño mínimo táctil */
+  flex: 1;
+  justify-content: center;
+  min-width: 0;
 }
 
 .edit-note-btn {
@@ -2605,6 +2637,157 @@ position: fixed;
   50% {
     transform: scale(1.05);
     opacity: 0.9;
+  }
+}
+
+/* RESPONSIVE MOBILE FIRST ADICIONAL PARA TODO PAGE */
+
+/* FORZAR UNA SOLA COLUMNA EN TODOS LOS MÓVILES - REGLA GLOBAL */
+@media (max-width: 767px) {
+  .notes-container {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: clamp(1.5rem, 4vw, 2.5rem) !important;
+    width: 100% !important;
+  }
+  
+  /* Asegurar que cada nota ocupe el ancho completo */
+  .note-card {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+}
+
+/* Móviles muy pequeños (320px - 374px) */
+@media (max-width: 374px) {
+  .notes-container {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 1.5rem !important;
+    padding: 0.75rem !important;
+    width: 100% !important;
+  }
+  
+  .note-card {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-height: 320px;
+    padding: 1.25rem;
+  }
+  .todo-page-container {
+    padding-top: 0.25rem;
+  }
+  
+  .main-content-wrapper {
+    padding: 0.5rem 1rem;
+  }
+  
+  .todo-header-section {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    padding: 1.25rem;
+  }
+  
+  .todo-title {
+    font-size: 2rem;
+  }
+  
+  .todo-subtitle {
+    font-size: 1rem;
+  }
+  
+  .notes-container {
+    gap: 1.5rem;
+    padding: 0.75rem;
+  }
+  
+  .note-card {
+    min-height: 320px;
+    padding: 1.25rem;
+  }
+  
+  .note-display-title {
+    font-size: 1.125rem;
+  }
+  
+  .note-actions {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  
+  .edit-note-btn,
+  .delete-note-btn,
+  .save-note-btn,
+  .cancel-edit-btn {
+    width: 100%;
+    min-height: 48px;
+    padding: 0.875rem 1rem;
+  }
+  
+  .create-note-btn {
+    margin-top: 4rem;
+    padding: 1rem 1.5rem;
+    font-size: 0.95rem;
+    min-height: 50px;
+  }
+}
+
+/* Móviles iPhone XR y similares (375px - 480px) */
+@media (min-width: 375px) and (max-width: 480px) {
+  .todo-header-section {
+    padding: 1.5rem;
+  }
+  
+  .todo-title {
+    font-size: 2.25rem;
+  }
+  
+  .todo-subtitle {
+    font-size: 1.125rem;
+  }
+  
+  .note-card {
+    min-height: 380px;
+    padding: 1.5rem;
+  }
+  
+  .note-display-title {
+    font-size: 1.25rem;
+  }
+  
+  .create-note-btn {
+    margin-top: 6rem;
+    min-height: 54px;
+  }
+}
+
+/* Tablets pequeños (481px - 768px) */
+@media (min-width: 481px) and (max-width: 768px) {
+  .todo-header-section {
+    margin-top: 4rem;
+    margin-bottom: 3rem;
+    padding: 2rem;
+  }
+  
+  .notes-container {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 2.5rem;
+    padding: 1.25rem;
+    width: 100% !important;
+  }
+  
+  .note-card {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-height: 400px;
+  }
+  
+  .create-note-btn {
+    margin-top: 8rem;
+    max-width: 280px;
   }
 }
 
