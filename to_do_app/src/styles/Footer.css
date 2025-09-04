@@ -1,10 +1,12 @@
-/* Footer Styles - Professional & Clean */
+/* Footer Styles - Professional & Clean - POSICIONAMIENTO FIJO */
 .app-footer {
   background: linear-gradient(135deg, #1e40af 0%, #1d4ed8 50%, #2563eb 100%);
   color: white;
-  margin-top: 8rem;
+  margin-top: auto;
   position: relative;
   overflow: hidden;
+  width: 100%;
+  flex-shrink: 0;
 }
 
 .app-footer::before {
@@ -224,8 +226,10 @@
 /* Extra small devices (phones, less than 576px) */
 @media (max-width: 575px) {
   .app-footer {
-    margin-top: clamp(2rem, 6vw, 3rem);
+    margin-top: auto;
     padding: clamp(1rem, 4vw, 1.5rem) 0;
+    width: 100%;
+    flex-shrink: 0;
   }
 
   .footer-container {
@@ -308,7 +312,7 @@
 /* Small devices (576px to 767px) */
 @media (min-width: 576px) and (max-width: 767px) {
   .app-footer {
-    margin-top: clamp(3rem, 5vw, 4rem);
+    margin-top: auto;
   }
 
   .footer-container {
@@ -362,7 +366,7 @@
 /* Medium devices (768px to 991px) */
 @media (min-width: 768px) and (max-width: 991px) {
   .app-footer {
-    margin-top: clamp(3.5rem, 4vw, 4.5rem);
+    margin-top: auto;
   }
 
   .footer-container {
@@ -411,7 +415,7 @@
 /* Large devices (992px to 1199px) */
 @media (min-width: 992px) and (max-width: 1199px) {
   .app-footer {
-    margin-top: 4rem;
+    margin-top: auto;
   }
 
   .footer-content {
@@ -442,7 +446,7 @@
 /* Extra large devices (1200px and up) */
 @media (min-width: 1200px) {
   .app-footer {
-    margin-top: 5rem;
+    margin-top: auto;
   }
 
   .footer-content {

@@ -43,13 +43,14 @@
   }
 }
 
-/* Estilos base - ESTRUCTURA MOBILE FIRST */
+/* Estilos base - ESTRUCTURA MOBILE FIRST CON FOOTER FIJO */
 .home-container {
   min-height: 100vh;
   background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
   padding: clamp(1rem, 2vw, 2rem) clamp(0.5rem, 2vw, 1rem);
   display: flex;
   flex-direction: column;
+  padding-bottom: 0;
 }
 
 /* Estructura principal del home */
@@ -59,8 +60,10 @@
   animation: fadeScale 0.6s ease-out;
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  min-height: auto;
   width: 100%;
+  padding-bottom: clamp(2rem, 5vh, 4rem);
+  flex: 1;
 }
 
 /* Botón de información del proyecto */
@@ -411,17 +414,19 @@
   font-weight: 500;
 }
 
-/* Sección de proyectos - EXPANDIDA PARA MOBILE */
+/* Sección de proyectos - TAMAÑO NORMAL */
 .projects {
   background: var(--card-bg);
   border-radius: clamp(16px, 3vw, 24px);
   padding: clamp(1.5rem, 4vw, 2.5rem);
   box-shadow: var(--card-shadow);
   backdrop-filter: blur(10px);
-  flex: 1;
-  min-height: 60vh;
+  flex: 0 1 auto;
+  min-height: 400px;
+  max-height: 700px;
   display: flex;
   flex-direction: column;
+  margin-bottom: clamp(2rem, 5vh, 4rem);
 }
 
 .projects-header {
@@ -903,13 +908,16 @@
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+    padding-bottom: 0;
   }
 
   .home-page {
     display: flex;
     flex-direction: column;
-    min-height: 100vh;
+    min-height: auto;
     gap: clamp(1rem, 2vh, 1.5rem);
+    padding-bottom: clamp(2rem, 4vh, 3rem);
+    flex: 1;
   }
 
   /* WELCOME SECTION - RESPONSIVE */
@@ -951,14 +959,16 @@
     font-size: clamp(0.85rem, 2.5vw, 0.95rem);
   }
 
-  /* PROJECTS SECTION - EXPANDIDA Y RESPONSIVE */
+  /* PROJECTS SECTION - TAMAÑO NORMAL Y RESPONSIVE */
   .projects {
     padding: clamp(1.5rem, 3vh, 2rem) clamp(1rem, 3vw, 1.5rem);
     border-radius: clamp(16px, 3vw, 20px);
-    flex: 1;
-    min-height: clamp(400px, 60vh, 600px);
+    flex: 0 1 auto;
+    min-height: clamp(300px, 40vh, 450px);
+    max-height: clamp(500px, 65vh, 700px);
     display: flex;
     flex-direction: column;
+    margin-bottom: clamp(2rem, 5vh, 4rem);
   }
 
   .projects-header {
@@ -1103,7 +1113,9 @@
 
   .projects {
     padding: clamp(1.25rem, 2.5vh, 1.75rem) clamp(0.75rem, 2vw, 1rem);
-    min-height: clamp(350px, 65vh, 500px);
+    min-height: clamp(280px, 45vh, 400px);
+    max-height: clamp(450px, 60vh, 550px);
+    margin-bottom: clamp(1.5rem, 4vh, 3rem);
   }
 
   .project-name-input,
@@ -1143,7 +1155,9 @@
 
   .projects {
     padding: clamp(1rem, 2vh, 1.5rem) clamp(0.625rem, 1.5vw, 0.875rem);
-    min-height: clamp(300px, 70vh, 450px);
+    min-height: clamp(250px, 40vh, 350px);
+    max-height: clamp(400px, 55vh, 500px);
+    margin-bottom: clamp(1.5rem, 3vh, 2.5rem);
   }
 
   .project-name-input,
@@ -1174,7 +1188,9 @@
   }
 
   .projects {
-    min-height: clamp(500px, 60vh, 700px);
+    min-height: clamp(400px, 45vh, 600px);
+    max-height: clamp(600px, 65vh, 800px);
+    margin-bottom: clamp(2rem, 4vh, 3rem);
   }
 
   .project-grid {

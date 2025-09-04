@@ -36,13 +36,15 @@
   --button-height: 32px;
 }
 
-/* Layout principal */
+/* Layout principal - ESTRUCTURA MOBILE FIRST CON FOOTER FIJO */
 .project-page-container {
   padding-top: 4rem; /* Altura fija del navbar */
   min-height: 100vh;
   background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);
   overflow-x: hidden;
   position: relative;
+  display: flex;
+  flex-direction: column;
 }
 
 .project-main-content {
@@ -52,6 +54,10 @@
   padding: clamp(1rem, 3vw, 2rem);
   position: relative;
   animation: fadeIn 0.6s ease-out;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: clamp(2rem, 5vh, 4rem);
 }
 
 /* Header del proyecto */
@@ -86,20 +92,20 @@
 }
 
 .project-header h1 {
-  font-size: clamp(1.5rem, 4vw, 2.5rem);
+  font-size: clamp(1.75rem, 5vw, 2.5rem);
   line-height: 1.2;
-  margin-bottom: clamp(0.5rem, 2vw, 1rem);
+  margin-bottom: clamp(0.75rem, 2.5vw, 1rem);
   font-weight: 700;
 }
 
 .project-header p {
-  font-size: clamp(0.95rem, 2vw, 1.1rem);
+  font-size: clamp(1.1rem, 2.5vw, 1.2rem);
   max-width: 600px;
   margin: 0 auto;
   opacity: 0.9;
 }
 
-/* Botón de nueva sección */
+/* Botón de nueva sección - RESPONSIVE */
 .project-top-btn {
   margin-top: clamp(1.5rem, 4vw, 2.5rem);
 }
@@ -108,16 +114,19 @@
   background: white;
   color: var(--primary-color);
   border: none;
-  padding: 0.875rem 1.5rem;
-  border-radius: 12px;
-  font-size: 1rem;
+  padding: clamp(1rem, 2.5vw, 1.125rem) clamp(1.75rem, 4vw, 2rem);
+  border-radius: clamp(10px, 2.5vw, 14px);
+  font-size: clamp(1.05rem, 2.8vw, 1.15rem);
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: clamp(0.5rem, 1.5vw, 0.75rem);
   box-shadow: var(--shadow-md);
+  width: auto;
+  max-width: 320px;
+  min-height: 48px;
 }
 
 .add-section-button:hover {
@@ -133,28 +142,40 @@
   transform: rotate(90deg);
 }
 
-/* Grid de secciones */
+/* Grid de secciones - RESPONSIVE MOBILE FIRST */
 .section-cards {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(var(--card-min-width), 1fr));
-  gap: 1rem;
-  padding: 0.5rem;
+  grid-template-columns: 1fr;
+  gap: clamp(0.75rem, 2vw, 1rem);
+  padding: clamp(0.5rem, 2vw, 1rem);
+  flex: 1;
+  margin-bottom: clamp(1rem, 3vw, 2rem);
 }
 
+/* Responsive para tablets y móviles horizontales */
+@media (min-width: 576px) {
+  .section-cards {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: clamp(1rem, 2.5vw, 1.5rem);
+  }
+}
+
+/* Responsive para tablets grandes */
 @media (min-width: 768px) {
   .section-cards {
     grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
     padding: 1rem;
+    gap: 1.5rem;
   }
 }
 
-/* Tarjetas de sección */
+/* Tarjetas de sección - RESPONSIVE MOBILE FIRST */
 .section-card {
   background: white;
-  border-radius: 12px;
-  padding: var(--card-padding);
+  border-radius: clamp(10px, 2.5vw, 14px);
+  padding: clamp(1.25rem, 4vw, 1.5rem);
   height: auto;
-  min-height: 160px;
+  min-height: clamp(160px, 22vh, 180px);
   display: flex;
   flex-direction: column;
   position: relative;
@@ -288,40 +309,46 @@
 
 
 .section-title {
-  font-size: 1.1rem;
+  font-size: clamp(1.15rem, 3vw, 1.25rem);
   font-weight: 600;
   color: var(--text-dark);
-  margin-bottom: 0.5rem;
+  margin-bottom: clamp(0.6rem, 2vw, 0.75rem);
+  line-height: 1.3;
 }
 
 .section-text {
-  font-size: 0.9rem;
+  font-size: clamp(0.95rem, 2.5vw, 1rem);
   color: var(--text-muted);
   line-height: 1.5;
-  margin-bottom: 1rem;
+  margin-bottom: clamp(1rem, 2.5vw, 1.25rem);
   flex-grow: 1;
 }
 
-/* Contenedor de botones */
+/* Contenedor de botones - RESPONSIVE */
 .section-actions {
   display: flex;
-  gap: 0.5rem;
+  gap: clamp(0.4rem, 1.5vw, 0.5rem);
   margin-top: auto;
+  flex-wrap: wrap;
 }
 
-/* Botones de acción */
+/* Botones de acción - RESPONSIVE MEJORADO PARA MOBILE */
 .action-btn {
-  height: var(--button-height);
-  padding: 0 0.75rem;
-  border-radius: 8px;
-  font-size: 0.85rem;
+  height: clamp(42px, 10vw, 48px);
+  padding: 0 clamp(0.875rem, 2.5vw, 1rem);
+  border-radius: clamp(8px, 2vw, 10px);
+  font-size: clamp(0.9rem, 2.5vw, 1rem);
   font-weight: 500;
   cursor: pointer;
   transition: all 0.2s ease;
   display: inline-flex;
   align-items: center;
-  gap: 0.4rem;
+  gap: clamp(0.4rem, 1.2vw, 0.5rem);
   border: none;
+  flex: 1;
+  justify-content: center;
+  min-width: 0;
+  min-height: 44px; /* Tamaño mínimo recomendado para touch */
 }
 
 .edit-btn {
@@ -345,24 +372,32 @@
 }
 
 .action-btn svg {
-  width: 14px;
-  height: 14px;
+  width: clamp(16px, 4vw, 18px);
+  height: clamp(16px, 4vw, 18px);
+  flex-shrink: 0;
 }
 
-/* Estado vacío */
+/* Estado vacío - RESPONSIVE MEJORADO */
 .empty-sections {
   text-align: center;
-  padding: clamp(3rem, 8vw, 6rem) 1rem;
+  padding: clamp(2.5rem, 8vw, 5rem) clamp(1.25rem, 4vw, 2rem);
   color: white;
-  margin: 2rem auto;
-  max-width: 600px;
+  margin: clamp(2rem, 5vw, 3rem) auto;
+  max-width: clamp(450px, 85vw, 650px);
   position: relative;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .empty-sections svg {
-  margin-bottom: 1.5rem;
+  margin-bottom: clamp(1.5rem, 4vw, 2rem);
   opacity: 0.5;
   transition: all 0.3s ease;
+  width: clamp(56px, 15vw, 72px);
+  height: clamp(56px, 15vw, 72px);
 }
 
 .empty-sections:hover svg {
@@ -371,34 +406,38 @@
 }
 
 .empty-sections p {
-  font-size: clamp(0.95rem, 2.5vw, 1.1rem);
-  margin: 0.5rem 0;
+  font-size: clamp(1rem, 2.8vw, 1.2rem);
+  margin: clamp(0.6rem, 1.5vw, 0.75rem) 0;
+  line-height: 1.5;
 }
 
 .empty-sections p:last-child {
   opacity: 0.7;
-  font-size: 0.9em;
+  font-size: clamp(0.9rem, 2.5vw, 1rem);
 }
 
-/* Botones de acción inferiores */
+/* Botones de acción inferiores - RESPONSIVE */
 .project-bottom-actions {
-  margin-top: clamp(3rem, 6vw, 5rem);
+  margin-top: auto;
   text-align: center;
-  padding: 1rem;
+  padding: clamp(1rem, 3vw, 1.5rem);
 }
 
 .delete-project-button {
   background: var(--gradient-danger);
   color: white;
   border: none;
-  padding: clamp(0.75rem, 2vw, 1rem) clamp(1.5rem, 4vw, 2.5rem);
-  border-radius: 12px;
-  font-size: clamp(0.9rem, 2vw, 1rem);
+  padding: clamp(1rem, 3vw, 1.25rem) clamp(2.5rem, 6vw, 3rem);
+  border-radius: clamp(12px, 2.5vw, 14px);
+  font-size: clamp(1rem, 2.5vw, 1.1rem);
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
   box-shadow: var(--shadow-md);
   opacity: 0.9;
+  width: 100%;
+  max-width: 320px;
+  min-height: 48px;
 }
 
 .delete-project-button:hover {
@@ -817,10 +856,149 @@
   outline-offset: 2px;
 }
 
-/* Media queries para dispositivos muy pequeños */
+/* RESPONSIVE ESPECÍFICO PARA PROJECTSECTIONPAGE */
+
+/* Móviles muy pequeños (320px - 374px) - MEJORADO PARA LEGIBILIDAD */
+@media (max-width: 374px) {
+  .project-page-container {
+    padding-top: 3.5rem;
+  }
+  
+  .project-main-content {
+    width: 95%;
+    padding: 1rem;
+  }
+  
+  .project-header {
+    margin: -1rem -1rem 2rem -1rem;
+    padding: 1.75rem 1rem;
+  }
+  
+  .project-header h1 {
+    font-size: 1.6rem;
+  }
+  
+  .project-header p {
+    font-size: 1rem;
+  }
+  
+  .add-section-button {
+    padding: 1rem 1.5rem;
+    font-size: 1rem;
+    min-height: 50px;
+    width: 100%;
+    max-width: 280px;
+  }
+  
+  .section-cards {
+    gap: 1rem;
+    padding: 0.75rem 0;
+  }
+  
+  .section-card {
+    min-height: 180px;
+    padding: 1.5rem;
+  }
+  
+  .section-title {
+    font-size: 1.1rem;
+    margin-bottom: 0.75rem;
+  }
+  
+  .section-text {
+    font-size: 0.95rem;
+    margin-bottom: 1.25rem;
+  }
+  
+  .section-actions {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  
+  .action-btn {
+    width: 100%;
+    height: 48px;
+    font-size: 0.95rem;
+    padding: 0 1rem;
+  }
+  
+  .action-btn svg {
+    width: 18px;
+    height: 18px;
+  }
+  
+  .delete-project-button {
+    padding: 1.125rem 2rem;
+    font-size: 1rem;
+    min-height: 52px;
+  }
+}
+
+/* Móviles pequeños (375px - 480px) - OPTIMIZADO PARA iPHONE XR */
+@media (min-width: 375px) and (max-width: 480px) {
+  .project-main-content {
+    width: 94%;
+    padding: clamp(1rem, 3vw, 1.25rem);
+  }
+  
+  .project-header {
+    padding: clamp(2rem, 4vw, 2.25rem) 1.25rem;
+  }
+  
+  .project-header h1 {
+    font-size: clamp(1.75rem, 5vw, 2rem);
+  }
+  
+  .project-header p {
+    font-size: clamp(1.05rem, 3vw, 1.15rem);
+  }
+  
+  .add-section-button {
+    padding: 1rem 1.75rem;
+    font-size: 1.05rem;
+    min-height: 50px;
+    width: 100%;
+    max-width: 300px;
+  }
+  
+  .section-card {
+    padding: 1.375rem;
+    min-height: 170px;
+  }
+  
+  .section-title {
+    font-size: 1.125rem;
+    margin-bottom: 0.75rem;
+  }
+  
+  .section-text {
+    font-size: 0.975rem;
+    margin-bottom: 1.125rem;
+  }
+  
+  .action-btn {
+    height: 46px;
+    font-size: 0.95rem;
+    padding: 0 1rem;
+  }
+  
+  .action-btn svg {
+    width: 17px;
+    height: 17px;
+  }
+  
+  .delete-project-button {
+    padding: 1.125rem 2.25rem;
+    font-size: 1.05rem;
+    min-height: 52px;
+    max-width: 310px;
+  }
+}
+
+/* Media queries para dispositivos muy pequeños - MEJORADO PARA LEGIBILIDAD */
 @media (max-width: 480px) {
   .modal-overlay {
-    padding: 1rem;
+    padding: 0.75rem;
     margin: 0;
   }
   
@@ -831,40 +1009,53 @@
   }
   
   .modal-header {
-    padding: 1.5rem 1rem 1rem 1rem;
+    padding: 2rem 1.25rem 1.25rem 1.25rem;
   }
   
   .modal-title {
-    font-size: 1.5rem;
-    margin-bottom: 0.4rem;
+    font-size: 1.6rem;
+    margin-bottom: 0.6rem;
   }
   
   .modal-subtitle {
-    font-size: 0.95rem;
+    font-size: 1.05rem;
   }
   
   .form-group {
-    padding: 1rem;
+    padding: 1.25rem;
+  }
+  
+  .form-group label {
+    font-size: 0.9rem;
+    margin-bottom: 0.75rem;
+  }
+  
+  .form-group input,
+  .form-group textarea {
+    padding: 1.125rem 1.25rem;
+    font-size: 1.05rem;
   }
   
   .color-options {
     grid-template-columns: repeat(4, 1fr);
-    padding: 0.875rem;
-    gap: 0.625rem;
+    padding: 1rem;
+    gap: 0.875rem;
   }
   
   .color-option {
-    width: 36px;
-    height: 36px;
+    width: 42px;
+    height: 42px;
   }
   
   .modal-actions {
-    padding: 1.25rem;
+    padding: 1.5rem;
     flex-direction: column;
+    gap: 1rem;
   }
   
   .modal-btn {
-    height: 48px;
+    height: 52px;
+    font-size: 1.05rem;
   }
 }
 
@@ -873,12 +1064,84 @@
     font-size: 1.5rem;
   }
   
+  .project-header p {
+    font-size: 0.95rem;
+  }
+  
   .section-cards {
     gap: 1rem;
   }
   
   .section-card {
+    padding: 1.25rem;
+    min-height: 170px;
+  }
+  
+  .section-title {
+    font-size: 1.05rem;
+  }
+  
+  .section-text {
+    font-size: 0.9rem;
+  }
+  
+  .action-btn {
+    height: 46px;
+    font-size: 0.9rem;
+  }
+  
+  .project-bottom-actions {
     padding: 1rem;
+  }
+  
+  .delete-project-button {
+    padding: 1rem 2rem;
+    font-size: 0.95rem;
+    max-width: 100%;
+    min-height: 50px;
+  }
+}
+
+/* Responsive para tablets (481px - 768px) */
+@media (min-width: 481px) and (max-width: 768px) {
+  .project-main-content {
+    width: 93%;
+    padding: clamp(1.25rem, 3vw, 1.75rem);
+  }
+  
+  .project-header {
+    padding: clamp(2rem, 4vw, 2.5rem) 1.5rem;
+  }
+  
+  .section-cards {
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.25rem;
+  }
+  
+  .add-section-button {
+    padding: 1rem 2rem;
+    font-size: 1.05rem;
+  }
+  
+  .delete-project-button {
+    max-width: 320px;
+    padding: 1rem 2.5rem;
+  }
+}
+
+/* Responsive para pantallas muy grandes (1400px+) */
+@media (min-width: 1400px) {
+  .project-main-content {
+    max-width: 1600px;
+  }
+  
+  .section-cards {
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 2rem;
+  }
+  
+  .section-card {
+    min-height: 180px;
   }
 }
 
